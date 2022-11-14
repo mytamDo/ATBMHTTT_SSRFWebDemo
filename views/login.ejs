@@ -6,23 +6,27 @@
           <div class="auth-form-light text-left py-5 px-4 px-sm-5">
             <h1>Hello! let's get started</h1>
             <h3 class="font-weight-light">Sign in to continue.</h3>
-            <form class="pt-3" action="/login" enctype="multipart/form-data" method="POST">
-              <div class="form-group">
-                <input type="email" class="form-control form-control-lg font-weight-bold" id="loginInputEmail1" placeholder="Username">
-              </div>
-              <div class="form-group">
-                <input type="password" class="form-control form-control-lg font-weight-bold" id="loginInputPassword1" placeholder="Password">
-              </div>
-              <div class="mt-3">
-                <input type="button" value="submit" class="btn btn-block btn-warning btn-lg auth-form-btn text-white" onclick="login()">
-              </div>
-              <div class="my-2 d-flex justify-content-between align-items-center">
-                <a href="#" class="auth-link text-black">Forgot password?</a>
-              </div>
-              <h3 class="text-center mt-4 font-weight-light">
-                Don't have an account? <a href="/register" class="text-primary">Create</a>
-              </h3>
+            <form class="pt-3" action="/login" method="POST">
+              <div class="row g-3">
+                <div class="col-12">
+                    <label for="Email" class="form-label"><H3>Email</H3></label>
+                    <input type="email" name="email" id="email" class="form-control">
+                </div>
+                <div class="col-12">
+                    <label for="password" class="form-label"><H3>Password</H3></label>
+                    <input type="password" name="password" id="password" class="form-control">
+                </div>       
+                <div class="col-12">
+                    <button type="submit" class="btn btn-block btn-warning btn-lg auth-form-btn text-white">Login</button>
+                </div> 
+              </div>  
             </form>
+              <div class="text-center mt-4 font-weight-bold">
+                <h5><a href="#" class="text-primary">Forgot password?</a></h5>
+              </div>
+              <div class="text-center mt-4 font-weight-light">
+                <h2>Don't have an account? <a href="/register" class="text-primary">Create</a></h2>
+              </div>           
           </div>
         </div>
       </div>
