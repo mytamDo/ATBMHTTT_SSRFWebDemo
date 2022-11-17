@@ -9,24 +9,45 @@
             <form class="pt-3" action="/login" method="POST">
               <div class="row g-3">
                 <div class="col-12">
-                    <label for="Email" class="form-label"><H3>Email</H3></label>
-                    <input type="email" name="email" id="email" class="form-control">
+                  <label for="Email" class="form-label"><H3>Email</H3></label>
+                  <input
+                    style="font-size: 16px"
+                    type="email"
+                    name="email"
+                    id="email"
+                    class="form-control form-control-lg"
+                    autofocus
+                  />
+                  <hr />
+                </div>
+
+                <div class="col-12">
+                  <label for="password" class="form-label"><H3>Password</H3></label>
+                  <input
+                    style="font-size: 16px"
+                    type="password"
+                    name="password"
+                    id="password"
+                    class="form-control form-control-lg"
+                  />
+                  <hr />
                 </div>
                 <div class="col-12">
-                    <label for="password" class="form-label"><H3>Password</H3></label>
-                    <input type="password" name="password" id="password" class="form-control">
-                </div>       
-                <div class="col-12">
-                    <button type="submit" class="btn btn-block btn-warning btn-lg auth-form-btn text-white">Login</button>
-                </div> 
-              </div>  
-            </form>
-              <div class="text-center mt-4 font-weight-bold">
-                <h5><a href="#" class="text-primary">Forgot password?</a></h5>
+                  <button
+                    type="submit"
+                    class="btn btn-block btn-warning btn-lg auth-form-btn text-white"
+                  >
+                    <h2>Login</h2>
+                  </button>
+                </div>
               </div>
-              <div class="text-center mt-4 font-weight-light">
-                <h2>Don't have an account? <a href="/register" class="text-primary">Create</a></h2>
-              </div>           
+            </form>
+            <div class="text-center mt-4 font-weight-bold">
+              <h5><a href="#" class="text-primary">Forgot password?</a></h5>
+            </div>
+            <div class="text-center mt-4 font-weight-light">
+              <h2>Don't have an account? <a href="/register" class="text-primary">Create</a></h2>
+            </div>
           </div>
         </div>
       </div>
@@ -35,3 +56,4 @@
   </div>
   <!-- page-body-wrapper ends -->
 </div>
+<hr />

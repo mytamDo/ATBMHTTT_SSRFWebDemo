@@ -10,10 +10,10 @@ const passportLocalMongoose = require('passport-local-mongoose');
 // mongoose.set('useCreateIndex', true);
 // mongoose.set('useUnifiedTopology', true
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', function(){
-    console.log('Connected');
-})
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  console.log('Connected');
+});
 
 // Models
 require('./Invoice');
@@ -22,3 +22,4 @@ require('./Revenue');
 require('./Role');
 require('./Shipper');
 require('./User');
+require('./Client');

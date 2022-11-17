@@ -30,8 +30,10 @@
   <body>
     <!-- header section starts  -->
 
-    <header class="header">
-      <a href="/" class="logo"> <i class="fas fa-utensils"></i> F&D Zone </a>
+    <header class="header navbar-light" style="background-color: #373636">
+      <a href="/" class="logo">
+        <i class="fas fa-utensils"></i> <span class="text-white">F&D Zone</span>
+      </a>
 
       <form action="" class="search-form">
         <input type="search" name="" placeholder="search here..." id="searchBox" />
@@ -48,20 +50,25 @@
 
       <nav class="navbar border-warning">
         <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/drinks">Drinks</a>
+        <a href="/foods">Foods</a>
         <a href="/contact">Contact</a>
       </nav>
     </header>
 
     <!-- header section ends -->
     <button onclick="topFunction()" id="myBtn" title="Go to top" class="bg-warning">Top</button>
+    <hr />
     <main><%- body -%></main>
+    <hr />
     <footer class="footer-section">
       <div class="container">
         <div class="footer-cta pt-5 pb-5">
           <div class="row">
             <div class="col-xl-4 col-md-4 mb-30">
               <div class="single-cta">
-                <i class="fas fa-map-marker-alt"></i>
+                <i class="fas fa-map-marker-alt text-warning"></i>
                 <div class="cta-text">
                   <h4>Find us</h4>
                   <span>Linh Trung, Thu Duc, Ho Chi Minh City</span>
@@ -70,7 +77,7 @@
             </div>
             <div class="col-xl-4 col-md-4 mb-30">
               <div class="single-cta">
-                <i class="fas fa-phone"></i>
+                <i class="fas fa-phone text-warning"></i>
                 <div class="cta-text">
                   <h4>Call us</h4>
                   <span>0123456789</span>
@@ -79,7 +86,7 @@
             </div>
             <div class="col-xl-4 col-md-4 mb-30">
               <div class="single-cta">
-                <i class="far fa-envelope-open"></i>
+                <i class="far fa-envelope-open text-warning"></i>
                 <div class="cta-text">
                   <h4>Mail us</h4>
                   <span>teamweb2002@gmail.com</span>
@@ -140,7 +147,7 @@
                 </div>
                 <div class="subscribe-form">
                   <form action="#">
-                    <input type="text" placeholder="Email Address" />
+                    <input type="text" placeholder="Email Address" style="font-size: 16px" />
                     <button><i class="fab fa-telegram-plane"></i></button>
                   </form>
                 </div>

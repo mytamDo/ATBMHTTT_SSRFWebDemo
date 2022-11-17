@@ -7,25 +7,26 @@ const flash = require('connect-flash');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
-const passportLocalMongoose = require('passport-local-mongoose');
+const jwt = require('jsonwebtoken');
 const app = express();
-const port = process.env.PORT||3000;
+const port = process.env.PORT || 3000;
 
 require('dotenv').config();
 
-app.use(express.urlencoded({extended: true}));
-app.use(express.static('public')); 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 app.use(expressLayouts);
 
-app.use(cookieParser('F&D Shop'));
-app.use(session({
+app.use(cookieParser());
+app.use(
+  session({
     secret: 'fdshop',
     saveUninitialized: true,
     resave: true,
-}))
-app.use(flash())
-// app.use(fileUpload()); 
+  })
+);
+app.use(flash());
+// app.use(fileUpload());
 
 app.set('layout', './layouts/main');
 app.set('view engine', 'ejs');
@@ -40,9 +41,19 @@ app.listen(port, () => console.log(`Listening to port ${port}`));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
 app.use(express.json());
 app.use(cors());
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.get(
+  '/shippers',
+  (req, res, next) => {},
+  (req, res, next) => {}
+);
+app.get(
+  '/admin',
+  (req, res, next) => {},
+  (req, res, next) => {}
+);
