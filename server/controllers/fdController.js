@@ -24,7 +24,9 @@ exports.homepage = async (req, res) => {
  */
 exports.login = async (req, res) => {
   try {
-    res.render('login', { title: 'F&D - Login' });
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoLoginObj = req.flash('infoLogin');
+    res.render('login', { title: 'F&D - Login', infoErrorsObj, infoLoginObj });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
@@ -39,8 +41,8 @@ exports.loginOnPost = async (req, res) => {
     var email = req.body.email;
     var pass = req.body.password;
     var user = await User.findOne({
-      _email: email,
-      _pass: pass,
+      email: email,
+      pass: pass,
     })
       .then((data) => {
         if (data) {
@@ -48,12 +50,18 @@ exports.loginOnPost = async (req, res) => {
           res.cookie('token', token, {
             maxAge: 604800000,
           });
-          res.redirect('/login');
+          req.flash('infoLogin', 'Login Success');
           console.log('OK');
+          res.redirect('/login');
         }
       })
-      .catch((err) => {});
+      .catch((err) => {
+        req.flash('infoErrors', 'Something wrong');
+        console.log('Error, something wrong');
+        res.redirect('/login');
+      });
   } catch (error) {
+    console.log('Sever error');
     res.redirect('/login');
   }
 };
@@ -103,8 +111,8 @@ exports.registerOnPost = async (req, res) => {
           address: address,
         });
         req.flash('infoRegister', 'Register Success');
-        res.redirect('/register');
         console.log('OK');
+        res.redirect('/register');
       }
     });
   } catch (error) {
@@ -148,6 +156,7 @@ async function insertDymmyClientData() {
 // insertDymmyUserData();
 // insertDymmyClientData();
 
+// user view
 /**
  * GET /clients
  * clients view
@@ -175,12 +184,25 @@ exports.clients = async (req, res) => {
 // };
 
 /**
- * GET /admin
+ * GET /admin-dashboard
  * admin view
  */
-exports.admin = async (req, res) => {
+exports.adminDashboard = async (req, res, next) => {
   try {
-    res.json('ok');
+    res.render('admin-dashboard', { layout: './layouts/admin', title: 'F&D - Admon dashboard' });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+
+// error view
+/**
+ * GET /must-login
+ * musst login
+ */
+exports.mustLogin = async (req, res, next) => {
+  try {
+    res.render('must-login', { title: 'F&D - Err' });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }

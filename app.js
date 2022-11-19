@@ -46,14 +46,3 @@ app.use(cors());
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.get(
-  '/shippers',
-  (req, res, next) => {},
-  (req, res, next) => {}
-);
-app.get(
-  '/admin',
-  (req, res, next) => {},
-  (req, res, next) => {}
-);

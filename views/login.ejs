@@ -4,6 +4,17 @@
       <div class="row w-100 mx-0">
         <div class="col-lg-4 mx-auto">
           <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+            <% if (infoLoginObj != '') { %>
+            <div class="col-12 alert alert-success alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <h3><%= infoLoginObj %></h3>
+            </div>
+            <% } %> <% if (infoErrorsObj != '') { %>
+            <div class="col-12 alert alert-danger alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <h3><%= infoErrorsObj %></h3>
+            </div>
+            <% } %>
             <h1>Hello! let's get started</h1>
             <h3 class="font-weight-light">Sign in to continue.</h3>
             <form class="pt-3" action="/login" method="POST">

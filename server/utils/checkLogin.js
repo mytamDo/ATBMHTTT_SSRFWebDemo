@@ -13,41 +13,48 @@ const checkLogin = (req, res, next) => {
       .then((data) => {
         if (data) {
           req.data = data;
+          console.log('login ok');
           next();
         } else {
-          res.json('Not permission');
+          return res.redirect('/must-login');
         }
       })
-      .catch((err) => {});
+      .catch((err) => {
+        return 'err', err;
+      });
   } catch (error) {
-    res.status(500).json('Sever error, token wrong');
+    return res.redirect('/must-login');
   }
 };
 // Check client login
 const checkClient = (req, res, next) => {
   var role = req.data.role;
   if (role == 0 || role == 2) {
+    console.log('client ok');
     next();
   } else {
-    res.json('Not permission');
+    return res.redirect('/must-login');
   }
 };
 //check shipper login
 const checkShipper = (req, res, next) => {
   var role = req.data.role;
   if (role >= 1) {
+    console.log('shipper ok');
     next();
   } else {
-    res.json('Not permission');
+    return res.json('Not permission');
   }
 };
-//check admon login
+//check admin login
 const checkAdmin = (req, res, next) => {
   var role = req.data.role;
+  console.log(role);
   if (role == 2) {
+    console.log('admin ok');
     next();
   } else {
-    res.json('Not permission');
+    return res.redirect('/must-login');
   }
 };
 module.exports = { checkLogin, checkClient, checkAdmin, checkShipper };

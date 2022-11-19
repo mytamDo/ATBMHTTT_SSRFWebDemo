@@ -165,10 +165,6 @@ section {
   background: var(--orange);
 }
 
-#search-btn {
-  display: none;
-}
-
 .header .navbar {
   position: absolute;
   top: 115%;
