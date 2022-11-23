@@ -108,7 +108,7 @@ exports.registerOnPost = async (req, res) => {
       if (data) {
         req.flash('infoErrors', 'Register failed, Email existed');
         res.redirect('/register');
-        console.log('Loi');
+        console.log('Loi dang ky');
       } else {
         User.create({
           email: email,
@@ -192,14 +192,12 @@ exports.clientInfo = async (req, res) => {
     // console.log(req.data);
     const token = req.cookies.token;
     const clientID = jwt.verify(token, 'mk');
-    console.log(clientID);
     var user = await User.findOne({
       _id: clientID,
     });
     var client = await Client.findOne({
       email: user.email,
     }).then((data) => {
-      console.log(data.name);
       res.render('client-info', {
         layout: './layouts/client',
         title: 'F&D - Clients Info',
@@ -245,7 +243,12 @@ exports.adminDashboard = async (req, res, next) => {
  */
 exports.adminDrinks = async (req, res, next) => {
   try {
-    res.render('admin-drinks', { layout: './layouts/admin', title: 'F&D - Admin dashboard' });
+    const drinks = await Product.find({ type: 'food' });
+    res.render('admin-drinks', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      drinks,
+    });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
@@ -256,8 +259,7 @@ exports.adminDrinks = async (req, res, next) => {
  */
 exports.adminFoods = async (req, res, next) => {
   try {
-    const foods = await Product.findOne({ type: 'food' });
-    console.log(foods);
+    const foods = await Product.find({ type: 'food' });
     res.render('admin-foods', { layout: './layouts/admin', title: 'F&D - Admin dashboard', foods });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
@@ -281,13 +283,13 @@ exports.adminInfo = async (req, res, next) => {
 exports.adminAddFood = async (req, res, next) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
-    const infoSubmitObj = req.flash('infoSubmit');
+    const infoObj = req.flash('infoSubmit');
 
     res.render('admin-add-food', {
       layout: './layouts/admin',
       title: 'F&D - Admin dashboard',
       infoErrorsObj,
-      infoSubmitObj,
+      infoObj,
     });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
@@ -313,9 +315,8 @@ exports.adminAddFoodOnPost = async (req, res) => {
     await newProduct.save();
     req.flash('infoSubmit', 'Product has been add.');
     res.redirect('/admin-add-food');
-    console.log(4);
   } catch (error) {
-    req.flash('infoErrors', error);
+    req.flash('infoErrors', 'Fail to add');
     res.redirect('/admin-add-food');
   }
 };

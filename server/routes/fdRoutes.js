@@ -31,8 +31,13 @@ router.get(
   checkLogin.checkAdmin,
   fdController.adminAddFood
 );
-router.post('/admin-add-food', upload.single('image'), fdController.adminAddFoodOnPost);
-router.post('/admin-add-food', upload.single('image'), fdController.adminAddFoodOnPost);
+router.post(
+  '/admin-add-food',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  upload.single('image'),
+  fdController.adminAddFoodOnPost
+);
 //Client router
 router.get('/client', checkLogin.checkLogin, checkLogin.checkClient, fdController.client);
 router.get('/info', checkLogin.checkLogin, fdController.clientInfo);
