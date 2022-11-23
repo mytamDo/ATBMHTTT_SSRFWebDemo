@@ -19,7 +19,6 @@ db.once('open', function () {
 require('./Invoice');
 require('./Product');
 require('./Revenue');
-require('./Role');
 require('./Shipper');
 require('./User');
 require('./Client');

@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const fdController = require('../controllers/fdController');
 const checkLogin = require('../utils/checkLogin');
+const cloudinary = require('../utils/cloudinary');
+const upload = require('../utils/multer');
 
 router.get('/', fdController.homepage);
 router.get('/login', fdController.login);
@@ -23,7 +25,14 @@ router.get(
 router.get('/admin-drinks', checkLogin.checkLogin, checkLogin.checkAdmin, fdController.adminDrinks);
 router.get('/admin-foods', checkLogin.checkLogin, checkLogin.checkAdmin, fdController.adminFoods);
 router.get('/admin-info', checkLogin.checkLogin, checkLogin.checkAdmin, fdController.adminInfo);
-
+router.get(
+  '/admin-add-food',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminAddFood
+);
+router.post('/admin-add-food', upload.single('image'), fdController.adminAddFoodOnPost);
+router.post('/admin-add-food', upload.single('image'), fdController.adminAddFoodOnPost);
 //Client router
 router.get('/client', checkLogin.checkLogin, checkLogin.checkClient, fdController.client);
 router.get('/info', checkLogin.checkLogin, fdController.clientInfo);

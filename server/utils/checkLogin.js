@@ -22,7 +22,6 @@ const checkLogin = (req, res, next) => {
       .catch((err) => {
         return 'err', err;
       });
-    console.log('something wrong');
   } catch (error) {
     return res.redirect('/must-login');
   }

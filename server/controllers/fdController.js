@@ -1,9 +1,10 @@
+require('../models/database');
 const { reset } = require('nodemon');
 const jwt = require('jsonwebtoken');
-require('../models/database');
 const User = require('../models/User');
-const Role = require('../models/Role');
+const Product = require('../models/Product');
 const Client = require('../models/Client');
+const cloudinary = require('cloudinary').v2;
 
 /**
  * GET /
@@ -61,13 +62,13 @@ exports.loginOnPost = async (req, res, next) => {
           }
         } else {
           req.flash('infoErrors', 'Something wrong');
-          console.log('Error, something wrong');
+          console.log('Error, something wrong with account');
           res.redirect('/login');
         }
       })
       .catch((err) => {
-        req.flash('infoErrors', 'Something wrong');
-        console.log('Error, something wrong');
+        req.flash('infoErrors', 'Something wrong with account');
+        console.log('Error, something wrong with account');
         res.redirect('/login');
       });
   } catch (error) {
@@ -255,7 +256,9 @@ exports.adminDrinks = async (req, res, next) => {
  */
 exports.adminFoods = async (req, res, next) => {
   try {
-    res.render('admin-foods', { layout: './layouts/admin', title: 'F&D - Admin dashboard' });
+    const foods = await Product.findOne({ type: 'food' });
+    console.log(foods);
+    res.render('admin-foods', { layout: './layouts/admin', title: 'F&D - Admin dashboard', foods });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
@@ -269,6 +272,51 @@ exports.adminInfo = async (req, res, next) => {
     res.render('admin-info', { layout: './layouts/admin', title: 'F&D - Admin dashboard' });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+/**
+ * GET /admin-add-food
+ * admin add food
+ */
+exports.adminAddFood = async (req, res, next) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoSubmitObj = req.flash('infoSubmit');
+
+    res.render('admin-add-food', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      infoErrorsObj,
+      infoSubmitObj,
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+/**
+ * POST/submit-recipe
+ * Submit Recipe
+ */
+
+exports.adminAddFoodOnPost = async (req, res) => {
+  try {
+    const result = await cloudinary.uploader.upload(req.file.path);
+    const newProduct = new Product({
+      name: req.body.name,
+      price: req.body.price,
+      description: req.body.description,
+      type: 'food',
+      image_url: result.secure_url,
+      cloudinary_id: result.public_id,
+    });
+    // Save recipe
+    await newProduct.save();
+    req.flash('infoSubmit', 'Product has been add.');
+    res.redirect('/admin-add-food');
+    console.log(4);
+  } catch (error) {
+    req.flash('infoErrors', error);
+    res.redirect('/admin-add-food');
   }
 };
 
