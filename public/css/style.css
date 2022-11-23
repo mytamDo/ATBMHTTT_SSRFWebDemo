@@ -563,3 +563,11 @@ ul {
 .packages a:hover {
   color: #f79f1f;
 }
+
+.ten {
+  color: lightgreen;
+  text-decoration-line: underline;
+}
+.diachi {
+  color: orange;
+}
