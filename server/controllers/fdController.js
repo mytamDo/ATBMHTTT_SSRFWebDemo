@@ -36,7 +36,7 @@ exports.login = async (req, res) => {
  * login on post
  */
 
-exports.loginOnPost = async (req, res) => {
+exports.loginOnPost = async (req, res, next) => {
   try {
     var email = req.body.email;
     var pass = req.body.password;
@@ -50,8 +50,18 @@ exports.loginOnPost = async (req, res) => {
           res.cookie('token', token, {
             maxAge: 604800000,
           });
-          req.flash('infoLogin', 'Login Success');
-          console.log('OK');
+          if (data.role == 2) {
+            req.flash('infoLogin', 'Login Success');
+            console.log('OK');
+            res.redirect('/admin-dashboard');
+          } else {
+            req.flash('infoLogin', 'Login Success');
+            console.log('OK');
+            res.redirect('/info');
+          }
+        } else {
+          req.flash('infoErrors', 'Something wrong');
+          console.log('Error, something wrong');
           res.redirect('/login');
         }
       })
@@ -161,12 +171,46 @@ async function insertDymmyClientData() {
  * GET /clients
  * clients view
  */
-exports.clients = async (req, res) => {
+exports.client = async (req, res) => {
   try {
-    console.log(req.data);
+    // console.log(req.data);
     res.render('index', { layout: './layouts/client', title: 'F&D - Clients' });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+
+/**
+ * GET /info
+ * client info view
+ */
+exports.clientInfo = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoLoginObj = req.flash('infoLogin');
+    // console.log(req.data);
+    const token = req.cookies.token;
+    const clientID = jwt.verify(token, 'mk');
+    console.log(clientID);
+    var user = await User.findOne({
+      _id: clientID,
+    });
+    var client = await Client.findOne({
+      email: user.email,
+    }).then((data) => {
+      console.log(data.name);
+      res.render('client-info', {
+        layout: './layouts/client',
+        title: 'F&D - Clients Info',
+        data,
+        infoErrorsObj,
+        infoLoginObj,
+      });
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: error.message || 'Error Occured', infoErrorsObj, infoLoginObj });
   }
 };
 
@@ -190,6 +234,39 @@ exports.clients = async (req, res) => {
 exports.adminDashboard = async (req, res, next) => {
   try {
     res.render('admin-dashboard', { layout: './layouts/admin', title: 'F&D - Admon dashboard' });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+/**
+ * GET /admin-drinks
+ * admin drinks
+ */
+exports.adminDrinks = async (req, res, next) => {
+  try {
+    res.render('admin-drinks', { layout: './layouts/admin', title: 'F&D - Admin dashboard' });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+/**
+ * GET /admin-foods
+ * admin foods
+ */
+exports.adminFoods = async (req, res, next) => {
+  try {
+    res.render('admin-foods', { layout: './layouts/admin', title: 'F&D - Admin dashboard' });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+/**
+ * GET /admin-info
+ * admin info
+ */
+exports.adminInfo = async (req, res, next) => {
+  try {
+    res.render('admin-info', { layout: './layouts/admin', title: 'F&D - Admin dashboard' });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }

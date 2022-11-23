@@ -560,3 +560,6 @@ ul {
 #myBtn:hover {
   background-color: #555;
 }
+.packages a:hover {
+  color: #f79f1f;
+}

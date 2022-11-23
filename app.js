@@ -32,6 +32,7 @@ app.set('layout', './layouts/main');
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//Landing page
 const routes = require('./server/routes/fdRoutes.js');
 app.use('/', routes);
 
