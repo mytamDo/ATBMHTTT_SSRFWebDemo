@@ -54,10 +54,3 @@
     return false;
   });
 })(jQuery);
-function openMenu(e) {
-  document.getElementById('menun').style.display = 'block';
-}
-
-function closeMenu(e) {
-  document.getElementById('menun').style.display = 'none';
-}

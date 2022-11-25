@@ -7,35 +7,53 @@
     height: 20vh;
     object-fit: cover;
   }
+  .popup {
+    position: absolute;
+    background-color: aliceblue;
+    border: 2px solid red;
+    width: 88%;
+    top: 45%;
+    padding-top: 8px;
+  }
 </style>
-<div class="content-body">
+<div class="content-body pt-3">
   <!-- row -->
   <div class="container-fluid">
     <div class="row justify-content-center">
       <% if (foods != '') { %> <% foods.forEach(function(food, index){ %>
-      <div class="col-12">
+      <div class="col-6">
         <div class="card">
           <div class="card-body">
             <div class="row rounded">
-              <div class="col-2">
+              <div class="col-3">
                 <img
                   class="img-fluid img-responsive rounded product-image"
                   id="product"
                   src="<%= food.image_url%>"
                 />
               </div>
-              <div class="col-7 border-left mt-1">
+              <div class="col-6 border-left mt-1">
                 <h3><%= food.name %></h3>
                 <div class="mt-1 mb-1 spec-1"><h5>Type: <%= food.type %></h5></div>
-                <p class="text-justify para mb-0">Description: <%= food.description%></p>
+                <p class="text-justify para mb-0 text-truncate">
+                  Description: <%= food.description%>
+                </p>
               </div>
               <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                 <div class="d-flex flex-row">
                   <h4 class="mr-1"><%= food.price %> VND</h4>
                 </div>
                 <div class="d-flex flex-column mt-4">
-                  <button class="btn btn-warning btn-sm" type="button">Update</button>
-                  <button class="btn btn-outline-danger btn-sm mt-2" type="button">Delete</button>
+                  <a href="/admin-update-food/<%= food._id %>" class="btn btn-warning btn-sm"
+                    >Update</a
+                  >
+                  <form
+                    action="admin-delete-food/<%= food._id %>"
+                    method="POST"
+                    class="d-flex flex-column"
+                  >
+                    <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Delete</button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -47,11 +65,57 @@
       <h4>No item found</h4>
       <% } %>
     </div>
-    <div class="col-6 p-4 d-flex justify-content-end">
-      <a href="/admin-add-food" type="submit" class="btn btn-primary text">Add a new food</a>
-    </div>
+  </div>
+  <div class="p-4 d-flex justify-content-center">
+    <a
+      href="/admin-add-food"
+      type="submit"
+      class="btn btn-primary text d-flex justify-content-center"
+      >Add a new food</a
+    >
   </div>
 </div>
+<script>
+  $(document).ready(function () {
+    var showChar = 100;
+    var ellipsestext = '...';
+    var moretext = 'more';
+    var lesstext = 'less';
+    $('.more').each(function () {
+      var content = $(this).html();
+
+      if (content.length > showChar) {
+        var c = content.substr(0, showChar);
+        var h = content.substr(showChar - 1, content.length - showChar);
+
+        var html =
+          c +
+          '<span class="moreellipses">' +
+          ellipsestext +
+          '&nbsp;</span><span class="morecontent"><span>' +
+          h +
+          '</span>&nbsp;&nbsp;<a href="" class="morelink">' +
+          moretext +
+          '</a></span>';
+
+        $(this).html(html);
+      }
+    });
+
+    $('.morelink').click(function () {
+      if ($(this).hasClass('less')) {
+        $(this).removeClass('less');
+        $(this).html(moretext);
+      } else {
+        $(this).addClass('less');
+        $(this).html(lesstext);
+      }
+      $(this).parent().prev().toggle();
+      $(this).prev().toggle();
+      return false;
+    });
+  });
+</script>
 <!-- #/ container -->
 <!--**********************************
                 Content body end

@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "file": "style-dashboard.css",
+  "file": "./style-dashboard.css",
   "sources": [
     "../scss/main.scss",
     "../scss/abstracts/_abstracts.scss",

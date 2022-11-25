@@ -1,0 +1,120 @@
+<!--**********************************
+            Content body start
+***********************************-->
+<style>
+  .col-2 img {
+    width: 100%;
+    height: 20vh;
+    object-fit: contain;
+  }
+</style>
+<% if(food != null ) { %>
+
+<div class="content-body">
+  <!-- row -->
+  <div class="container-fluid d-flex justify-content-center">
+    <div class="col-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="row rounded">
+            <% if (infoObj != '') { %>
+            <div class="col-12 alert alert-success alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <h3><%= infoObj %></h3>
+            </div>
+            <% } %> <% if (infoErrorsObj != '') { %>
+            <div class="col-12 alert alert-danger alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <h3><%= infoErrorsObj %></h3>
+            </div>
+            <% } %>
+            <form
+              action="/admin-update-food/<%= food._id %>"
+              enctype="multipart/form-data"
+              method="POST"
+            >
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="name" class="form-label">Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    class="form-control"
+                    value="<%= food.name %>"
+                  />
+                </div>
+
+                <div class="col-12">
+                  <label for="price" class="form-label">Price</label>
+                  <input
+                    type="text"
+                    name="price"
+                    id="price"
+                    class="form-control"
+                    value="<%= food.price%>"
+                  />
+                </div>
+
+                <div class="col-12">
+                  <label for="description" class="form-label">Description</label>
+                  <textarea
+                    name="description"
+                    id="description"
+                    class="form-control"
+                    cols="30"
+                    rows="4"
+                  >
+                    <%=food.description%></textarea
+                  >
+                </div>
+
+                <div class="col-12">
+                  <label for="image">Product Image</label>
+                  <input
+                    type="file"
+                    name="image"
+                    class="form-control"
+                    accept="image/*"
+                    onchange="onFileSelected(event)"
+                  />
+                </div>
+                <div class="col-12">
+                  <img src="<%= food.image_url %>" style="height: 20vh" id="myimage" />
+                </div>
+
+                <div class="col-6 pt-4 d-flex justify-content-end">
+                  <button type="submit" class="btn btn-primary">Update Product</button>
+                </div>
+                <div class="col-6 pt-4 d-flex">
+                  <a href="/admin-foods" type="submit" class="btn btn-primary">Cancel</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% } else { %> No item found <% } %>
+<script>
+  function onFileSelected(event) {
+    var selectedFile = event.target.files[0];
+    var reader = new FileReader();
+
+    var imgtag = document.getElementById('myimage');
+    imgtag.title = selectedFile.name;
+
+    reader.onload = function (event) {
+      imgtag.src = event.target.result;
+    };
+
+    reader.readAsDataURL(selectedFile);
+  }
+</script>
+<!-- #/ container -->
+<!--**********************************
+                    Content body end
+        ***********************************-->

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Product = require('../models/Product');
 const Client = require('../models/Client');
+const { findOne } = require('../models/Product');
 const cloudinary = require('cloudinary').v2;
 
 /**
@@ -260,7 +261,11 @@ exports.adminDrinks = async (req, res, next) => {
 exports.adminFoods = async (req, res, next) => {
   try {
     const foods = await Product.find({ type: 'food' });
-    res.render('admin-foods', { layout: './layouts/admin', title: 'F&D - Admin dashboard', foods });
+    res.render('admin-foods', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      foods,
+    });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
@@ -295,6 +300,7 @@ exports.adminAddFood = async (req, res, next) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
+
 /**
  * POST/submit-recipe
  * Submit Recipe
@@ -318,6 +324,75 @@ exports.adminAddFoodOnPost = async (req, res) => {
   } catch (error) {
     req.flash('infoErrors', 'Fail to add');
     res.redirect('/admin-add-food');
+  }
+};
+
+/**
+ * GET/update-food
+ * Update food
+ */
+
+exports.adminUpdateFood = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    const foodID = req.params.id;
+    const food = await Product.findById(foodID);
+    res.render('admin-update-food', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      infoErrorsObj,
+      infoObj,
+      food,
+    });
+  } catch (error) {
+    console.log('wrong view?');
+    res.status(500).send({ mesage: error.message || 'Error Occured' });
+  }
+};
+/**
+ * POST/update-food
+ * Update food on post
+ */
+exports.adminUpdateFoodOnPost = async (req, res) => {
+  const url = '/admin-update-food/' + req.params.id;
+  try {
+    const foodID = req.params.id;
+    const query = { _id: foodID };
+    const food = await Product.findById(query);
+    await cloudinary.uploader.destroy(food.cloudinary_id);
+    console.log('destroy img sucess');
+    const result = await cloudinary.uploader.upload(req.file.path);
+    console.log('upload new img sucess');
+    await Product.findOneAndUpdate(query, {
+      name: req.body.name,
+      price: req.body.price,
+      description: req.body.description,
+      image_url: result.secure_url,
+      cloudinary_id: result.public_id,
+    });
+    res.redirect(url);
+  } catch (error) {
+    console.log(error);
+    res.redirect(url);
+  }
+};
+
+exports.adminUpdateFoodOnPost = async (req, res) => {
+  const url = '/admin-foods';
+
+  try {
+    query = { _id: req.params.id };
+    const food = await Product.findOne(query);
+    await cloudinary.uploader.destroy(food.cloudinary_id);
+    console.log('destroy img sucess');
+    await Product.findOneAndDelete(query);
+    req.flash('infoDelete', 'Product has been deleted.');
+    res.redirect(url);
+  } catch (error) {
+    console.log(error);
+    req.flash('infoDeleteErrors', 'Fail to delete food');
+    res.redirect(url);
   }
 };
 

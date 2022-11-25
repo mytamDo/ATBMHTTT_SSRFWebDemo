@@ -38,6 +38,25 @@ router.post(
   upload.single('image'),
   fdController.adminAddFoodOnPost
 );
+router.get(
+  '/admin-update-food/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminUpdateFood
+);
+router.post(
+  '/admin-update-food/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  upload.single('image'),
+  fdController.adminUpdateFoodOnPost
+);
+router.post(
+  '/admin-delete-food/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminUpdateFoodOnPost
+);
 //Client router
 router.get('/client', checkLogin.checkLogin, checkLogin.checkClient, fdController.client);
 router.get('/info', checkLogin.checkLogin, fdController.clientInfo);
