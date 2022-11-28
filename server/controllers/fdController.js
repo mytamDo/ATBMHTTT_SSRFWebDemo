@@ -13,8 +13,11 @@ const cloudinary = require('cloudinary').v2;
  */
 exports.homepage = async (req, res) => {
   try {
-    const users = await User.find({});
-    res.render('index', { title: 'F&D - Homepage', users });
+    const limitNumber = 4;
+    const foods = await Product.find({ type: 'food' }).sort({ _id: -1 }).limit(limitNumber);
+    const drinks = await Product.find({ type: 'drink' }).sort({ _id: -1 }).limit(limitNumber);
+    // const users = await User.find({});
+    res.render('index', { title: 'F&D - Homepage', foods, drinks });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }

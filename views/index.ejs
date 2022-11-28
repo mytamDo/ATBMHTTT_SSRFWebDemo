@@ -27,58 +27,21 @@
     >
     <div class="box-container">
       <div class="row">
+        <% if ( foods != '') { %> <% foods.forEach(function(food, index){ %>
         <div class="col-md-3">
           <div class="box" data-aos="fade-up">
             <div class="image">
-              <img src="./img/blog-1.jpg" alt="" />
-              <h3><i class="fas fa-utensils"></i> Burger</h3>
+              <img src=" <%= food.image_url %> " alt="<%= food.name %>" />
+              <!-- <h3><i class="fas fa-utensils"></i><%= food.name %></h3> -->
             </div>
             <div class="content">
-              <div class="price">50.000đ</div>
-              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, vitae.</p>
+              <div class="price"><%= food.price %></div>
+              <p><%= food.description %></p>
               <a href="#" class="btn btn-block btn-warning btn-lg text-white"><h4>Order now</h4></a>
             </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="box" data-aos="fade-up">
-            <div class="image">
-              <img src="./img/blog-1.jpg" alt="" />
-              <h3><i class="fas fa-utensils"></i> Burger</h3>
-            </div>
-            <div class="content">
-              <div class="price">50.000đ</div>
-              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, vitae.</p>
-              <a href="#" class="btn btn-block btn-warning btn-lg text-white"><h4>Order now</h4></a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="box" data-aos="fade-up">
-            <div class="image">
-              <img src="./img/blog-1.jpg" alt="" />
-              <h3><i class="fas fa-utensils"></i> Burger</h3>
-            </div>
-            <div class="content">
-              <div class="price">50.000đ</div>
-              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, vitae.</p>
-              <a href="#" class="btn btn-block btn-warning btn-lg text-white"><h4>Order now</h4></a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="box" data-aos="fade-up">
-            <div class="image">
-              <img src="./img/blog-1.jpg" alt="" />
-              <h3><i class="fas fa-utensils"></i> Burger</h3>
-            </div>
-            <div class="content">
-              <div class="price">50.000đ</div>
-              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, vitae.</p>
-              <a href="#" class="btn btn-block btn-warning btn-lg text-white"><h4>Order now</h4></a>
-            </div>
-          </div>
-        </div>
+        <% }) %> <% } %>
       </div>
     </div>
   </section>
