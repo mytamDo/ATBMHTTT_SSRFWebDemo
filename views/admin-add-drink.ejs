@@ -1,0 +1,74 @@
+<!--**********************************
+            Content body start
+***********************************-->
+<style>
+  .col-2 img {
+    width: 100%;
+    height: 20vh;
+    object-fit: contain;
+  }
+</style>
+<div class="content-body">
+  <!-- row -->
+  <div class="container-fluid d-flex justify-content-center">
+    <div class="col-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="row rounded">
+            <% if (infoObj != '') { %>
+            <div class="col-12 alert alert-success alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <h3><%= infoObj %></h3>
+            </div>
+            <% } %> <% if (infoErrorsObj != '') { %>
+            <div class="col-12 alert alert-danger alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <h3><%= infoErrorsObj %></h3>
+            </div>
+            <% } %>
+            <form action="/admin-add-drink" enctype="multipart/form-data" method="POST">
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" name="name" id="name" class="form-control" />
+                </div>
+
+                <div class="col-12">
+                  <label for="price" class="form-label">Price</label>
+                  <input type="text" name="price" id="price" class="form-control" />
+                </div>
+
+                <div class="col-12">
+                  <label for="description" class="form-label">Description</label>
+                  <textarea
+                    name="description"
+                    id="description"
+                    class="form-control"
+                    cols="30"
+                    rows="4"
+                  ></textarea>
+                </div>
+
+                <div class="col-12">
+                  <label for="image">Product Image</label>
+                  <input type="file" name="image" class="form-control" accept="image/*" />
+                </div>
+
+                <div class="col-6 p-4 d-flex justify-content-end">
+                  <button type="submit" class="btn btn-primary text">Submit Product</button>
+                </div>
+                <div class="col-6 p-4 d-flex">
+                  <a href="/admin-drinks" type="submit" class="btn btn-primary text">Cancel</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- #/ container -->
+<!--**********************************
+                  Content body end
+      ***********************************-->

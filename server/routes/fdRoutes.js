@@ -24,6 +24,8 @@ router.get(
 );
 router.get('/admin-drinks', checkLogin.checkLogin, checkLogin.checkAdmin, fdController.adminDrinks);
 router.get('/admin-foods', checkLogin.checkLogin, checkLogin.checkAdmin, fdController.adminFoods);
+
+//food
 router.get('/admin-info', checkLogin.checkLogin, checkLogin.checkAdmin, fdController.adminInfo);
 router.get(
   '/admin-add-food',
@@ -55,7 +57,41 @@ router.post(
   '/admin-delete-food/:id',
   checkLogin.checkLogin,
   checkLogin.checkAdmin,
-  fdController.adminUpdateFoodOnPost
+  fdController.adminDeleteFoodOnPost
+);
+
+//drink
+router.get(
+  '/admin-add-drink',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminAddDrink
+);
+router.post(
+  '/admin-add-drink',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  upload.single('image'),
+  fdController.adminAddDrinkOnPost
+);
+router.get(
+  '/admin-update-drink/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminUpdateDrink
+);
+router.post(
+  '/admin-update-drink/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  upload.single('image'),
+  fdController.adminUpdateDrinkOnPost
+);
+router.post(
+  '/admin-delete-drink/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminDeleteDrinkOnPost
 );
 //Client router
 router.get('/client', checkLogin.checkLogin, checkLogin.checkClient, fdController.client);

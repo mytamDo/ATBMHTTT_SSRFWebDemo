@@ -277,7 +277,7 @@ section {
 }
 
 .packages .box-container .box .image {
-  height: 25rem;
+  height: 35rem;
   width: 100%;
   padding: 1.5rem;
   position: relative;
@@ -570,4 +570,14 @@ ul {
 }
 .diachi {
   color: orange;
+}
+.category__link {
+  text-align: center;
+  display: block;
+  text-decoration: none;
+  transition: 250ms all;
+}
+
+.category__link:hover {
+  transform: scale(1.1);
 }

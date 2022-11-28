@@ -247,7 +247,7 @@ exports.adminDashboard = async (req, res, next) => {
  */
 exports.adminDrinks = async (req, res, next) => {
   try {
-    const drinks = await Product.find({ type: 'food' });
+    const drinks = await Product.find({ type: 'drink' });
     res.render('admin-drinks', {
       layout: './layouts/admin',
       title: 'F&D - Admin dashboard',
@@ -303,10 +303,29 @@ exports.adminAddFood = async (req, res, next) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
+/**
+ * GET /admin-add-drink
+ * admin add drink
+ */
+exports.adminAddDrink = async (req, res, next) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+
+    res.render('admin-add-drink', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      infoErrorsObj,
+      infoObj,
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
 
 /**
- * POST/submit-recipe
- * Submit Recipe
+ * POST/admin-add-food
+ * admin add food on post
  */
 
 exports.adminAddFoodOnPost = async (req, res) => {
@@ -320,13 +339,39 @@ exports.adminAddFoodOnPost = async (req, res) => {
       image_url: result.secure_url,
       cloudinary_id: result.public_id,
     });
-    // Save recipe
+    // Save food
     await newProduct.save();
     req.flash('infoSubmit', 'Product has been add.');
     res.redirect('/admin-add-food');
   } catch (error) {
     req.flash('infoErrors', 'Fail to add');
     res.redirect('/admin-add-food');
+  }
+};
+
+/**
+ * POST/admin-add-drink
+ * admin add drink on post
+ */
+
+exports.adminAddDrinkOnPost = async (req, res) => {
+  try {
+    const result = await cloudinary.uploader.upload(req.file.path);
+    const newProduct = new Product({
+      name: req.body.name,
+      price: req.body.price,
+      description: req.body.description,
+      type: 'drink',
+      image_url: result.secure_url,
+      cloudinary_id: result.public_id,
+    });
+    // Save drink
+    await newProduct.save();
+    req.flash('infoSubmit', 'Product has been add.');
+    res.redirect('/admin-add-drink');
+  } catch (error) {
+    req.flash('infoErrors', 'Fail to add');
+    res.redirect('/admin-add-drink');
   }
 };
 
@@ -353,6 +398,31 @@ exports.adminUpdateFood = async (req, res) => {
     res.status(500).send({ mesage: error.message || 'Error Occured' });
   }
 };
+
+/**
+ * GET/update-drink
+ * Update drink
+ */
+
+exports.adminUpdateDrink = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    const drinkID = req.params.id;
+    const drink = await Product.findById(drinkID);
+    res.render('admin-update-drink', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      infoErrorsObj,
+      infoObj,
+      drink,
+    });
+  } catch (error) {
+    console.log('wrong view?');
+    res.status(500).send({ mesage: error.message || 'Error Occured' });
+  }
+};
+
 /**
  * POST/update-food
  * Update food on post
@@ -381,7 +451,35 @@ exports.adminUpdateFoodOnPost = async (req, res) => {
   }
 };
 
-exports.adminUpdateFoodOnPost = async (req, res) => {
+/**
+ * POST/update-drink
+ * Update drink on post
+ */
+exports.adminUpdateDrinkOnPost = async (req, res) => {
+  const url = '/admin-update-drink/' + req.params.id;
+  try {
+    const drinkID = req.params.id;
+    const query = { _id: drinkID };
+    const drink = await Product.findById(query);
+    await cloudinary.uploader.destroy(drink.cloudinary_id);
+    console.log('destroy img sucess');
+    const result = await cloudinary.uploader.upload(req.file.path);
+    console.log('upload new img sucess');
+    await Product.findOneAndUpdate(query, {
+      name: req.body.name,
+      price: req.body.price,
+      description: req.body.description,
+      image_url: result.secure_url,
+      cloudinary_id: result.public_id,
+    });
+    res.redirect(url);
+  } catch (error) {
+    console.log(error);
+    res.redirect(url);
+  }
+};
+
+exports.adminDeleteFoodOnPost = async (req, res) => {
   const url = '/admin-foods';
 
   try {
@@ -395,6 +493,24 @@ exports.adminUpdateFoodOnPost = async (req, res) => {
   } catch (error) {
     console.log(error);
     req.flash('infoDeleteErrors', 'Fail to delete food');
+    res.redirect(url);
+  }
+};
+
+exports.adminDeleteDrinkOnPost = async (req, res) => {
+  const url = '/admin-drinks';
+
+  try {
+    query = { _id: req.params.id };
+    const drink = await Product.findOne(query);
+    await cloudinary.uploader.destroy(drink.cloudinary_id);
+    console.log('destroy img sucess');
+    await Product.findOneAndDelete(query);
+    req.flash('infoDelete', 'Product has been deleted.');
+    res.redirect(url);
+  } catch (error) {
+    console.log(error);
+    req.flash('infoDeleteErrors', 'Fail to delete drink');
     res.redirect(url);
   }
 };
