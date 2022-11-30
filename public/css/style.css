@@ -566,18 +566,24 @@ ul {
 
 .ten {
   color: rgb(250, 207, 115);
+  font-size: 20px;
+  font-family: monospace;
   /*text-decoration-line: underline;*/
 }
 .sdt {
   color: rgb(250, 207, 115);
-  /*text-decoration-line: underline;*/
+  font-size: 20px;
+  font-family: monospace;
 }
 .gioitinh {
   color: rgb(250, 207, 115);
-  /*text-decoration-line: underline;*/
+  font-size: 20px;
+  font-family: monospace;
 }
 .diachi {
   color: rgb(250, 207, 115);
+  font-size: 20px;
+  font-family: monospace;
 }
 .category__link {
   text-align: center;
