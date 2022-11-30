@@ -565,11 +565,19 @@ ul {
 }
 
 .ten {
-  color: lightgreen;
-  text-decoration-line: underline;
+  color: rgb(250, 207, 115);
+  /*text-decoration-line: underline;*/
+}
+.sdt {
+  color: rgb(250, 207, 115);
+  /*text-decoration-line: underline;*/
+}
+.gioitinh {
+  color: rgb(250, 207, 115);
+  /*text-decoration-line: underline;*/
 }
 .diachi {
-  color: orange;
+  color: rgb(250, 207, 115);
 }
 .category__link {
   text-align: center;
