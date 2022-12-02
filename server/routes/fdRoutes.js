@@ -93,8 +93,16 @@ router.post(
   checkLogin.checkAdmin,
   fdController.adminDeleteDrinkOnPost
 );
+router.get(
+  '/admin-show-staff-list',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminShowStaffList
+);
 //Client router
 router.get('/client', checkLogin.checkLogin, checkLogin.checkClient, fdController.client);
-router.get('/info', checkLogin.checkLogin, fdController.clientInfo);
-
+router.get('/info', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientInfo);
+router.get('/product/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.product);
+router.get('/cart', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientCart);
+router.get('/pay/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientPay);
 module.exports = router;

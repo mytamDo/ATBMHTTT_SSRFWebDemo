@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Product = require('../models/Product');
 const Client = require('../models/Client');
+const Shipper = require('../models/Shipper');
 const { findOne } = require('../models/Product');
 const cloudinary = require('cloudinary').v2;
 
@@ -178,8 +179,11 @@ async function insertDymmyClientData() {
  */
 exports.client = async (req, res) => {
   try {
-    // console.log(req.data);
-    res.render('index', { layout: './layouts/client', title: 'F&D - Clients' });
+    const limitNumber = 4;
+    const foods = await Product.find({ type: 'food' }).sort({ _id: -1 }).limit(limitNumber);
+    const drinks = await Product.find({ type: 'drink' }).sort({ _id: -1 }).limit(limitNumber);
+    // const users = await User.find({});
+    res.render('index', { layout: './layouts/client', title: 'F&D - Clients', foods, drinks });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
@@ -214,6 +218,65 @@ exports.clientInfo = async (req, res) => {
     res
       .status(500)
       .send({ message: error.message || 'Error Occured', infoErrorsObj, infoLoginObj });
+  }
+};
+
+/**
+ * GET /product
+ * product view
+ */
+exports.product = async (req, res) => {
+  try {
+    const productID = req.params.id;
+    const query = { _id: productID };
+    await Product.findOne(query).then((data) => {
+      res.render('product', {
+        title: 'F&D - Clients Info',
+        data,
+      });
+    });
+  } catch (error) {
+    console.log('Error product');
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+
+/**
+ * GET /cart
+ * get cart view
+ */
+exports.clientCart = async (req, res) => {
+  try {
+    // const productID = req.params.id;
+    // const query = { _id: productID };
+    // await Product.findOne(query).then((data) => {
+    //   res.render('product', {
+    //     title: 'F&D - Clients Info',
+    //     data,
+    //   });
+    // });\
+    res.render('client-cart', { title: 'F&D - Clients Cart' });
+  } catch (error) {
+    console.log('Error product');
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+exports.addCart = async (req, res) => {
+  try {
+    // res.redirect
+  } catch (error) {
+    console.log('Error add cart');
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+
+exports.clientPay = async (req, res) => {
+  try {
+    const receipt = 1;
+    res.render('client-pay', { title: 'F&D - Clients Cart', receipt });
+  } catch (error) {
+    console.log('Error product');
+    res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
 
@@ -479,6 +542,10 @@ exports.adminUpdateDrinkOnPost = async (req, res) => {
   }
 };
 
+/**
+ * POST/delete-food
+ * Delete food on post
+ */
 exports.adminDeleteFoodOnPost = async (req, res) => {
   const url = '/admin-foods';
 
@@ -497,6 +564,10 @@ exports.adminDeleteFoodOnPost = async (req, res) => {
   }
 };
 
+/**
+ * POST/delete-drink
+ * Delete drink on post
+ */
 exports.adminDeleteDrinkOnPost = async (req, res) => {
   const url = '/admin-drinks';
 
@@ -515,6 +586,23 @@ exports.adminDeleteDrinkOnPost = async (req, res) => {
   }
 };
 
+/**
+ * GET/admin-show-staff-list
+ * Admin show staff list
+ */
+exports.adminShowStaffList = async (req, res) => {
+  try {
+    shippers = await Shipper.find({});
+    res.render('admin-show-staff-list', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      shippers,
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+
 // error view
 /**
  * GET /must-login
@@ -527,3 +615,30 @@ exports.mustLogin = async (req, res, next) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
+
+// async function insertDymmyShipperData() {
+//   try {
+//     await Shipper.insertMany([
+//       {
+//         name: 'Tran Van B',
+//         birthday: '08/04/2002',
+//         begin: new Date(),
+//         status: 'Done',
+//       },
+//       {
+//         name: 'Tran Van C',
+//         birthday: '08/04/2002',
+//         begin: new Date(),
+//         status: 'Working',
+//       },
+//       {
+//         name: 'Tran Van D',
+//         birthday: '08/04/2002',
+//         begin: new Date(),
+//         status: 'Done',
+//       },
+//     ]);
+//   } catch (error) {
+//     console.log('err', error);
+//   }
+// }
