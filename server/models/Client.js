@@ -9,11 +9,15 @@ const clientSchema = new mongoose.Schema({
     type: String,
     required: 'this fild is required',
   },
-  gender: {
+  address: {
     type: String,
     required: 'this fild is required',
   },
-  address: {
+  tel: {
+    type: String,
+    required: 'this fild is required',
+  },
+  gender: {
     type: String,
     required: 'this fild is required',
   },

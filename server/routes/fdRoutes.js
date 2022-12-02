@@ -105,4 +105,5 @@ router.get('/info', checkLogin.checkLogin, checkLogin.checkClient, fdController.
 router.get('/product/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.product);
 router.get('/cart', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientCart);
 router.get('/pay/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientPay);
+router.get('/foods', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientFoods);
 module.exports = router;

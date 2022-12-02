@@ -38,7 +38,7 @@ exports.login = async (req, res) => {
   }
 };
 /**
- * POST
+ * POST/login
  * login on post
  */
 
@@ -107,6 +107,8 @@ exports.registerOnPost = async (req, res) => {
     var name = req.body.name;
     var gender = req.body.gender;
     var address = req.body.address;
+    var tel = req.body.tel;
+    var cfmPass = req.body.confirmPassword;
     User.findOne({
       email: email,
     }).then((data) => {
@@ -114,7 +116,7 @@ exports.registerOnPost = async (req, res) => {
         req.flash('infoErrors', 'Register failed, Email existed');
         res.redirect('/register');
         console.log('Loi dang ky');
-      } else {
+      } else if (cfmPass == pass) {
         User.create({
           email: email,
           pass: pass,
@@ -125,10 +127,15 @@ exports.registerOnPost = async (req, res) => {
           name: name,
           gender: gender,
           address: address,
+          tel: tel,
         });
         req.flash('infoRegister', 'Register Success');
         console.log('OK');
         res.redirect('/register');
+      } else {
+        req.flash('infoErrors', 'Register failed, Wrong confirm password');
+        res.redirect('/register');
+        console.log('Loi dang ky');
       }
     });
   } catch (error) {
@@ -242,6 +249,22 @@ exports.product = async (req, res) => {
 };
 
 /**
+ * GET /client/foods
+ * get client with foods
+ */
+exports.clientFoods = async (req, res, next) => {
+  try {
+    const foods = await Product.find({ type: 'food' });
+    res.render('client-foods', {
+      title: 'F&D - Client foods',
+      foods,
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+
+/**
  * GET /cart
  * get cart view
  */
@@ -261,6 +284,7 @@ exports.clientCart = async (req, res) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
+
 exports.addCart = async (req, res) => {
   try {
     // res.redirect
@@ -269,7 +293,6 @@ exports.addCart = async (req, res) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
-
 exports.clientPay = async (req, res) => {
   try {
     const receipt = 1;

@@ -10,21 +10,21 @@
 </style>
 <div class="content-body pt-3">
   <!-- row -->
-  <div class="container-fluid">
+  <div class="container-fluid" style="margin-top: 5%">
     <div class="row justify-content-center">
       <% if (foods != '') { %> <% foods.forEach(function(food, index){ %>
       <div class="col-md-6">
         <div class="card">
           <div class="card-body">
             <div class="row rounded">
-              <div class="col-md-3">
+              <div class="col-3">
                 <img
                   class="img-fluid img-responsive rounded product-image"
                   id="product"
                   src="<%= food.image_url%>"
                 />
               </div>
-              <div class="col-md-6 border-left mt-1">
+              <div class="col-6 border-left mt-1">
                 <h3><%= food.name %></h3>
                 <div class="mt-1 mb-1 spec-1"><h5>Type: <%= food.type %></h5></div>
                 <p class="text-justify para mb-0 text-truncate">
@@ -35,18 +35,18 @@
                 <div class="d-flex flex-row">
                   <h4 class="mr-1"><%= food.price %> VND</h4>
                 </div>
-                <div class="d-flex flex-column mt-4">
-                  <a href="/admin-update-food/<%= food._id %>" class="btn btn-warning btn-sm"
-                    >Update</a
-                  >
-                  <form
-                    action="admin-delete-food/<%= food._id %>"
-                    method="POST"
-                    class="d-flex flex-column"
-                  >
-                    <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Delete</button>
-                  </form>
-                </div>
+                <!-- <div class="d-flex flex-column mt-4">
+                    <a href="/admin-update-food/<%= food._id %>" class="btn btn-warning btn-sm"
+                      >Update</a
+                    >
+                    <form
+                      action="admin-delete-food/<%= food._id %>"
+                      method="POST"
+                      class="d-flex flex-column"
+                    >
+                      <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Delete</button>
+                    </form>
+                  </div> -->
               </div>
             </div>
           </div>
@@ -69,5 +69,5 @@
 </div>
 <!-- #/ container -->
 <!--**********************************
-                Content body end
-    ***********************************-->
+                  Content body end
+      ***********************************-->
