@@ -25,28 +25,26 @@
                 />
               </div>
               <div class="col-6 border-left mt-1">
-                <h3><%= food.name %></h3>
-                <div class="mt-1 mb-1 spec-1"><h5>Type: <%= food.type %></h5></div>
-                <p class="text-justify para mb-0 text-truncate">
+                <h2><%= food.name %></h2>
+                <div class="mt-1 mb-1 spec-1"><h3>Type: <%= food.type %></h3></div>
+                <p class="text-justify h3 para mb-0 text-truncate">
                   Description: <%= food.description%>
                 </p>
               </div>
               <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                 <div class="d-flex flex-row">
-                  <h4 class="mr-1"><%= food.price %> VND</h4>
+                  <h2 class="mr-1"><%= food.price %> VND</h2>
                 </div>
-                <!-- <div class="d-flex flex-column mt-4">
-                    <a href="/admin-update-food/<%= food._id %>" class="btn btn-warning btn-sm"
+                <div class="d-flex flex-column mt-4">
+                  <!-- <a href="/admin-update-food/<%= food._id %>" class="btn btn-warning btn-sm"
                       >Update</a
-                    >
-                    <form
-                      action="admin-delete-food/<%= food._id %>"
-                      method="POST"
-                      class="d-flex flex-column"
-                    >
-                      <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Delete</button>
-                    </form>
-                  </div> -->
+                    > -->
+                  <form action="/add-cart/<%= food._id %>" method="POST" class="d-flex flex-column">
+                    <button class="btn btn-outline-danger btn-lg mt-2" type="submit">
+                      <h4>Add to cart</h4>
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -56,15 +54,17 @@
       <% }) %> <% } else { %>
       <h4>No item found</h4>
       <% } %>
+      <div class="col-2">
+        <a href="/client" type="submit" class="btn btn-primary text d-flex justify-content-center"
+          ><h3>Go to homepage</h3></a
+        >
+      </div>
+      <div class="col-2">
+        <a href="/cart" type="submit" class="btn btn-primary text d-flex justify-content-center"
+          ><h3>Go to cart</h3></a
+        >
+      </div>
     </div>
-  </div>
-  <div class="p-4 d-flex justify-content-center">
-    <a
-      href="/admin-add-food"
-      type="submit"
-      class="btn btn-primary text d-flex justify-content-center"
-      >Add a new food</a
-    >
   </div>
 </div>
 <!-- #/ container -->

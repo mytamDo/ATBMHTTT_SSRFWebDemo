@@ -2,7 +2,7 @@
             Content body start
 ***********************************-->
 <style>
-  .col-3 img {
+  .col-md-3 img {
     width: 100%;
     height: 15vh;
     object-fit: cover;
@@ -10,324 +10,94 @@
 </style>
 <div class="content-body pt-3" style="margin-top: 10%">
   <!-- row -->
+
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div class="col-7">
-        <div class="card">
-          <div class="card-body">
-            <div class="row rounded">
-              <div class="col-3">
-                <img
-                  class="img-fluid img-responsive rounded product-image"
-                  id="product"
-                  src="/img/blog5.jpg"
-                />
+      <div class="col-8>
+      <div class="card mt-4">
+        <% if (productList != '') { %> <% productList.forEach(function(product, index){ %>
+        <div class="card-body">
+          <div class="row rounded">
+            <div class="col-md-3">
+              <img
+                class="img-fluid img-responsive rounded product-image"
+                id="product"
+                src="<%= product.image_url %>"
+              />
+            </div>
+            <div class="col-md-6 border-left mt-1">
+              <h1><%= product.name %></h1>
+              <div class="mt-1 mb-1 spec-1"><h4>Type: <%= product.type %></h4></div>
+              <p class="text-justify para mb-0 text-truncate h3">
+                Description: <%= product.description %>
+              </p>
+            </div>
+            <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+              <div class="d-flex flex-row">
+                <h2 class="mr-1"><%= product.price %> VND</h2>
               </div>
-              <div class="col-7 border-left mt-1">
-                <h3>Gà quay</h3>
-                <div class="mt-1 mb-1 spec-1"><h5>Type: Food</h5></div>
-                <p class="text-justify para mb-0 text-truncate">Description: lalala</p>
-              </div>
-              <div class="align-items-center align-content-center col-md-2 border-left mt-1">
-                <div class="d-flex flex-row">
-                  <h4 class="mr-1">20000 VND</h4>
-                </div>
-                <div class="d-flex flex-column mt-4">
-                  <!-- <a href="#" class="btn btn-warning btn-sm">Update</a> -->
-                  <form action="#" method="POST" class="d-flex flex-column">
-                    <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Remove</button>
-                  </form>
-                </div>
+              <div class="d-flex flex-column mt-4">
+                <!-- <a href="#" class="btn btn-warning btn-sm">Update</a> -->
+                <form action="/remove/<%= product._id %>" method="POST" class="d-flex flex-column">
+                  <input
+                    type="number"
+                    name="quantity"
+                    id="quantity"
+                    min="0"
+                    max="100"
+                    step="1"
+                    class="h2"
+                    style="
+                      background-color: rgb(182, 241, 159);
+                      border: 2px solid rgb(104, 250, 124);
+                    "
+                    value="<%= dpProduct[index].count %>"
+                  />
+                  <button class="btn btn-outline-danger btn-md mt-2" type="submit">
+                    <h3>Remove</h3>
+                  </button>
+                </form>
               </div>
             </div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="row rounded">
-              <div class="col-3">
-                <img
-                  class="img-fluid img-responsive rounded product-image"
-                  id="product"
-                  src="/img/blog5.jpg"
-                />
-              </div>
-              <div class="col-7 border-left mt-1">
-                <h3>Gà quay</h3>
-                <div class="mt-1 mb-1 spec-1"><h5>Type: Food</h5></div>
-                <p class="text-justify para mb-0 text-truncate">Description: lalala</p>
-              </div>
-              <div class="align-items-center align-content-center col-md-2 border-left mt-1">
-                <div class="d-flex flex-row">
-                  <h4 class="mr-1">20000 VND</h4>
-                </div>
-                <div class="d-flex flex-column mt-4">
-                  <!-- <a href="#" class="btn btn-warning btn-sm">Update</a> -->
-                  <form action="#" method="POST" class="d-flex flex-column">
-                    <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Remove</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="row rounded">
-              <div class="col-3">
-                <img
-                  class="img-fluid img-responsive rounded product-image"
-                  id="product"
-                  src="/img/blog5.jpg"
-                />
-              </div>
-              <div class="col-7 border-left mt-1">
-                <h3>Gà quay</h3>
-                <div class="mt-1 mb-1 spec-1"><h5>Type: Food</h5></div>
-                <p class="text-justify para mb-0 text-truncate">Description: lalala</p>
-              </div>
-              <div class="align-items-center align-content-center col-md-2 border-left mt-1">
-                <div class="d-flex flex-row">
-                  <h4 class="mr-1">20000 VND</h4>
-                </div>
-                <div class="d-flex flex-column mt-4">
-                  <!-- <a href="#" class="btn btn-warning btn-sm">Update</a> -->
-                  <form action="#" method="POST" class="d-flex flex-column">
-                    <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Remove</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="row rounded">
-              <div class="col-3">
-                <img
-                  class="img-fluid img-responsive rounded product-image"
-                  id="product"
-                  src="/img/blog5.jpg"
-                />
-              </div>
-              <div class="col-7 border-left mt-1">
-                <h3>Gà quay</h3>
-                <div class="mt-1 mb-1 spec-1"><h5>Type: Food</h5></div>
-                <p class="text-justify para mb-0 text-truncate">Description: lalala</p>
-              </div>
-              <div class="align-items-center align-content-center col-md-2 border-left mt-1">
-                <div class="d-flex flex-row">
-                  <h4 class="mr-1">20000 VND</h4>
-                </div>
-                <div class="d-flex flex-column mt-4">
-                  <!-- <a href="#" class="btn btn-warning btn-sm">Update</a> -->
-                  <form action="#" method="POST" class="d-flex flex-column">
-                    <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Remove</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="row rounded">
-              <div class="col-3">
-                <img
-                  class="img-fluid img-responsive rounded product-image"
-                  id="product"
-                  src="/img/blog5.jpg"
-                />
-              </div>
-              <div class="col-7 border-left mt-1">
-                <h3>Gà quay</h3>
-                <div class="mt-1 mb-1 spec-1"><h5>Type: Food</h5></div>
-                <p class="text-justify para mb-0 text-truncate">Description: lalala</p>
-              </div>
-              <div class="align-items-center align-content-center col-md-2 border-left mt-1">
-                <div class="d-flex flex-row">
-                  <h4 class="mr-1">20000 VND</h4>
-                </div>
-                <div class="d-flex flex-column mt-4">
-                  <!-- <a href="#" class="btn btn-warning btn-sm">Update</a> -->
-                  <form action="#" method="POST" class="d-flex flex-column">
-                    <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Remove</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="row rounded">
-              <div class="col-3">
-                <img
-                  class="img-fluid img-responsive rounded product-image"
-                  id="product"
-                  src="/img/blog5.jpg"
-                />
-              </div>
-              <div class="col-7 border-left mt-1">
-                <h3>Gà quay</h3>
-                <div class="mt-1 mb-1 spec-1"><h5>Type: Food</h5></div>
-                <p class="text-justify para mb-0 text-truncate">Description: lalala</p>
-              </div>
-              <div class="align-items-center align-content-center col-md-2 border-left mt-1">
-                <div class="d-flex flex-row">
-                  <h4 class="mr-1">20000 VND</h4>
-                </div>
-                <div class="d-flex flex-column mt-4">
-                  <!-- <a href="#" class="btn btn-warning btn-sm">Update</a> -->
-                  <form action="#" method="POST" class="d-flex flex-column">
-                    <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Remove</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="row rounded">
-              <div class="col-3">
-                <img
-                  class="img-fluid img-responsive rounded product-image"
-                  id="product"
-                  src="/img/blog5.jpg"
-                />
-              </div>
-              <div class="col-7 border-left mt-1">
-                <h3>Gà quay</h3>
-                <div class="mt-1 mb-1 spec-1"><h5>Type: Food</h5></div>
-                <p class="text-justify para mb-0 text-truncate">Description: lalala</p>
-              </div>
-              <div class="align-items-center align-content-center col-md-2 border-left mt-1">
-                <div class="d-flex flex-row">
-                  <h4 class="mr-1">20000 VND</h4>
-                </div>
-                <div class="d-flex flex-column mt-4">
-                  <!-- <a href="#" class="btn btn-warning btn-sm">Update</a> -->
-                  <form action="#" method="POST" class="d-flex flex-column">
-                    <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Remove</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="row rounded">
-              <div class="col-3">
-                <img
-                  class="img-fluid img-responsive rounded product-image"
-                  id="product"
-                  src="/img/blog5.jpg"
-                />
-              </div>
-              <div class="col-7 border-left mt-1">
-                <h3>Gà quay</h3>
-                <div class="mt-1 mb-1 spec-1"><h5>Type: Food</h5></div>
-                <p class="text-justify para mb-0 text-truncate">Description: lalala</p>
-              </div>
-              <div class="align-items-center align-content-center col-md-2 border-left mt-1">
-                <div class="d-flex flex-row">
-                  <h4 class="mr-1">20000 VND</h4>
-                </div>
-                <div class="d-flex flex-column mt-4">
-                  <!-- <a href="#" class="btn btn-warning btn-sm">Update</a> -->
-                  <form action="#" method="POST" class="d-flex flex-column">
-                    <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Remove</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="row rounded">
-              <div class="col-3">
-                <img
-                  class="img-fluid img-responsive rounded product-image"
-                  id="product"
-                  src="/img/blog5.jpg"
-                />
-              </div>
-              <div class="col-7 border-left mt-1">
-                <h3>Gà quay</h3>
-                <div class="mt-1 mb-1 spec-1"><h5>Type: Food</h5></div>
-                <p class="text-justify para mb-0 text-truncate">Description: lalala</p>
-              </div>
-              <div class="align-items-center align-content-center col-md-2 border-left mt-1">
-                <div class="d-flex flex-row">
-                  <h4 class="mr-1">20000 VND</h4>
-                </div>
-                <div class="d-flex flex-column mt-4">
-                  <!-- <a href="#" class="btn btn-warning btn-sm">Update</a> -->
-                  <form action="#" method="POST" class="d-flex flex-column">
-                    <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Remove</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="row rounded">
-              <div class="col-3">
-                <img
-                  class="img-fluid img-responsive rounded product-image"
-                  id="product"
-                  src="/img/blog5.jpg"
-                />
-              </div>
-              <div class="col-7 border-left mt-1">
-                <h3>Gà quay</h3>
-                <div class="mt-1 mb-1 spec-1"><h5>Type: Food</h5></div>
-                <p class="text-justify para mb-0 text-truncate">Description: lalala</p>
-              </div>
-              <div class="align-items-center align-content-center col-md-2 border-left mt-1">
-                <div class="d-flex flex-row">
-                  <h4 class="mr-1">20000 VND</h4>
-                </div>
-                <div class="d-flex flex-column mt-4">
-                  <!-- <a href="#" class="btn btn-warning btn-sm">Update</a> -->
-                  <form action="#" method="POST" class="d-flex flex-column">
-                    <button class="btn btn-outline-danger btn-sm mt-2" type="submit">Remove</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
+
+        <% }) %> <% } else { %>
+        <h4>No item found</h4>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-4">
+    <div class="col-7 pt-5 pb-5 bg-warning text-white">
+      <div class="row">
+        <div class="col-8">
+          <h2>Total: <%= total %> VND</h2>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="row justify-content-center">
-      <div class="col-7 pt-5 pb-5 bg-warning text-white">
-        <div>
-          <h2>Total: 200000 VND</h2>
+  <div class="row justify-content-center">
+    <div class="col-7 pt-5 pb-5">
+      <div class="row">
+        <div class="col-4 text-center">
+          <a class="btn btn-danger" href="/client"><h3>Continute to Shopping!!</h3></a>
         </div>
-      </div>
-    </div>
-
-    <div class="row justify-content-center">
-      <div class="col-7 pt-5 pb-5">
-        <div class="row">
-          <div class="col-6 text-center">
-            <a class="btn btn-danger" href="/client"><h3>Continute to Shopping!!</h3></a>
-          </div>
-          <div class="col-6 text-center">
-            <a class="btn btn-primary" href="/pay/#"><h3>Make a payment</h3></a>
-          </div>
+        <div class="col-4 text-center">
+          <form action="/update-cart">
+            <a type="submit" class="btn btn-info" href="/pay/#"><h3>Update Cart</h3></a>
+          </form>
+        </div>
+        <div class="col-4 text-center">
+          <a class="btn btn-primary" href="/pay"><h3>Make a payment</h3></a>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <!-- #/ container -->
 <!--**********************************
                   Content body end

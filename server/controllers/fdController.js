@@ -1,12 +1,14 @@
 require('../models/database');
 const { reset } = require('nodemon');
 const jwt = require('jsonwebtoken');
+const { findOne, findById } = require('../models/Product');
+const cloudinary = require('cloudinary').v2;
 const User = require('../models/User');
 const Product = require('../models/Product');
 const Client = require('../models/Client');
 const Shipper = require('../models/Shipper');
-const { findOne } = require('../models/Product');
-const cloudinary = require('cloudinary').v2;
+const Cart = require('../models/Cart');
+const Invoice = require('../models/Invoice');
 
 /**
  * GET /
@@ -144,6 +146,128 @@ exports.registerOnPost = async (req, res) => {
     console.log('Sever Error');
   }
 };
+// db.animal.update(
+//   { "_id": "100" },
+//   {
+//       $push: {
+//           animalArray: {
+//               $each: ['cow'],
+//               $position: 0
+//           }
+//       }
+//   }
+// );
+
+async function insertDymmyCartData() {
+  try {
+    await Cart.insertMany([
+      {
+        product_id: ['a', 'b'],
+        client_id: 'abc',
+      },
+    ]);
+  } catch (error) {
+    console.log('err', +error);
+  }
+}
+// insertDymmyCartData();
+
+exports.addCartOnPost = async (req, res) => {
+  var token = req.cookies.token;
+  var userID = jwt.verify(token, 'mk');
+  var user = await User.findOne({ _id: userID });
+  var client = await Client.findOne({ email: user.email });
+  var productID = req.params.id;
+  console.log(client._id);
+  console.log(productID);
+  const cart = await Cart.findOneAndUpdate(
+    {
+      client_id: client._id,
+    },
+    {
+      $push: {
+        product_id: productID,
+      },
+    }
+  );
+
+  if (cart != null) {
+    console.log(cart);
+  } else {
+    try {
+      await Cart.insertMany([
+        {
+          product_id: productID,
+          client_id: client._id,
+        },
+      ]);
+    } catch (error) {
+      console.log('err', +error);
+    }
+  }
+
+  res.redirect('/foods');
+};
+
+// /**
+//  * GET /buyone
+//  * register
+//  */
+// exports.buyOne = async (req, res) => {
+//   try {
+//     const infoErrorsObj = req.flash('infoErrors');
+//     const infoRegisterObj = req.flash('infoRegister');
+//     const productID = req.params.id;
+//     const query = { _id: productID };
+//     await Product.findOne(query).then((data) => {
+//       res.render('buy-one', {
+//         title: 'F&D - Buy One',
+//         data,
+//         infoRegisterObj,
+//         infoErrorsObj,
+//       });
+//     });
+//   } catch (error) {
+//     res.status(500).send({ message: error.message || 'Error Occured' });
+//   }
+// };
+
+// /**
+//  * POST /buyone
+//  * buy one product on post
+//  */
+// exports.buyOneOnPost = async (req, res) => {
+//   try {
+//     const infoErrorsObj = req.flash('infoErrors');
+//     const infoRegisterObj = req.flash('infoRegister');
+//     res.render('buy-one', { title: 'F&D - Buy One', infoErrorsObj, infoRegisterObj });
+//   } catch (error) {
+//     res.status(500).send({ message: error.message || 'Error Occured' });
+//   }
+// };
+
+// /**
+//  * POST /createInvoice
+//  * create Invocie
+//  */
+// exports.createInvoiceSingle = async (req, res) => {
+//   try {
+//     const productID = req.body.productID;
+//     console.log(productID);
+//     const query = { _id: productID };
+//     var product = await Product.findOne({
+//       query,
+//     });
+//     console.log(product);
+//     // req.flash('infoSubmit', 'Invoice has been created.');
+//     res.json({
+//       productID,
+//       product,
+//     });
+//   } catch (error) {
+//     res.status(500).send({ message: error.message || 'Error Occured' });
+//   }
+// };
 
 //insert for the first time
 async function insertDymmyUserData() {
@@ -257,6 +381,7 @@ exports.clientFoods = async (req, res, next) => {
     const foods = await Product.find({ type: 'food' });
     res.render('client-foods', {
       title: 'F&D - Client foods',
+      layout: './layouts/client',
       foods,
     });
   } catch (error) {
@@ -270,20 +395,59 @@ exports.clientFoods = async (req, res, next) => {
  */
 exports.clientCart = async (req, res) => {
   try {
-    // const productID = req.params.id;
-    // const query = { _id: productID };
-    // await Product.findOne(query).then((data) => {
-    //   res.render('product', {
-    //     title: 'F&D - Clients Info',
-    //     data,
-    //   });
-    // });\
-    res.render('client-cart', { title: 'F&D - Clients Cart' });
+    var token = req.cookies.token;
+    var userID = jwt.verify(token, 'mk');
+    var user = await User.findOne({ _id: userID });
+    var client = await Client.findOne({ email: user.email });
+    const query = { client_id: client._id };
+    const cart = await Cart.findOne(query);
+    const productCart = [];
+    for (var i in cart.product_id) {
+      productCart.push(cart.product_id[i]);
+    }
+    const productCartFilled = arrayFilter(productCart);
+
+    var dpProduct = [];
+    for (var i in productCartFilled) {
+      dpProduct.push({
+        product: productCartFilled[i],
+        count: 1,
+      });
+    }
+    for (let i in productCartFilled) {
+      let count = 1;
+      for (let j in cart.product_id) {
+        if (productCart[j] == productCartFilled[i]) {
+          dpProduct[i] = {
+            product: productCartFilled[i],
+            count: count,
+          };
+          count++;
+        }
+      }
+    }
+    const productList = [];
+    var total = 0;
+    for (let i in dpProduct) {
+      productList.push(await Product.findOne({ _id: dpProduct[i].product }));
+    }
+    productList.forEach(function (product, index) {
+      total += product.price * dpProduct[index].count;
+    });
+    console.log(total);
+    // for(i in cart.)
+    res.render('client-cart', { title: 'F&D - Clients Cart', dpProduct, productList, total });
   } catch (error) {
     console.log('Error product');
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
+function arrayFilter(arr) {
+  let outputArray = arr.filter(function (v, i, self) {
+    return i == self.indexOf(v);
+  });
+  return outputArray;
+}
 
 exports.addCart = async (req, res) => {
   try {
@@ -615,7 +779,7 @@ exports.adminDeleteDrinkOnPost = async (req, res) => {
  */
 exports.adminShowStaffList = async (req, res) => {
   try {
-    shippers = await Shipper.find({});
+    shippers = await Shipper.find({}).sort({ status: 1 });
     res.render('admin-show-staff-list', {
       layout: './layouts/admin',
       title: 'F&D - Admin dashboard',

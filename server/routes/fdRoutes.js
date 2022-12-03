@@ -106,4 +106,12 @@ router.get('/product/:id', checkLogin.checkLogin, checkLogin.checkClient, fdCont
 router.get('/cart', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientCart);
 router.get('/pay/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientPay);
 router.get('/foods', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientFoods);
+router.post(
+  '/add-cart/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.addCartOnPost
+);
+// router.get('/buy', fdController.buyOne);
+// router.post('/create-invoice', fdController.createInvoiceSingle);
 module.exports = router;

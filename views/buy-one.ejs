@@ -25,17 +25,20 @@
       <%= data.description %>
     </div>
     <div class="row">
-      <div class="col-6">
+      <!-- <div class="col-6">
         <button class="btn btn-block btn-warning btn-md text-white m-0">
           <strong class="h3"
             ><span class="fa-sharp fa-solid fa-cart-shopping"></span> Add to cart</strong
           >
         </button>
-      </div>
-      <div class="col-6">
-        <button class="btn btn-block btn-warning btn-md text-white m-0">
-          <strong class="h3"><span class="fas fa-utensils"></span> Buy now</strong>
-        </button>
+      </div> -->
+      <div class="col-12 text-center d-lex justify-content-center">
+        <form action="/create-invoice" method="POST">
+          <input type="hidden" name="productID" value="<%= data._id%>" />
+          <button type="submit" class="btn btn-block btn-warning btn-mdtext-white m-0">
+            <strong class="h3"><span class="fas fa-utensils"></span> Buy now</strong>
+          </button>
+        </form>
       </div>
     </div>
   </div>

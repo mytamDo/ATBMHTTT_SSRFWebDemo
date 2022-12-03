@@ -22,3 +22,4 @@ require('./Revenue');
 require('./Shipper');
 require('./User');
 require('./Client');
+require('./Cart');
