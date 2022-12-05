@@ -164,7 +164,7 @@ exports.registerOnPost = async (req, res) => {
     console.log('Sever Error');
   }
 };
-
+// insertDymmyCartData();
 async function insertDymmyCartData() {
   try {
     await Cart2.insertMany([
@@ -177,67 +177,6 @@ async function insertDymmyCartData() {
     console.log('err', +error);
   }
 }
-// insertDymmyCartData();
-
-// /**
-//  * GET /buyone
-//  * register
-//  */
-// exports.buyOne = async (req, res) => {
-//   try {
-//     const infoErrorsObj = req.flash('infoErrors');
-//     const infoRegisterObj = req.flash('infoRegister');
-//     const productID = req.params.id;
-//     const query = { _id: productID };
-//     await Product.findOne(query).then((data) => {
-//       res.render('buy-one', {
-//         title: 'F&D - Buy One',
-//         data,
-//         infoRegisterObj,
-//         infoErrorsObj,
-//       });
-//     });
-//   } catch (error) {
-//     res.status(500).send({ message: error.message || 'Error Occured' });
-//   }
-// };
-
-// /**
-//  * POST /buyone
-//  * buy one product on post
-//  */
-// exports.buyOneOnPost = async (req, res) => {
-//   try {
-//     const infoErrorsObj = req.flash('infoErrors');
-//     const infoRegisterObj = req.flash('infoRegister');
-//     res.render('buy-one', { title: 'F&D - Buy One', infoErrorsObj, infoRegisterObj });
-//   } catch (error) {
-//     res.status(500).send({ message: error.message || 'Error Occured' });
-//   }
-// };
-
-// /**
-//  * POST /createInvoice
-//  * create Invocie
-//  */
-// exports.createInvoiceSingle = async (req, res) => {
-//   try {
-//     const productID = req.body.productID;
-//     console.log(productID);
-//     const query = { _id: productID };
-//     var product = await Product.findOne({
-//       query,
-//     });
-//     console.log(product);
-//     // req.flash('infoSubmit', 'Invoice has been created.');
-//     res.json({
-//       productID,
-//       product,
-//     });
-//   } catch (error) {
-//     res.status(500).send({ message: error.message || 'Error Occured' });
-//   }
-// };
 
 //insert for the first time
 async function insertDymmyUserData() {
@@ -356,7 +295,7 @@ exports.clientFoods = async (req, res, next) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
     const infoObj = req.flash('infoSubmit');
-    const foods = await Product.find({ type: 'food' });
+    const foods = await Product.find({ type: 'food' }).sort({ _id: -1 });
     res.render('client-foods', {
       title: 'F&D - Client foods',
       layout: './layouts/client',
@@ -376,7 +315,7 @@ exports.clientDrinks = async (req, res, next) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
     const infoObj = req.flash('infoSubmit');
-    const drinks = await Product.find({ type: 'drink' });
+    const drinks = await Product.find({ type: 'drink' }).sort({ _id: -1 });
     res.render('client-drinks', {
       title: 'F&D - Client drinks',
       layout: './layouts/client',
@@ -433,12 +372,6 @@ exports.clientCart = async (req, res) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
-function arrayFilter(arr) {
-  let outputArray = arr.filter(function (v, i, self) {
-    return i == self.indexOf(v);
-  });
-  return outputArray;
-}
 /**
  * Post /add cart
  * add cart by ID on post
@@ -549,8 +482,8 @@ exports.updateCartOnPost = async (req, res) => {
   }
 };
 /**
- * POST /update-cart
- * Update cart on post
+ * GET /remove-cart/:id/:cid
+ * remove item on the cart
  */
 exports.removeItemCart = async (req, res) => {
   try {
@@ -568,13 +501,84 @@ exports.removeItemCart = async (req, res) => {
   }
 };
 
-exports.clientPay = async (req, res) => {
+/**
+ * GET /create-invoice/:id
+ * create-invoice
+ */
+exports.createInvoice = async (req, res) => {
   try {
-    const receipt = 1;
-    res.render('client-pay', { title: 'F&D - Clients Cart', receipt });
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    var token = req.cookies.token;
+    var userID = jwt.verify(token, 'mk');
+    var user = await User.findOne({ _id: userID });
+    var client = await Client.findOne({ email: user.email });
+    const cart_id = req.params.id;
+    const query = { _id: cart_id };
+    const cart = await Cart2.findOne(query);
+    var total = 0;
+    var productList = [];
+    cart.product_obj.forEach((product_id, index) => {});
+    var product_obj = cart.product_obj;
+    for (let i in cart.product_obj) {
+      productList.push(await Product.findOne({ _id: product_obj[i].product_id }));
+      total += productList[i].price * product_obj[i].count;
+    }
+
+    res.render('client-invoice', {
+      title: 'F&D - client-invoice',
+      layout: './layouts/client',
+      productList,
+      total,
+      cart,
+      client,
+      infoObj,
+      infoErrorsObj,
+    });
   } catch (error) {
-    console.log('Error product');
     res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+
+/**
+ * POST /create-invoice/:id
+ * create-invoice on POST
+ */
+exports.createInvoiceOnPost = async (req, res) => {
+  const cartId = req.body.cart_id;
+  url = '/create-invoice/' + cartId;
+  try {
+    const cart = await Cart2.findOne({ _id: cartId });
+    var token = req.cookies.token;
+    var userID = jwt.verify(token, 'mk');
+    var user = await User.findOne({ _id: userID });
+    var product_obj = cart.product_obj;
+    var productList = [];
+    var items = [];
+    for (let i in cart.product_obj) {
+      productList.push(await Product.findOne({ _id: product_obj[i].product_id }));
+      items.push(productList[i].name);
+    }
+    var createTime = req.body.createTime;
+    var value = parseInt(req.body.value);
+    var client = await Client.findOne({ email: user.email });
+    var deliveryAddress = req.body.address;
+    var phoneNumber = req.body.tel;
+    const invoice = Invoice.create({
+      createTime: createTime,
+      items: items,
+      value: value,
+      client: client._id,
+      deliveryAddress: deliveryAddress,
+      phoneNumber: phoneNumber,
+      status: 1,
+    });
+    req.flash('infoSubmit', 'Create invoice successfully');
+    res.redirect(url);
+  } catch (error) {
+    console.log(error);
+    req.flash('infoErrors', 'Fail to create the invoice');
+    res.redirect(url);
   }
 };
 

@@ -37,46 +37,48 @@
     <% } %>
     <div class="row justify-content-center">
       <% if (drinks != '') { %> <% drinks.forEach(function(drink, index){ %>
-      <div class="col-md-6">
-        <div class="card mt-4">
-          <div class="card-body">
-            <div class="row rounded">
-              <div class="col-3">
-                <img
-                  class="img-fluid img-responsive rounded product-image"
-                  id="product"
-                  src="<%= drink.image_url%>"
-                />
-              </div>
-              <div class="col-6 border-left mt-1">
-                <h2><%= drink.name %></h2>
-                <div class="mt-1 mb-1 spec-1"><h3>Type: <%= drink.type %></h3></div>
-                <p class="text-justify h3 para mb-0 text-truncate">
-                  Description: <%= drink.description%>
-                </p>
-              </div>
-              <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                <div class="d-flex flex-row">
-                  <h2 class="mr-1"><%= drink.price %> VND</h2>
+      <div class="col-md-6 category__link">
+        <a style="text-decoration: none" href="/client-product/<%= drink._id %>"
+          ><div class="card mt-4">
+            <div class="card-body">
+              <div class="row rounded">
+                <div class="col-3">
+                  <img
+                    class="img-fluid img-responsive rounded product-image"
+                    id="product"
+                    src="<%= drink.image_url%>"
+                  />
                 </div>
-                <div class="d-flex flex-column mt-4">
-                  <!-- <a href="/admin-update-drink/<%= drink._id %>" class="btn btn-warning btn-sm"
+                <div class="col-6 border-left mt-1">
+                  <h2><%= drink.name %></h2>
+                  <div class="mt-1 mb-1 spec-1"><h3>Type: <%= drink.type %></h3></div>
+                  <p class="text-justify h3 para mb-0 text-truncate">
+                    Description: <%= drink.description%>
+                  </p>
+                </div>
+                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                  <div class="d-flex flex-row">
+                    <h2 class="mr-1"><%= drink.price %> VND</h2>
+                  </div>
+                  <div class="d-flex flex-column mt-4">
+                    <!-- <a href="/admin-update-drink/<%= drink._id %>" class="btn btn-warning btn-sm"
                       >Update</a
                     > -->
-                  <form
-                    action="/add-cart/<%= drink._id %>"
-                    method="POST"
-                    class="d-flex flex-column"
-                  >
-                    <button class="btn btn-outline-danger btn-lg mt-2" type="submit">
-                      <h4>Add to cart</h4>
-                    </button>
-                  </form>
+                    <form
+                      action="/add-cart/<%= drink._id %>"
+                      method="POST"
+                      class="d-flex flex-column"
+                    >
+                      <button class="btn btn-outline-danger btn-lg mt-2" type="submit">
+                        <h4>Add to cart</h4>
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </div></a
+        >
       </div>
 
       <% }) %> <% } else { %>

@@ -110,7 +110,6 @@ router.get(
   fdController.clientProduct
 );
 router.get('/cart', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientCart);
-router.get('/pay/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientPay);
 router.get('/foods', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientFoods);
 router.get('/drinks', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientDrinks);
 router.post(
@@ -130,6 +129,18 @@ router.get(
   checkLogin.checkLogin,
   checkLogin.checkClient,
   fdController.removeItemCart
+);
+router.get(
+  '/create-invoice/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.createInvoice
+);
+router.post(
+  '/create-invoice',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.createInvoiceOnPost
 );
 // router.get('/buy', fdController.buyOne);
 // router.post('/create-invoice', fdController.createInvoiceSingle);

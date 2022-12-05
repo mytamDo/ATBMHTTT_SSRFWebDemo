@@ -4,10 +4,6 @@ const invoiceSchema = new mongoose.Schema({
     type: Date,
     required: 'this fild is required',
   },
-  desciption: {
-    type: String,
-    required: 'this fild is required',
-  },
   items: {
     type: Array,
     required: 'this fild is required',
@@ -29,7 +25,7 @@ const invoiceSchema = new mongoose.Schema({
     required: 'this fild is required',
   },
   status: {
-    //0 - created -> 1 - confirm -> -1 cancle -> 2 admin confirm -> 3 -> delivering -> 4 done
+    //0 - cancle -> 1 - created -> 2 admin confirm -> 3 -> delivering -> 4 done
     type: String,
     required: 'this fild is required',
   },

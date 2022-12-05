@@ -38,9 +38,13 @@
               <div class="content">
                 <div class="price"><%= food.price %></div>
                 <p><%= food.description %></p>
-                <a href="#" class="btn btn-block btn-warning btn-lg text-white"
-                  ><h4>Order now</h4></a
-                >
+                <form action="" id="addf" method="POST">
+                  <a
+                    onclick="submitf('<%= food._id %>')"
+                    class="btn btn-block btn-warning btn-lg text-white"
+                    ><h4>Add to cart</h4></a
+                  >
+                </form>
               </div>
             </div>
           </div>
@@ -69,9 +73,13 @@
               <div class="content">
                 <div class="price"><%= drink.price %></div>
                 <p><%= drink.description %></p>
-                <a href="#" class="btn btn-block btn-warning btn-lg text-white"
-                  ><h4>Order now</h4></a
-                >
+                <form action="" id="addd" method="POST">
+                  <a
+                    onclick="submitd('<%= drink._id %>')"
+                    class="btn btn-block btn-warning btn-lg text-white"
+                    ><h4>Add to cart</h4></a
+                  >
+                </form>
               </div>
             </div>
           </div></a
@@ -83,3 +91,15 @@
   <!-- drinks section ends -->
   <!-- page-body-wrapper ends -->
 </div>
+<script>
+  function submitf(id) {
+    url = '/add-cart/' + id;
+    document.forms['addf'].setAttribute('action', url);
+    document.getElementById('addf').submit();
+  }
+  function submitd(id) {
+    url = '/add-cart/' + id;
+    document.forms['addd'].setAttribute('action', url);
+    document.getElementById('addd').submit();
+  }
+</script>
