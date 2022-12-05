@@ -23,4 +23,3 @@ require('./Shipper');
 require('./User');
 require('./Client');
 require('./Cart2');
-require('./Cart');

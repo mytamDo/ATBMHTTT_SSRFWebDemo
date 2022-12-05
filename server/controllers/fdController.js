@@ -8,7 +8,6 @@ const Product = require('../models/Product');
 const Client = require('../models/Client');
 const Shipper = require('../models/Shipper');
 const Cart2 = require('../models/Cart2');
-const Cart = require('../models/Cart');
 const Invoice = require('../models/Invoice');
 
 /**
@@ -168,7 +167,7 @@ exports.registerOnPost = async (req, res) => {
 
 async function insertDymmyCartData() {
   try {
-    await Cart.insertMany([
+    await Cart2.insertMany([
       {
         product_id: ['a', 'b'],
         client_id: 'abc',
