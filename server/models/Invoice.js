@@ -29,8 +29,12 @@ const invoiceSchema = new mongoose.Schema({
     required: 'this fild is required',
   },
   status: {
+    //0 - created -> 1 - confirm -> -1 cancle -> 2 admin confirm -> 3 -> delivering -> 4 done
     type: String,
     required: 'this fild is required',
+  },
+  note: {
+    type: String,
   },
 });
 module.exports = mongoose.model('invoice', invoiceSchema);

@@ -125,6 +125,12 @@ router.post(
   checkLogin.checkClient,
   fdController.updateCartOnPost
 );
+router.get(
+  '/remove-cart/:id/:cid',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.removeItemCart
+);
 // router.get('/buy', fdController.buyOne);
 // router.post('/create-invoice', fdController.createInvoiceSingle);
 module.exports = router;

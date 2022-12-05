@@ -515,16 +515,19 @@ exports.updateCartOnPost = async (req, res) => {
   try {
     var token = req.cookies.token;
     const product_id = req.params.id;
-    console.log(product_id);
     var userID = jwt.verify(token, 'mk');
     var user = await User.findOne({ _id: userID });
     var client = await Client.findOne({ email: user.email });
     var cart = await Cart2.findOne({ client_id: client._id });
     const count = req.body.quantity;
     // console.log(cart.product_obj);
+    var flag = 0; //if count = 0, flag will on.
     for (let i in cart.product_obj) {
       if (cart.product_obj[i].product_id == product_id) {
         cart.product_obj[i].count = count;
+        if (count == 0) {
+          flag = 1;
+        }
       }
     }
     await Cart2.findOneAndUpdate(
@@ -532,6 +535,31 @@ exports.updateCartOnPost = async (req, res) => {
       {
         product_obj: cart.product_obj,
       }
+    );
+    if (flag == 1) {
+      await Cart2.findOneAndUpdate(
+        { _id: cart._id },
+        { $pull: { product_obj: { product_id: product_id } } }
+      );
+    }
+    res.redirect('/cart');
+  } catch (error) {
+    console.log('Error add cart');
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+/**
+ * POST /update-cart
+ * Update cart on post
+ */
+exports.removeItemCart = async (req, res) => {
+  try {
+    const cartID = req.params.cid;
+    const productID = req.params.id;
+    console.log(cartID, productID);
+    var Cart = await Cart2.findOneAndUpdate(
+      { _id: cartID },
+      { $pull: { product_obj: { product_id: productID } } }
     );
     res.redirect('/cart');
   } catch (error) {

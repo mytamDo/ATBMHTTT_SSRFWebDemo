@@ -24,6 +24,17 @@
         </div>
       </div>
     </div>
+    <% if (infoObj != '') { %>
+    <div class="col-12 alert alert-success alert-dismissible">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <h3><%= infoObj %></h3>
+    </div>
+    <% } %> <% if (infoErrorsObj != '') { %>
+    <div class="col-12 alert alert-danger alert-dismissible">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <h3><%= infoErrorsObj %></h3>
+    </div>
+    <% } %>
     <div class="row justify-content-center">
       <% if (drinks != '') { %> <% drinks.forEach(function(drink, index){ %>
       <div class="col-md-6">
