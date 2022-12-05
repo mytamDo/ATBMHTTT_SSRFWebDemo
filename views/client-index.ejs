@@ -28,7 +28,7 @@
     <div class="box-container">
       <div class="row">
         <% if ( foods != '') { %> <% foods.forEach(function(food, index){ %>
-        <a href="/product/<%= food._id %>">
+        <a href="/client-product/<%= food._id %>">
           <div class="col-md-3 category__link">
             <div class="box" data-aos="fade-up">
               <div class="image">
@@ -59,7 +59,7 @@
     <div class="box-container">
       <div class="row">
         <% if ( drinks != '') { %> <% drinks.forEach(function(drink, index){ %>
-        <a href="/product/<%= drink._id %>"
+        <a href="/client-product/<%= drink._id %>"
           ><div class="col-md-3 category__link">
             <div class="box" data-aos="fade-up">
               <div class="image">

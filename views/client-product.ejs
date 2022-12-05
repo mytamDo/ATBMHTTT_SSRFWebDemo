@@ -25,10 +25,21 @@
       <%= data.description %>
     </div>
     <div class="row">
-      <div class="col-12">
-        <a href="/must-login" class="btn btn-block btn-warning btn-md text-white m-0">
-          <strong class="h3"><span class="fas fa-utensils"></span> Buy now</strong>
-        </a>
+      <div class="col-6">
+        <form action="/add-cart/<%= data._id %>" method="post">
+          <button class="btn btn-block btn-warning btn-md text-white m-0" type="submit">
+            <strong class="h3"
+              ><span class="fa-sharp fa-solid fa-cart-shopping"></span> Add to cart</strong
+            >
+          </button>
+        </form>
+      </div>
+      <div class="col-6">
+        <form action="/add-cart/<%= data._id %>" method="post">
+          <button class="btn btn-block btn-warning btn-md text-white m-0">
+            <strong class="h3"><span class="fas fa-utensils"></span> Buy now</strong>
+          </button>
+        </form>
       </div>
     </div>
   </div>

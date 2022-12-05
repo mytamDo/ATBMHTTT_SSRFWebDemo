@@ -11,6 +11,7 @@ router.post('/login', fdController.loginOnPost);
 router.get('/register', fdController.register);
 router.post('/register', fdController.registerOnPost);
 router.get('/must-login', fdController.mustLogin);
+router.get('/product/:id', fdController.product);
 
 //Shipper router
 router.get('/shipper', checkLogin.checkShipper, fdController.client);
@@ -102,15 +103,27 @@ router.get(
 //Client router
 router.get('/client', checkLogin.checkLogin, checkLogin.checkClient, fdController.client);
 router.get('/info', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientInfo);
-router.get('/product/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.product);
+router.get(
+  '/client-product/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.clientProduct
+);
 router.get('/cart', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientCart);
 router.get('/pay/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientPay);
 router.get('/foods', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientFoods);
+router.get('/drinks', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientDrinks);
 router.post(
   '/add-cart/:id',
   checkLogin.checkLogin,
   checkLogin.checkClient,
   fdController.addCartOnPost
+);
+router.post(
+  '/update-cart/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.updateCartOnPost
 );
 // router.get('/buy', fdController.buyOne);
 // router.post('/create-invoice', fdController.createInvoiceSingle);

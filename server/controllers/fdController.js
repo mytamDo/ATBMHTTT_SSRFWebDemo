@@ -7,6 +7,7 @@ const User = require('../models/User');
 const Product = require('../models/Product');
 const Client = require('../models/Client');
 const Shipper = require('../models/Shipper');
+const Cart2 = require('../models/Cart2');
 const Cart = require('../models/Cart');
 const Invoice = require('../models/Invoice');
 
@@ -25,7 +26,25 @@ exports.homepage = async (req, res) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
-
+/**
+ * GET / product
+ * product
+ */
+exports.product = async (req, res) => {
+  try {
+    const productID = req.params.id;
+    const query = { _id: productID };
+    await Product.findOne(query).then((data) => {
+      res.render('product', {
+        title: 'F&D - Clients Info',
+        data,
+      });
+    });
+  } catch (error) {
+    console.log('Error product');
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
 /**
  * GET /login
  * login
@@ -146,17 +165,6 @@ exports.registerOnPost = async (req, res) => {
     console.log('Sever Error');
   }
 };
-// db.animal.update(
-//   { "_id": "100" },
-//   {
-//       $push: {
-//           animalArray: {
-//               $each: ['cow'],
-//               $position: 0
-//           }
-//       }
-//   }
-// );
 
 async function insertDymmyCartData() {
   try {
@@ -171,43 +179,6 @@ async function insertDymmyCartData() {
   }
 }
 // insertDymmyCartData();
-
-exports.addCartOnPost = async (req, res) => {
-  var token = req.cookies.token;
-  var userID = jwt.verify(token, 'mk');
-  var user = await User.findOne({ _id: userID });
-  var client = await Client.findOne({ email: user.email });
-  var productID = req.params.id;
-  console.log(client._id);
-  console.log(productID);
-  const cart = await Cart.findOneAndUpdate(
-    {
-      client_id: client._id,
-    },
-    {
-      $push: {
-        product_id: productID,
-      },
-    }
-  );
-
-  if (cart != null) {
-    console.log(cart);
-  } else {
-    try {
-      await Cart.insertMany([
-        {
-          product_id: productID,
-          client_id: client._id,
-        },
-      ]);
-    } catch (error) {
-      console.log('err', +error);
-    }
-  }
-
-  res.redirect('/foods');
-};
 
 // /**
 //  * GET /buyone
@@ -314,7 +285,12 @@ exports.client = async (req, res) => {
     const foods = await Product.find({ type: 'food' }).sort({ _id: -1 }).limit(limitNumber);
     const drinks = await Product.find({ type: 'drink' }).sort({ _id: -1 }).limit(limitNumber);
     // const users = await User.find({});
-    res.render('index', { layout: './layouts/client', title: 'F&D - Clients', foods, drinks });
+    res.render('client-index', {
+      layout: './layouts/client',
+      title: 'F&D - Clients',
+      foods,
+      drinks,
+    });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
@@ -356,12 +332,13 @@ exports.clientInfo = async (req, res) => {
  * GET /product
  * product view
  */
-exports.product = async (req, res) => {
+exports.clientProduct = async (req, res) => {
   try {
     const productID = req.params.id;
     const query = { _id: productID };
     await Product.findOne(query).then((data) => {
-      res.render('product', {
+      res.render('client-product', {
+        layout: './layouts/client',
         title: 'F&D - Clients Info',
         data,
       });
@@ -373,16 +350,40 @@ exports.product = async (req, res) => {
 };
 
 /**
- * GET /client/foods
+ * GET /foods
  * get client with foods
  */
 exports.clientFoods = async (req, res, next) => {
   try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
     const foods = await Product.find({ type: 'food' });
     res.render('client-foods', {
       title: 'F&D - Client foods',
       layout: './layouts/client',
       foods,
+      infoErrorsObj,
+      infoObj,
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+/**
+ * GET /drinks
+ * get client with foods
+ */
+exports.clientDrinks = async (req, res, next) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    const drinks = await Product.find({ type: 'drink' });
+    res.render('client-drinks', {
+      title: 'F&D - Client drinks',
+      layout: './layouts/client',
+      drinks,
+      infoErrorsObj,
+      infoObj,
     });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
@@ -395,48 +396,39 @@ exports.clientFoods = async (req, res, next) => {
  */
 exports.clientCart = async (req, res) => {
   try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
     var token = req.cookies.token;
     var userID = jwt.verify(token, 'mk');
     var user = await User.findOne({ _id: userID });
     var client = await Client.findOne({ email: user.email });
     const query = { client_id: client._id };
-    const cart = await Cart.findOne(query);
-    const productCart = [];
-    for (var i in cart.product_id) {
-      productCart.push(cart.product_id[i]);
-    }
-    const productCartFilled = arrayFilter(productCart);
-
-    var dpProduct = [];
-    for (var i in productCartFilled) {
-      dpProduct.push({
-        product: productCartFilled[i],
-        count: 1,
+    const cart = await Cart2.findOne(query);
+    const productList = [];
+    if (cart) {
+      for (let i in cart.product_obj) {
+        productList.push(await Product.findOne({ _id: cart.product_obj[i].product_id }));
+      }
+      // console.log(productList);
+      let total = 0;
+      productList.forEach(function (product, index) {
+        total += product.price * cart.product_obj[index].count;
+      });
+      res.render('client-cart', {
+        layout: './layouts/client',
+        title: 'F&D - Clients Cart',
+        productList,
+        cart,
+        total,
+      });
+    } else {
+      res.render('client-cart', {
+        layout: './layouts/client',
+        title: 'F&D - Clients Cart',
+        total: 0,
+        productList,
       });
     }
-    for (let i in productCartFilled) {
-      let count = 1;
-      for (let j in cart.product_id) {
-        if (productCart[j] == productCartFilled[i]) {
-          dpProduct[i] = {
-            product: productCartFilled[i],
-            count: count,
-          };
-          count++;
-        }
-      }
-    }
-    const productList = [];
-    var total = 0;
-    for (let i in dpProduct) {
-      productList.push(await Product.findOne({ _id: dpProduct[i].product }));
-    }
-    productList.forEach(function (product, index) {
-      total += product.price * dpProduct[index].count;
-    });
-    console.log(total);
-    // for(i in cart.)
-    res.render('client-cart', { title: 'F&D - Clients Cart', dpProduct, productList, total });
   } catch (error) {
     console.log('Error product');
     res.status(500).send({ message: error.message || 'Error Occured' });
@@ -448,15 +440,107 @@ function arrayFilter(arr) {
   });
   return outputArray;
 }
-
-exports.addCart = async (req, res) => {
+/**
+ * Post /add cart
+ * add cart by ID on post
+ */
+exports.addCartOnPost = async (req, res) => {
   try {
-    // res.redirect
+    var token = req.cookies.token;
+    var userID = jwt.verify(token, 'mk');
+    var user = await User.findOne({ _id: userID });
+    var client = await Client.findOne({ email: user.email });
+    var productID = req.params.id;
+    var product = await Product.findOne({ _id: productID });
+    const count = 0;
+    const tempCart = await Cart2.findOne({
+      client_id: client._id,
+    });
+
+    if (tempCart == null) {
+      const cart = new Cart2({
+        client_id: client._id,
+        product_obj: {
+          product_id: productID,
+          count: 1,
+        },
+      });
+      await cart.save();
+    } else {
+      let product_obj = tempCart.product_obj;
+      let flag = 0;
+      product_obj.forEach((product, index) => {
+        if (product.product_id == productID) {
+          flag = 1;
+          product_obj[index].count = parseInt(product_obj[index].count) + 1;
+        }
+      });
+      await Cart2.findOneAndUpdate(
+        { client_id: client._id },
+        {
+          product_obj: product_obj,
+        }
+      );
+      if (flag == 0) {
+        await Cart2.findOneAndUpdate(
+          { client_id: client._id },
+          {
+            $push: {
+              product_obj: {
+                $each: [{ product_id: productID, count: 1 }],
+                $position: 0,
+              },
+            },
+          }
+        );
+      } else {
+      }
+    }
+    req.flash('infoSubmit', 'cart has been updated.');
+    if (product.type == 'food') {
+      res.redirect('/foods');
+    } else {
+      res.redirect('/drinks');
+    }
+  } catch (error) {
+    console.log(error);
+    req.flash('infoErrors', 'Fail to update');
+    res.redirect(url);
+  }
+};
+/**
+ * POST /update-cart
+ * Update cart on post
+ */
+exports.updateCartOnPost = async (req, res) => {
+  try {
+    var token = req.cookies.token;
+    const product_id = req.params.id;
+    console.log(product_id);
+    var userID = jwt.verify(token, 'mk');
+    var user = await User.findOne({ _id: userID });
+    var client = await Client.findOne({ email: user.email });
+    var cart = await Cart2.findOne({ client_id: client._id });
+    const count = req.body.quantity;
+    // console.log(cart.product_obj);
+    for (let i in cart.product_obj) {
+      if (cart.product_obj[i].product_id == product_id) {
+        cart.product_obj[i].count = count;
+      }
+    }
+    await Cart2.findOneAndUpdate(
+      { client_id: client._id },
+      {
+        product_obj: cart.product_obj,
+      }
+    );
+    res.redirect('/cart');
   } catch (error) {
     console.log('Error add cart');
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
+
 exports.clientPay = async (req, res) => {
   try {
     const receipt = 1;
@@ -480,6 +564,7 @@ exports.clientPay = async (req, res) => {
 //   }
 // };
 
+//admin
 /**
  * GET /admin-dashboard
  * admin view
@@ -694,9 +779,11 @@ exports.adminUpdateFoodOnPost = async (req, res) => {
       image_url: result.secure_url,
       cloudinary_id: result.public_id,
     });
+    req.flash('infoSubmit', 'Product has been updated.');
     res.redirect(url);
   } catch (error) {
     console.log(error);
+    req.flash('infoErrors', 'Fail to update');
     res.redirect(url);
   }
 };
@@ -722,9 +809,11 @@ exports.adminUpdateDrinkOnPost = async (req, res) => {
       image_url: result.secure_url,
       cloudinary_id: result.public_id,
     });
+    req.flash('infoSubmit', 'Product has been updated.');
     res.redirect(url);
   } catch (error) {
     console.log(error);
+    req.flash('infoErrors', 'Fail to update');
     res.redirect(url);
   }
 };
