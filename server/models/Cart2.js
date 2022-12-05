@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const cartSchema = new mongoose.Schema({
+const cartSchema2 = new mongoose.Schema({
   client_id: {
     type: String,
     required: 'this fild is required',
@@ -11,4 +11,4 @@ const cartSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('cart2', cartSchema);
+module.exports = mongoose.model('cart2', cartSchema2);
