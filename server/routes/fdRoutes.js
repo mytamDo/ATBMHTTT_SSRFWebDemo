@@ -142,6 +142,8 @@ router.post(
   checkLogin.checkClient,
   fdController.createInvoiceOnPost
 );
+router.get('/invoice/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.invoice);
+router.get('/cancel/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.cancelOrder);
 // router.get('/buy', fdController.buyOne);
 // router.post('/create-invoice', fdController.createInvoiceSingle);
 module.exports = router;

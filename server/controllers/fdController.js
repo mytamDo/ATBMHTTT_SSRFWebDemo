@@ -242,23 +242,31 @@ exports.clientInfo = async (req, res) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
     const infoLoginObj = req.flash('infoLogin');
+    const infoObj = req.flash('infoSubmit');
+
     // console.log(req.data);
     const token = req.cookies.token;
     const clientID = jwt.verify(token, 'mk');
     var user = await User.findOne({
       _id: clientID,
     });
-    var client = await Client.findOne({
+    var data = await Client.findOne({
       email: user.email,
-    }).then((data) => {
+    });
+    var status = [];
+    if (data) {
+      var invoices = await Invoice.find({ client: data._id }).sort({ _id: -1 });
+
       res.render('client-info', {
         layout: './layouts/client',
         title: 'F&D - Clients Info',
         data,
+        invoices,
         infoErrorsObj,
         infoLoginObj,
+        infoObj,
       });
-    });
+    }
   } catch (error) {
     res
       .status(500)
@@ -526,7 +534,7 @@ exports.createInvoice = async (req, res) => {
     }
 
     res.render('client-invoice', {
-      title: 'F&D - client-invoice',
+      title: 'F&D - client-history-invoice',
       layout: './layouts/client',
       productList,
       total,
@@ -557,7 +565,12 @@ exports.createInvoiceOnPost = async (req, res) => {
     var items = [];
     for (let i in cart.product_obj) {
       productList.push(await Product.findOne({ _id: product_obj[i].product_id }));
-      items.push(productList[i].name);
+      items.push({
+        name: productList[i].name,
+        count: product_obj[i].count,
+        price: productList[i].price,
+      });
+      console.log(items[i]);
     }
     var createTime = req.body.createTime;
     var value = parseInt(req.body.value);
@@ -582,6 +595,60 @@ exports.createInvoiceOnPost = async (req, res) => {
   }
 };
 
+/**
+ * get/history-invoice
+ * create-invoice on POST
+ */
+exports.invoice = async (req, res) => {
+  try {
+    const invoice_id = req.params.id;
+    const token = req.cookies.token;
+    const userID = jwt.verify(token, 'mk');
+    const user = await User.findOne({ _id: userID });
+    const client = await Client.findOne({ email: user.email });
+    var invoice = await Invoice.findOne({ _id: invoice_id });
+    var status = getstatus(invoice.status);
+    res.render('client-view-invoice', {
+      title: 'F&D - client-invoice',
+      layout: './layouts/client',
+      invoice,
+      client,
+      status,
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+
+function getstatus(sttnum) {
+  if (sttnum == 1) {
+    return 'Created, Waiting for confirmation';
+  } else if (sttnum == 2) {
+    return 'Confirmed, Waiting for getting the products';
+  } else if (sttnum == 3) {
+    return 'Got the products, waiting for delivery';
+  } else if (sttnum == 4) {
+    return 'Order is done, thank you for using our service';
+  } else {
+    return 'Canceled';
+  }
+}
+
+/**
+ * POST /cancle/:id
+ * cancle order on POST
+ */
+exports.cancelOrder = async (req, res) => {
+  try {
+    await Invoice.findOneAndUpdate({ _id: req.params.id }, { status: 0 });
+    req.flash('infoSubmit', 'Cancel successfully');
+    res.redirect('/info');
+  } catch (error) {
+    console.log(error);
+    req.flash('infoErrors', 'Fail to cancel');
+    res.redirect('/info');
+  }
+};
 // /**
 //  * GET /shiper
 //  * clients view
