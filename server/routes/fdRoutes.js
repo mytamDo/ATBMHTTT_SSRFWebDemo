@@ -142,6 +142,12 @@ router.get(
   checkLogin.checkAdmin,
   fdController.adminViewCanceledInvoices
 );
+router.get(
+  '/admin-view-invoice/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminViewInvoice
+);
 
 //Client router
 router.get('/client', checkLogin.checkLogin, checkLogin.checkClient, fdController.client);
@@ -187,6 +193,7 @@ router.post(
 );
 router.get('/invoice/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.invoice);
 router.get('/cancel/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.cancelOrder);
+
 // router.get('/buy', fdController.buyOne);
 // router.post('/create-invoice', fdController.createInvoiceSingle);
 module.exports = router;

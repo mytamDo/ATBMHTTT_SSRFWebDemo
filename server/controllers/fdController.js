@@ -25,6 +25,7 @@ exports.homepage = async (req, res) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
+
 /**
  * GET / product
  * product
@@ -44,6 +45,7 @@ exports.product = async (req, res) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
+
 /**
  * GET /login
  * login
@@ -57,6 +59,7 @@ exports.login = async (req, res) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
+
 /**
  * POST/login
  * login on post
@@ -164,6 +167,7 @@ exports.registerOnPost = async (req, res) => {
     console.log('Sever Error');
   }
 };
+
 // insertDymmyCartData();
 async function insertDymmyCartData() {
   try {
@@ -177,7 +181,6 @@ async function insertDymmyCartData() {
     console.log('err', +error);
   }
 }
-
 //insert for the first time
 async function insertDymmyUserData() {
   try {
@@ -213,6 +216,7 @@ async function insertDymmyClientData() {
 // insertDymmyClientData();
 
 // user view
+
 /**
  * GET /clients
  * clients view
@@ -706,6 +710,7 @@ exports.adminFoods = async (req, res, next) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
+
 /**
  * GET /admin-info
  * admin info
@@ -736,6 +741,7 @@ exports.adminAddFood = async (req, res, next) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
+
 /**
  * GET /admin-add-drink
  * admin add drink
@@ -760,7 +766,6 @@ exports.adminAddDrink = async (req, res, next) => {
  * POST/admin-add-food
  * admin add food on post
  */
-
 exports.adminAddFoodOnPost = async (req, res) => {
   try {
     const result = await cloudinary.uploader.upload(req.file.path);
@@ -786,7 +791,6 @@ exports.adminAddFoodOnPost = async (req, res) => {
  * POST/admin-add-drink
  * admin add drink on post
  */
-
 exports.adminAddDrinkOnPost = async (req, res) => {
   try {
     const result = await cloudinary.uploader.upload(req.file.path);
@@ -812,7 +816,6 @@ exports.adminAddDrinkOnPost = async (req, res) => {
  * GET/update-food
  * Update food
  */
-
 exports.adminUpdateFood = async (req, res) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
@@ -836,7 +839,6 @@ exports.adminUpdateFood = async (req, res) => {
  * GET/update-drink
  * Update drink
  */
-
 exports.adminUpdateDrink = async (req, res) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
@@ -1109,6 +1111,7 @@ exports.adminViewConfirmedInvoices = async (req, res) => {
     res.status(500).send({ mesage: error.message || 'Error Occured' });
   }
 };
+
 /**
  * GET/admin-got-invoices
  * Admin view got items invoices
@@ -1125,6 +1128,7 @@ exports.adminViewGotItemsInvoices = async (req, res) => {
     for (i in invoices) {
       client.push(await Client.findOne({ _id: invoices[i].client }));
     }
+    var cancel = 0;
     res.render('admin-invoices', {
       layout: './layouts/admin',
       title: 'F&D - Admin dashboard',
@@ -1139,6 +1143,7 @@ exports.adminViewGotItemsInvoices = async (req, res) => {
     res.status(500).send({ mesage: error.message || 'Error Occured' });
   }
 };
+
 /**
  * GET/admin-done-invoices
  * Admin view done invoices
@@ -1202,6 +1207,45 @@ exports.adminViewCanceledInvoices = async (req, res) => {
     res.status(500).send({ mesage: error.message || 'Error Occured' });
   }
 };
+
+/**
+ * GET/admin-canceled-invoices
+ * Admin view canceled invoices
+ */
+exports.adminViewInvoice = async (req, res) => {
+  try {
+    const invoice_id = req.params.id;
+    var invoice = await Invoice.findOne({ _id: invoice_id });
+    const client = await Client.findOne({ _id: invoice.client });
+    var staNum = invoice.status;
+    var status = getstatusAd(invoice.status);
+    console.log(invoice, client);
+    res.render('admin-invoice', {
+      title: 'F&D - client-invoice',
+      layout: './layouts/admin',
+      invoice,
+      staNum,
+      client,
+      status,
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+function getstatusAd(sttnum) {
+  if (sttnum == 1) {
+    return 'Created';
+  } else if (sttnum == 2) {
+    return 'Confirmed';
+  } else if (sttnum == 3) {
+    return 'Got the products';
+  } else if (sttnum == 4) {
+    return 'Done';
+  } else {
+    return 'Canceled';
+  }
+}
+
 // error view
 /**
  * GET /must-login

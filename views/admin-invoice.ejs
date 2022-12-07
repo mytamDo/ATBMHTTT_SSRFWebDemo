@@ -1,0 +1,45 @@
+<div class="content-body">
+  <!-- row -->
+  <div class="container-fluid d-flex justify-content-center">
+    <div class="col-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="row rounded">
+            <% if(invoice != ''){ %>
+            <div class="row">
+              <div class="col-12"><h2>Client Name: <%= client.name %></h2></div>
+              <div class="col-12"><h4>Created time: <%= invoice.createTime %></h4></div>
+              <div class="col-12"><h4>Address: <%= invoice.deliveryAddress %></h4></div>
+              <div class="col-12"><h4>Tel: <%= invoice.phoneNumber %></h4></div>
+              <div class="col-12"><h4>Status: <%= status %></h4></div>
+              <div class="col-12"><h4>Note: <%= invoice.note%></h4></div>
+              <div class="col-12"><h3>Items:</h3></div>
+            </div>
+
+            <table class="table table-sm table-striped table-bordered border-primary">
+              <tr>
+                <th style="width: 10%">No.</th>
+                <th style="width: 50%">Name</th>
+                <th style="width: 30%">Price</th>
+                <th style="width: 10%">Quantity</th>
+              </tr>
+              <% invoice.items.forEach((item, index)=>{%>
+              <tr>
+                <td><h4><%= parseInt(index) + 1 %></h4></td>
+                <td><h4><%= item.name %></h4></td>
+                <td><h4><%= item.price %></h4></td>
+                <td><h4><%= item.count %></h4></td>
+              </tr>
+              <% }) %>
+              <tr>
+                <td colspan="2"><h2>Total:</h2></td>
+                <td colspan="2" class="text-right"><h2><%= invoice.value %></h2></td>
+              </tr>
+            </table>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
