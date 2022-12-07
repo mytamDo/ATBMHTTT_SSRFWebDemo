@@ -977,6 +977,231 @@ exports.adminShowStaffList = async (req, res) => {
   }
 };
 
+/**
+ * GET/admin-today-invoices
+ * Admin view today invoices
+ */
+exports.adminViewTodayInvoices = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    var token = req.cookies.token;
+    var userID = jwt.verify(token, 'mk');
+    var user = await User.findOne({ _id: userID });
+    var client = [];
+    const start = new Date();
+    const end = new Date();
+    console.log(start);
+    start.setHours(0, 0, 0, 0);
+    end.setHours(23, 59, 59, 999);
+    const invoices = await Invoice.find({ createTime: { $gte: start, $lt: end } }).sort({ _id: 1 });
+    for (i in invoices) {
+      client.push(await Client.findOne({ _id: invoices[i].client }));
+    }
+    const cancel = 0;
+    res.render('admin-invoices', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      invoices,
+      client,
+      cancel,
+      infoErrorsObj,
+      infoObj,
+    });
+  } catch (error) {
+    console.log('wrong view?');
+    res.status(500).send({ mesage: error.message || 'Error Occured' });
+  }
+};
+
+/**
+ * GET/admin-all-invoices
+ * Admin view all invoices
+ */
+exports.adminViewAllInvoices = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    var token = req.cookies.token;
+    var userID = jwt.verify(token, 'mk');
+    var user = await User.findOne({ _id: userID });
+    var client = [];
+    const invoices = await Invoice.find({}).sort({ _id: 1 });
+    for (i in invoices) {
+      client.push(await Client.findOne({ _id: invoices[i].client }));
+    }
+    const cancel = 0;
+    res.render('admin-invoices', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      invoices,
+      client,
+      cancel,
+      infoErrorsObj,
+      infoObj,
+    });
+  } catch (error) {
+    console.log('wrong view?');
+    res.status(500).send({ mesage: error.message || 'Error Occured' });
+  }
+};
+
+/**
+ * GET/admin-ordered-invoices
+ * Admin view ordered invoices
+ */
+exports.adminViewOrderedInvoices = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    var token = req.cookies.token;
+    var userID = jwt.verify(token, 'mk');
+    var user = await User.findOne({ _id: userID });
+    var client = [];
+    const invoices = await Invoice.find({ status: 1 }).sort({ _id: 1 });
+    for (i in invoices) {
+      client.push(await Client.findOne({ _id: invoices[i].client }));
+    }
+    const cancel = 0;
+    res.render('admin-invoices', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      invoices,
+      client,
+      cancel,
+      infoErrorsObj,
+      infoObj,
+    });
+  } catch (error) {
+    console.log('wrong view?');
+    res.status(500).send({ mesage: error.message || 'Error Occured' });
+  }
+};
+
+/**
+ * GET/admin-confiermed-invoices
+ * Admin view confiermed invoices
+ */
+exports.adminViewConfirmedInvoices = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    var token = req.cookies.token;
+    var userID = jwt.verify(token, 'mk');
+    var user = await User.findOne({ _id: userID });
+    var client = [];
+    const invoices = await Invoice.find({ status: 2 }).sort({ _id: 1 });
+    for (i in invoices) {
+      client.push(await Client.findOne({ _id: invoices[i].client }));
+    }
+    const cancel = 0;
+    res.render('admin-invoices', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      invoices,
+      client,
+      cancel,
+      infoErrorsObj,
+      infoObj,
+    });
+  } catch (error) {
+    console.log('wrong view?');
+    res.status(500).send({ mesage: error.message || 'Error Occured' });
+  }
+};
+/**
+ * GET/admin-got-invoices
+ * Admin view got items invoices
+ */
+exports.adminViewGotItemsInvoices = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    var token = req.cookies.token;
+    var userID = jwt.verify(token, 'mk');
+    var user = await User.findOne({ _id: userID });
+    var client = [];
+    const invoices = await Invoice.find({ status: 3 }).sort({ _id: 1 });
+    for (i in invoices) {
+      client.push(await Client.findOne({ _id: invoices[i].client }));
+    }
+    res.render('admin-invoices', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      invoices,
+      client,
+      cancel,
+      infoErrorsObj,
+      infoObj,
+    });
+  } catch (error) {
+    console.log('wrong view?');
+    res.status(500).send({ mesage: error.message || 'Error Occured' });
+  }
+};
+/**
+ * GET/admin-done-invoices
+ * Admin view done invoices
+ */
+exports.adminViewDoneInvoices = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    var token = req.cookies.token;
+    var userID = jwt.verify(token, 'mk');
+    var user = await User.findOne({ _id: userID });
+    var client = [];
+    const cancel = 0;
+    const invoices = await Invoice.find({ status: 4 }).sort({ _id: 1 });
+    for (i in invoices) {
+      client.push(await Client.findOne({ _id: invoices[i].client }));
+    }
+    res.render('admin-invoices', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      invoices,
+      client,
+      infoErrorsObj,
+      cancel,
+      infoObj,
+    });
+  } catch (error) {
+    console.log('wrong view?');
+    res.status(500).send({ mesage: error.message || 'Error Occured' });
+  }
+};
+
+/**
+ * GET/admin-canceled-invoices
+ * Admin view canceled invoices
+ */
+exports.adminViewCanceledInvoices = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    var token = req.cookies.token;
+    var userID = jwt.verify(token, 'mk');
+    var user = await User.findOne({ _id: userID });
+    var client = [];
+    const invoices = await Invoice.find({ status: 0 }).sort({ _id: 1 });
+    for (i in invoices) {
+      client.push(await Client.findOne({ _id: invoices[i].client }));
+    }
+    const cancel = 1;
+    res.render('admin-invoices', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+      invoices,
+      client,
+      infoErrorsObj,
+      infoObj,
+      cancel,
+    });
+  } catch (error) {
+    console.log('wrong view?');
+    res.status(500).send({ mesage: error.message || 'Error Occured' });
+  }
+};
 // error view
 /**
  * GET /must-login

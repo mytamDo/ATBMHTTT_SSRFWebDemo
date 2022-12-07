@@ -100,6 +100,49 @@ router.get(
   checkLogin.checkAdmin,
   fdController.adminShowStaffList
 );
+router.get(
+  '/admin-today-invoices',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminViewTodayInvoices
+);
+router.get(
+  '/admin-all-invoices',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminViewAllInvoices
+);
+router.get(
+  '/admin-ordered-invoices',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminViewOrderedInvoices
+);
+router.get(
+  '/admin-confirmed-invoices',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminViewConfirmedInvoices
+);
+router.get(
+  '/admin-got-invoices',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminViewGotItemsInvoices
+);
+router.get(
+  '/admin-done-invoices',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminViewDoneInvoices
+);
+router.get(
+  '/admin-canceled-invoices',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminViewCanceledInvoices
+);
+
 //Client router
 router.get('/client', checkLogin.checkLogin, checkLogin.checkClient, fdController.client);
 router.get('/info', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientInfo);
