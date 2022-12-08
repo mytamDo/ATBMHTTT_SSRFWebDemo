@@ -23,11 +23,26 @@ router.get(
   checkLogin.checkAdmin,
   fdController.adminDashboard
 );
-router.get('/admin-drinks', checkLogin.checkLogin, checkLogin.checkAdmin, fdController.adminDrinks);
-router.get('/admin-foods', checkLogin.checkLogin, checkLogin.checkAdmin, fdController.adminFoods);
+router.get(
+  '/admin-drinks',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminDrinks
+);
+router.get(
+  '/admin-foods',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminFoods
+);
 
 //food
-router.get('/admin-info', checkLogin.checkLogin, checkLogin.checkAdmin, fdController.adminInfo);
+router.get(
+  '/admin-info',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminInfo
+);
 router.get(
   '/admin-add-food',
   checkLogin.checkLogin,
@@ -101,6 +116,18 @@ router.get(
   fdController.adminShowStaffList
 );
 router.get(
+  '/admin-add-staff',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminAddStaff
+);
+router.post(
+  '/admin-add-staff',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminAddStaffOnPost
+);
+router.get(
   '/admin-today-invoices',
   checkLogin.checkLogin,
   checkLogin.checkAdmin,
@@ -148,19 +175,56 @@ router.get(
   checkLogin.checkAdmin,
   fdController.adminViewInvoice
 );
+router.get(
+  '/admin-delete-canceled-invoices',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminDeleteCanceledInvoice
+);
+router.post(
+  '/arrange-staff/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminArangeStaffOnPost
+);
 
 //Client router
-router.get('/client', checkLogin.checkLogin, checkLogin.checkClient, fdController.client);
-router.get('/info', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientInfo);
+router.get(
+  '/client',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.client
+);
+router.get(
+  '/info',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.clientInfo
+);
 router.get(
   '/client-product/:id',
   checkLogin.checkLogin,
   checkLogin.checkClient,
   fdController.clientProduct
 );
-router.get('/cart', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientCart);
-router.get('/foods', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientFoods);
-router.get('/drinks', checkLogin.checkLogin, checkLogin.checkClient, fdController.clientDrinks);
+router.get(
+  '/cart',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.clientCart
+);
+router.get(
+  '/foods',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.clientFoods
+);
+router.get(
+  '/drinks',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.clientDrinks
+);
 router.post(
   '/add-cart/:id',
   checkLogin.checkLogin,
@@ -191,8 +255,18 @@ router.post(
   checkLogin.checkClient,
   fdController.createInvoiceOnPost
 );
-router.get('/invoice/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.invoice);
-router.get('/cancel/:id', checkLogin.checkLogin, checkLogin.checkClient, fdController.cancelOrder);
+router.get(
+  '/invoice/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.invoice
+);
+router.get(
+  '/cancel/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.cancelOrder
+);
 
 // router.get('/buy', fdController.buyOne);
 // router.post('/create-invoice', fdController.createInvoiceSingle);

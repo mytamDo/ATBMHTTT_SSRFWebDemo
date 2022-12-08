@@ -8,15 +8,47 @@
             <% if(invoice != ''){ %>
             <div class="row">
               <div class="col-12"><h2>Client Name: <%= client.name %></h2></div>
-              <div class="col-12"><h4>Created time: <%= invoice.createTime %></h4></div>
-              <div class="col-12"><h4>Address: <%= invoice.deliveryAddress %></h4></div>
+              <div class="col-12">
+                <h4>Created time: <%= invoice.createTime %></h4>
+              </div>
+              <div class="col-12">
+                <h4>Address: <%= invoice.deliveryAddress %></h4>
+              </div>
               <div class="col-12"><h4>Tel: <%= invoice.phoneNumber %></h4></div>
               <div class="col-12"><h4>Status: <%= status %></h4></div>
+              <div class="col-12">
+                <form action="/arrange-staff/<%= invoice._id %>" method="post">
+                  <div class="row justify-content-center">
+                    <% if(staNum == 1){ %> <% if(staff!=''){ %>
+                    <div class="col-8">
+                      <label for="staff">Choose an employee:</label>
+                      <select name="staff" id="cars" style="width: 50%">
+                        <% staff.forEach((employee, index)=>{ %>
+
+                        <option value="<%= employee._id %>">
+                          <%= employee.name %>
+                        </option>
+
+                        <%})%>
+                      </select>
+                      <% } %>
+                    </div>
+                    <div class="col-4">
+                      <button type="submit" class="btn btn-sm btn-primary">
+                        Arrange employee
+                      </button>
+                    </div>
+                    <% } %>
+                  </div>
+                </form>
+              </div>
               <div class="col-12"><h4>Note: <%= invoice.note%></h4></div>
               <div class="col-12"><h3>Items:</h3></div>
             </div>
 
-            <table class="table table-sm table-striped table-bordered border-primary">
+            <table
+              class="table table-sm table-striped table-bordered border-primary"
+            >
               <tr>
                 <th style="width: 10%">No.</th>
                 <th style="width: 50%">Name</th>
@@ -33,7 +65,9 @@
               <% }) %>
               <tr>
                 <td colspan="2"><h2>Total:</h2></td>
-                <td colspan="2" class="text-right"><h2><%= invoice.value %></h2></td>
+                <td colspan="2" class="text-right">
+                  <h2><%= invoice.value %></h2>
+                </td>
               </tr>
             </table>
             <% } %>

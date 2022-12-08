@@ -7,18 +7,27 @@
           <div class="row rounded">
             <% if (infoObj != '') { %>
             <div class="col-12 alert alert-success alert-dismissible">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                >&times;</a
+              >
               <h3><%= infoObj %></h3>
             </div>
             <% } %> <% if (infoErrorsObj != '') { %>
             <div class="col-12 alert alert-danger alert-dismissible">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                >&times;</a
+              >
               <h3><%= infoErrorsObj %></h3>
             </div>
             <% } %>
-            <div class="col-12 p-4" style="background-color: rgb(255, 237, 136)">
+            <div
+              class="col-12 p-4"
+              style="background-color: rgb(255, 237, 136)"
+            >
               <h3>Today invoices</h3>
-              <table class="table table-sm table-striped table-bordered border-primary">
+              <table
+                class="table table-sm table-striped table-bordered border-primary"
+              >
                 <tr>
                   <th style="width: 10%"><h4>STT</h4></th>
                   <th style="width: 30%"><h4>Client name</h4></th>
@@ -26,15 +35,21 @@
                   <th style="width: 20%"><h4>Total</h4></th>
                   <th style="width: 10%"><h4>For more</h4></th>
                 </tr>
-                <%if(invoices != null){ for(let i in invoices ){ %> <% if(invoices[i].status == 4){
-                %>
+                <%if(invoices != null){ for(let i in invoices ){ %> <%
+                if(invoices[i].status == 4){ %>
                 <tr>
                   <td><h4 class="text-success"><%= parseInt(i) + 1 %></h4></td>
                   <td><h4 class="text-success"><%= client[i].name %></h4></td>
                   <td><h4 class="text-success"><%= invoices[i]._id %></h4></td>
-                  <td><h4 class="text-success"><%= invoices[i].value %></h4></td>
                   <td>
-                    <h4><a href="/admin-view-invoice/<%= invoices[i]._id %>">view</a></h4>
+                    <h4 class="text-success"><%= invoices[i].value %></h4>
+                  </td>
+                  <td>
+                    <h4>
+                      <a href="/admin-view-invoice/<%= invoices[i]._id %>"
+                        >view</a
+                      >
+                    </h4>
                   </td>
                 </tr>
                 <% } else if (invoices[i].status == 3){ %>
@@ -42,9 +57,15 @@
                   <td><h4 class="text-warning"><%= parseInt(i) + 1 %></h4></td>
                   <td><h4 class="text-warning"><%= client[i].name %></h4></td>
                   <td><h4 class="text-warning"><%= invoices[i]._id %></h4></td>
-                  <td><h4 class="text-warning"><%= invoices[i].value %></h4></td>
                   <td>
-                    <h4><a href="/admin-view-invoice/<%= invoices[i]._id %>">view</a></h4>
+                    <h4 class="text-warning"><%= invoices[i].value %></h4>
+                  </td>
+                  <td>
+                    <h4>
+                      <a href="/admin-view-invoice/<%= invoices[i]._id %>"
+                        >view</a
+                      >
+                    </h4>
                   </td>
                 </tr>
                 <% } else if (invoices[i].status == 2){ %>
@@ -54,7 +75,11 @@
                   <td><h4 class="text-info"><%= invoices[i]._id %></h4></td>
                   <td><h4 class="text-info"><%= invoices[i].value %></h4></td>
                   <td>
-                    <h4><a href="/admin-view-invoice/<%= invoices[i]._id %>">view</a></h4>
+                    <h4>
+                      <a href="/admin-view-invoice/<%= invoices[i]._id %>"
+                        >view</a
+                      >
+                    </h4>
                   </td>
                 </tr>
                 <% } else if (invoices[i].status == 1){ %>
@@ -64,7 +89,11 @@
                   <td><h4><%= invoices[i]._id %></h4></td>
                   <td><h4><%= invoices[i].value %></h4></td>
                   <td>
-                    <h4><a href="/admin-view-invoice/<%= invoices[i]._id %>">view</a></h4>
+                    <h4>
+                      <a href="/admin-view-invoice/<%= invoices[i]._id %>"
+                        >view</a
+                      >
+                    </h4>
                   </td>
                 </tr>
                 <% } else { %>
@@ -75,7 +104,9 @@
                   <td><h4 class="text-danger"><%= invoices[i].value %></h4></td>
                   <td>
                     <h4>
-                      <a href="/admin-view-invoice/<%= invoices[i]._id %>">view</a>
+                      <a href="/admin-view-invoice/<%= invoices[i]._id %>"
+                        >view</a
+                      >
                     </h4>
                   </td>
                 </tr>
@@ -84,7 +115,9 @@
                 <% } %>
               </table>
               <% if(cancel == 1){ %>
-              <a href="#" class="btn btn-danger">Delete canceled invoices</a>
+              <a href="/admin-delete-canceled-invoices" class="btn btn-danger"
+                >Delete canceled invoices</a
+              >
               <% } %>
             </div>
           </div>

@@ -4,16 +4,16 @@ const shipperSchema = new mongoose.Schema({
     type: String,
     required: 'this fild is required',
   },
-  birthday: {
-    type: Date,
+  address: {
+    type: String,
     required: 'this fild is required',
   },
-  begin: {
+  tel: {
     type: String,
     required: 'this fild is required',
   },
   status: {
-    type: String,
+    type: Number,
     required: 'this fild is required',
   },
 });

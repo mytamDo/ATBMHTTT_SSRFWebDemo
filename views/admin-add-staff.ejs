@@ -1,0 +1,85 @@
+<!--**********************************
+            Content body start
+***********************************-->
+<style>
+  .col-2 img {
+    width: 100%;
+    height: 20vh;
+    object-fit: contain;
+  }
+</style>
+<div class="content-body">
+  <!-- row -->
+  <div class="container-fluid d-flex justify-content-center">
+    <div class="col-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="row rounded">
+            <% if (infoObj != '') { %>
+            <div class="col-12 alert alert-success alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                >&times;</a
+              >
+              <h3><%= infoObj %></h3>
+            </div>
+            <% } %> <% if (infoErrorsObj != '') { %>
+            <div class="col-12 alert alert-danger alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                >&times;</a
+              >
+              <h3><%= infoErrorsObj %></h3>
+            </div>
+            <% } %>
+            <form action="/admin-add-staff" method="POST">
+              <h2>Add employee</h2>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="name" class="form-label">Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    class="form-control"
+                  />
+                </div>
+
+                <div class="col-12">
+                  <label for="address" class="form-label">Address</label>
+                  <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    class="form-control"
+                  />
+                </div>
+
+                <div class="col-12">
+                  <label for="tel" class="form-label">Phone number</label>
+                  <input type="tel" name="tel" id="tel" class="form-control" />
+                </div>
+
+                <div class="col-6 p-4 d-flex justify-content-end">
+                  <button type="submit" class="btn btn-primary text">
+                    Add an employee
+                  </button>
+                </div>
+                <div class="col-6 p-4 d-flex">
+                  <a
+                    href="/admin-show-staff-list"
+                    type="submit"
+                    class="btn btn-danger text"
+                    >Cancel</a
+                  >
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- #/ container -->
+<!--**********************************
+                  Content body end
+      ***********************************-->

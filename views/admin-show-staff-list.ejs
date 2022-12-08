@@ -19,26 +19,30 @@
               <table class="table table-xs mb-0">
                 <thead>
                   <tr>
+                    <th>No</th>
                     <th>NAME</th>
-                    <th>START DELIVERY</th>
+                    <th>ADDRESS</th>
+                    <th>PHONE NUMBER</th>
                     <th>STATUS</th>
                   </tr>
                 </thead>
                 <% if(shippers != '') { %>
                 <tbody>
-                  <%shippers.forEach(function(shipper, index) {%>
+                  <% shippers.forEach(function(shipper, index) {%>
                   <tr>
+                    <td>
+                      <span><%= index + parseInt(1) %></span>
+                    </td>
                     <td>
                       <span><%= shipper.name %></span>
                     </td>
-                    <td><%= shipper.begin %></td>
+                    <td>
+                      <span><%= shipper.address %></span>
+                    </td>
+                    <td><%= shipper.tel %></td>
 
                     <td>
-                      <% if (shipper.status == 'done') {%>
-                      <i class="text-success mr-2"><%= shipper.status %></i>
-                      <% } else { %>
-                      <i class="text-danger mr-2"><%= shipper.status %></i>
-                      <% } %>
+                      <i class="text-success mr-2"> <%= shipper.status %></i>
                     </td>
                   </tr>
                   <% }) %>
@@ -47,6 +51,9 @@
               </table>
             </div>
           </div>
+          <a href="/admin-add-staff" class="btn btn-primary text-center"
+            >Add Staff</a
+          >
         </div>
       </div>
     </div>

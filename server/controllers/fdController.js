@@ -9,7 +9,7 @@ const Client = require('../models/Client');
 const Shipper = require('../models/Shipper');
 const Cart2 = require('../models/Cart2');
 const Invoice = require('../models/Invoice');
-
+const Transport = require('../models/Transport');
 /**
  * GET /
  * Homepage
@@ -17,8 +17,12 @@ const Invoice = require('../models/Invoice');
 exports.homepage = async (req, res) => {
   try {
     const limitNumber = 4;
-    const foods = await Product.find({ type: 'food' }).sort({ _id: -1 }).limit(limitNumber);
-    const drinks = await Product.find({ type: 'drink' }).sort({ _id: -1 }).limit(limitNumber);
+    const foods = await Product.find({ type: 'food' })
+      .sort({ _id: -1 })
+      .limit(limitNumber);
+    const drinks = await Product.find({ type: 'drink' })
+      .sort({ _id: -1 })
+      .limit(limitNumber);
     // const users = await User.find({});
     res.render('index', { title: 'F&D - Homepage', foods, drinks });
   } catch (error) {
@@ -113,7 +117,11 @@ exports.register = async (req, res) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
     const infoRegisterObj = req.flash('infoRegister');
-    res.render('register', { title: 'F&D - Register', infoErrorsObj, infoRegisterObj });
+    res.render('register', {
+      title: 'F&D - Register',
+      infoErrorsObj,
+      infoRegisterObj,
+    });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
@@ -224,8 +232,12 @@ async function insertDymmyClientData() {
 exports.client = async (req, res) => {
   try {
     const limitNumber = 4;
-    const foods = await Product.find({ type: 'food' }).sort({ _id: -1 }).limit(limitNumber);
-    const drinks = await Product.find({ type: 'drink' }).sort({ _id: -1 }).limit(limitNumber);
+    const foods = await Product.find({ type: 'food' })
+      .sort({ _id: -1 })
+      .limit(limitNumber);
+    const drinks = await Product.find({ type: 'drink' })
+      .sort({ _id: -1 })
+      .limit(limitNumber);
     // const users = await User.find({});
     res.render('client-index', {
       layout: './layouts/client',
@@ -272,9 +284,11 @@ exports.clientInfo = async (req, res) => {
       });
     }
   } catch (error) {
-    res
-      .status(500)
-      .send({ message: error.message || 'Error Occured', infoErrorsObj, infoLoginObj });
+    res.status(500).send({
+      message: error.message || 'Error Occured',
+      infoErrorsObj,
+      infoLoginObj,
+    });
   }
 };
 
@@ -357,7 +371,9 @@ exports.clientCart = async (req, res) => {
     const productList = [];
     if (cart) {
       for (let i in cart.product_obj) {
-        productList.push(await Product.findOne({ _id: cart.product_obj[i].product_id }));
+        productList.push(
+          await Product.findOne({ _id: cart.product_obj[i].product_id })
+        );
       }
       // console.log(productList);
       let total = 0;
@@ -533,7 +549,9 @@ exports.createInvoice = async (req, res) => {
     cart.product_obj.forEach((product_id, index) => {});
     var product_obj = cart.product_obj;
     for (let i in cart.product_obj) {
-      productList.push(await Product.findOne({ _id: product_obj[i].product_id }));
+      productList.push(
+        await Product.findOne({ _id: product_obj[i].product_id })
+      );
       total += productList[i].price * product_obj[i].count;
     }
 
@@ -568,7 +586,9 @@ exports.createInvoiceOnPost = async (req, res) => {
     var productList = [];
     var items = [];
     for (let i in cart.product_obj) {
-      productList.push(await Product.findOne({ _id: product_obj[i].product_id }));
+      productList.push(
+        await Product.findOne({ _id: product_obj[i].product_id })
+      );
       items.push({
         name: productList[i].name,
         count: product_obj[i].count,
@@ -673,7 +693,10 @@ exports.cancelOrder = async (req, res) => {
  */
 exports.adminDashboard = async (req, res, next) => {
   try {
-    res.render('admin-dashboard', { layout: './layouts/admin', title: 'F&D - Admon dashboard' });
+    res.render('admin-dashboard', {
+      layout: './layouts/admin',
+      title: 'F&D - Admon dashboard',
+    });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
@@ -717,7 +740,10 @@ exports.adminFoods = async (req, res, next) => {
  */
 exports.adminInfo = async (req, res, next) => {
   try {
-    res.render('admin-info', { layout: './layouts/admin', title: 'F&D - Admin dashboard' });
+    res.render('admin-info', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin dashboard',
+    });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
@@ -987,16 +1013,15 @@ exports.adminViewTodayInvoices = async (req, res) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
     const infoObj = req.flash('infoSubmit');
-    var token = req.cookies.token;
-    var userID = jwt.verify(token, 'mk');
-    var user = await User.findOne({ _id: userID });
     var client = [];
     const start = new Date();
     const end = new Date();
-    console.log(start);
+
     start.setHours(0, 0, 0, 0);
     end.setHours(23, 59, 59, 999);
-    const invoices = await Invoice.find({ createTime: { $gte: start, $lt: end } }).sort({ _id: 1 });
+    const invoices = await Invoice.find({
+      createTime: { $gte: start, $lt: end },
+    }).sort({ _id: 1 });
     for (i in invoices) {
       client.push(await Client.findOne({ _id: invoices[i].client }));
     }
@@ -1024,9 +1049,6 @@ exports.adminViewAllInvoices = async (req, res) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
     const infoObj = req.flash('infoSubmit');
-    var token = req.cookies.token;
-    var userID = jwt.verify(token, 'mk');
-    var user = await User.findOne({ _id: userID });
     var client = [];
     const invoices = await Invoice.find({}).sort({ _id: 1 });
     for (i in invoices) {
@@ -1056,9 +1078,6 @@ exports.adminViewOrderedInvoices = async (req, res) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
     const infoObj = req.flash('infoSubmit');
-    var token = req.cookies.token;
-    var userID = jwt.verify(token, 'mk');
-    var user = await User.findOne({ _id: userID });
     var client = [];
     const invoices = await Invoice.find({ status: 1 }).sort({ _id: 1 });
     for (i in invoices) {
@@ -1088,9 +1107,6 @@ exports.adminViewConfirmedInvoices = async (req, res) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
     const infoObj = req.flash('infoSubmit');
-    var token = req.cookies.token;
-    var userID = jwt.verify(token, 'mk');
-    var user = await User.findOne({ _id: userID });
     var client = [];
     const invoices = await Invoice.find({ status: 2 }).sort({ _id: 1 });
     for (i in invoices) {
@@ -1120,21 +1136,21 @@ exports.adminViewGotItemsInvoices = async (req, res) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
     const infoObj = req.flash('infoSubmit');
-    var token = req.cookies.token;
-    var userID = jwt.verify(token, 'mk');
-    var user = await User.findOne({ _id: userID });
     var client = [];
     const invoices = await Invoice.find({ status: 3 }).sort({ _id: 1 });
     for (i in invoices) {
       client.push(await Client.findOne({ _id: invoices[i].client }));
     }
+
     var cancel = 0;
+
     res.render('admin-invoices', {
       layout: './layouts/admin',
       title: 'F&D - Admin dashboard',
       invoices,
       client,
       cancel,
+      staff,
       infoErrorsObj,
       infoObj,
     });
@@ -1152,9 +1168,6 @@ exports.adminViewDoneInvoices = async (req, res) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
     const infoObj = req.flash('infoSubmit');
-    var token = req.cookies.token;
-    var userID = jwt.verify(token, 'mk');
-    var user = await User.findOne({ _id: userID });
     var client = [];
     const cancel = 0;
     const invoices = await Invoice.find({ status: 4 }).sort({ _id: 1 });
@@ -1184,9 +1197,6 @@ exports.adminViewCanceledInvoices = async (req, res) => {
   try {
     const infoErrorsObj = req.flash('infoErrors');
     const infoObj = req.flash('infoSubmit');
-    var token = req.cookies.token;
-    var userID = jwt.verify(token, 'mk');
-    var user = await User.findOne({ _id: userID });
     var client = [];
     const invoices = await Invoice.find({ status: 0 }).sort({ _id: 1 });
     for (i in invoices) {
@@ -1219,7 +1229,7 @@ exports.adminViewInvoice = async (req, res) => {
     const client = await Client.findOne({ _id: invoice.client });
     var staNum = invoice.status;
     var status = getstatusAd(invoice.status);
-    console.log(invoice, client);
+    var staff = await Shipper.find({ status: 1 });
     res.render('admin-invoice', {
       title: 'F&D - client-invoice',
       layout: './layouts/admin',
@@ -1227,6 +1237,7 @@ exports.adminViewInvoice = async (req, res) => {
       staNum,
       client,
       status,
+      staff,
     });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
@@ -1245,6 +1256,106 @@ function getstatusAd(sttnum) {
     return 'Canceled';
   }
 }
+
+/**
+ * GET/admin-canceled-invoices
+ * Admin view canceled invoices
+ */
+exports.adminDeleteCanceledInvoice = async (req, res) => {
+  try {
+    await Invoice.findOneAndDelete({ status: 0 });
+    req.flash('infoSubmit', 'Delete completed');
+    res.redirect('/admin-canceled-invoices');
+  } catch (error) {
+    console.log(error);
+    req.flash('infoErrors', 'Fail to delete');
+    res.redirect('/admin-canceled-invoices');
+  }
+};
+
+/**
+ * Get/admin-add-staff
+ * Admin add staff
+ */
+exports.adminAddStaff = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    res.render('admin-add-staff', {
+      layout: './layouts/admin',
+      title: 'F&D - Admin add staff',
+      infoErrorsObj,
+      infoObj,
+    });
+  } catch (error) {
+    console.log('wrong view?');
+    res.status(500).send({ mesage: error.message || 'Error Occured' });
+  }
+};
+
+/**
+ * Post/admin-add-staff
+ * Admin add staff on post
+ */
+exports.adminAddStaffOnPost = async (req, res) => {
+  try {
+    const name = req.body.name;
+    const address = req.body.address;
+    const tel = req.body.tel;
+    await Shipper.create({
+      name: name,
+      address: address,
+      tel: tel,
+      status: 1,
+    });
+    req.flash('infoSubmit', 'Insert completed');
+    res.redirect('/admin-add-staff');
+  } catch (error) {
+    console.log(error);
+    req.flash('infoErrors', 'Failed to insert');
+    res.redirect('/admin-add-staff');
+  }
+};
+
+/**
+ * Post/admin-add-staff
+ * Admin add staff on post
+ */
+exports.adminArangeStaffOnPost = async (req, res) => {
+  const invoice_id = req.params.id;
+  const url = '/admin-view-invoice/' + invoice_id;
+  const date = new Date();
+  try {
+    const staff_id = req.body.staff;
+    await Transport.create({
+      time: date,
+      staff_id: staff_id,
+      invoice_id: invoice_id,
+    });
+    await Shipper.findOneAndUpdate(
+      {
+        _id: staff_id,
+      },
+      {
+        status: 0,
+      }
+    );
+    await Invoice.findOneAndUpdate(
+      {
+        _id: invoice_id,
+      },
+      {
+        status: 3,
+      }
+    );
+    req.flash('infoSubmit', 'Arange completed');
+    res.redirect(url);
+  } catch (error) {
+    console.log(error);
+    req.flash('infoErrors', 'Arange failed');
+    res.redirect(url);
+  }
+};
 
 // error view
 /**

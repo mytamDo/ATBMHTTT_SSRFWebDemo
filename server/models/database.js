@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 //use for login
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -23,3 +26,4 @@ require('./Shipper');
 require('./User');
 require('./Client');
 require('./Cart2');
+require('./Transport');
