@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+
+    <!-- font awesome cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+
+    <!-- base:css -->
+
+    <link rel="stylesheet" href="/vendors/typicons/typicons.css" />
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css" />
+    <!-- endinject -->
+
+    <!-- custom css file cdn link  -->
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/css/vertical-layout-light/style.css" />
+    <!-- endinject -->
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+  </head>
+  <body>
+    <!-- header section starts  -->
+
+    <header class="header navbar-light" style="background-color: #373636">
+      <a href="/shipper" class="logo">
+        <i class="fas fa-utensils"></i> <span class="text-white">F&D Zone</span>
+      </a>
+      <div class="icons">
+        <a href="/shipper">
+          <div class="fas fa-user" id="login-btn"></div>
+        </a>
+      </div>
+    </header>
+
+    <!-- header section ends -->
+    <button
+      onclick="topFunction()"
+      id="myBtn"
+      title="Go to top"
+      class="bg-warning"
+    >
+      Top
+    </button>
+    <hr />
+    <main><%- body -%></main>
+    <hr />
+
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <!-- inject:js -->
+    <script src="/js/off-canvas.js"></script>
+    <script src="/js/hoverable-collapse.js"></script>
+    <script src="/js/template.js"></script>
+    <script src="/js/settings.js"></script>
+    <script src="/js/todolist.js"></script>
+    <script src="/js/script.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

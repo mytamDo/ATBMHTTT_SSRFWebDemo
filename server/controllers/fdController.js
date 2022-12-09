@@ -87,6 +87,10 @@ exports.loginOnPost = async (req, res, next) => {
             req.flash('infoLogin', 'Login Success');
             console.log('OK');
             res.redirect('/admin-dashboard');
+          } else if (data.role == 1) {
+            req.flash('infoLogin', 'Login Success');
+            console.log('OK');
+            res.redirect('/shipper');
           } else {
             req.flash('infoLogin', 'Login Success');
             console.log('OK');
@@ -673,18 +677,85 @@ exports.cancelOrder = async (req, res) => {
     res.redirect('/info');
   }
 };
-// /**
-//  * GET /shiper
-//  * clients view
-//  */
-//  exports.clients = async (req, res) => {
-//   try {
-//     console.log(req.data);
-//     res.render('index', { title: 'F&D - Register' });
-//   } catch (error) {
-//     res.status(500).send({ message: error.message || 'Error Occured' });
-//   }
-// };
+
+//Staff
+/**
+ * GET /shipper
+ * clients view
+ */
+exports.shipper = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoLoginObj = req.flash('infoLogin');
+    const infoObj = req.flash('infoSubmit');
+    const invoices = await Invoice.find({ status: 2 });
+    const token = req.cookies.token;
+    const clientID = jwt.verify(token, 'mk');
+    const user = await User.findOne({
+      _id: clientID,
+    });
+    const staffID = await Shipper.findOne({ email: user.email });
+    var client = [];
+    for (i in invoices) {
+      client.push(await Client.findOne({ _id: invoices[i].client }));
+    }
+    const TransportID = await Transport.findOne({
+      staff_id: staffID._id,
+    });
+
+    const invoiceDelivering = await Invoice.findOne({
+      _id: TransportID.invoice_id,
+    });
+    const clientD = await Client.findOne({
+      client: invoiceDelivering.client,
+    });
+    res.render('staff-index', {
+      layout: './layouts/staff',
+      title: 'F&D - Shipper',
+      infoLoginObj,
+      infoErrorsObj,
+      infoObj,
+      invoices,
+      client,
+      clientD,
+      staffID,
+      invoiceDelivering,
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+/**
+ * GET /shipper
+ * clients view
+ */
+exports.staffViewInvoice = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    const invocieID = req.params.id;
+    const invoice = await Invoice.findOne({ _id: invocieID });
+    const token = req.cookies.token;
+    const clientID = jwt.verify(token, 'mk');
+    const user = await User.findOne({
+      _id: clientID,
+    });
+    const staffID = await Shipper.findOne({ email: user.email });
+    var client = await Client.findOne({ _id: invoice.client });
+
+    res.render('staff-invoice', {
+      layout: './layouts/staff',
+      title: 'F&D - Shipper',
+      infoObj,
+      infoErrorsObj,
+      infoObj,
+      client,
+      invoice,
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
 
 //admin
 /**
@@ -1150,7 +1221,6 @@ exports.adminViewGotItemsInvoices = async (req, res) => {
       invoices,
       client,
       cancel,
-      staff,
       infoErrorsObj,
       infoObj,
     });
@@ -1353,6 +1423,31 @@ exports.adminArangeStaffOnPost = async (req, res) => {
   } catch (error) {
     console.log(error);
     req.flash('infoErrors', 'Arange failed');
+    res.redirect(url);
+  }
+};
+
+/**
+ * Post/admin-confirm-invoice
+ * Admin confirm invoice
+ */
+exports.adminConfirmInvoice = async (req, res) => {
+  const invoice_id = req.params.id;
+  const url = '/admin-view-invoice/' + invoice_id;
+  try {
+    await Invoice.findOneAndUpdate(
+      {
+        _id: invoice_id,
+      },
+      {
+        status: 2,
+      }
+    );
+    req.flash('infoSubmit', 'Confirm completed');
+    res.redirect(url);
+  } catch (error) {
+    console.log(error);
+    req.flash('infoErrors', 'Confirm failed');
     res.redirect(url);
   }
 };

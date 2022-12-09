@@ -43,13 +43,12 @@ const checkShipper = (req, res, next) => {
     console.log('shipper ok');
     next();
   } else {
-    return res.json('Not permission');
+    return res.redirect('/must-login');
   }
 };
 //check admin login
 const checkAdmin = (req, res, next) => {
   var role = req.data.role;
-  console.log(role);
   if (role == 2) {
     console.log('admin ok');
     next();

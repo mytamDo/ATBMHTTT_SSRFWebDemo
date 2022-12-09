@@ -14,7 +14,18 @@ router.get('/must-login', fdController.mustLogin);
 router.get('/product/:id', fdController.product);
 
 //Shipper router
-router.get('/shipper', checkLogin.checkShipper, fdController.client);
+router.get(
+  '/shipper',
+  checkLogin.checkLogin,
+  checkLogin.checkShipper,
+  fdController.shipper
+);
+router.get(
+  '/staff-view-invoice/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkShipper,
+  fdController.staffViewInvoice
+);
 
 //Admin router
 router.get(
@@ -182,10 +193,16 @@ router.get(
   fdController.adminDeleteCanceledInvoice
 );
 router.post(
-  '/arrange-staff/:id',
+  '/admin-arrange-staff/:id',
   checkLogin.checkLogin,
   checkLogin.checkAdmin,
   fdController.adminArangeStaffOnPost
+);
+router.get(
+  '/admin-confirm-invoice/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkAdmin,
+  fdController.adminConfirmInvoice
 );
 
 //Client router

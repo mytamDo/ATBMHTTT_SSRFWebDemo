@@ -1,0 +1,116 @@
+<div class="content-body pt-3">
+  <!-- row -->
+  <div class="container-fluid" style="margin-top: 5%">
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <% if (infoLoginObj != '') { %>
+              <div class="col-12 alert alert-success alert-dismissible">
+                <a
+                  href="#"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="close"
+                  >&times;</a
+                >
+                <h3><%= infoLoginObj %></h3>
+              </div>
+              <% } %> <% if (infoObj != '') { %>
+              <div class="col-12 alert alert-success alert-dismissible">
+                <a
+                  href="#"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="close"
+                  >&times;</a
+                >
+                <h3><%= infoObj %></h3>
+              </div>
+              <% } %> <% if (infoErrorsObj != '') { %>
+              <div class="col-12 alert alert-danger alert-dismissible">
+                <a
+                  href="#"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="close"
+                  >&times;</a
+                >
+                <h3><%= infoErrorsObj %></h3>
+              </div>
+              <% } %>
+            </div>
+            <div class="row rounded">
+              <div
+                class="col-12 p-4"
+                style="background-color: rgb(250, 238, 170)"
+              >
+                <h3>History invoice</h3>
+                <table
+                  class="table table-sm table-striped table-bordered border-primary"
+                >
+                  <tr>
+                    <th style="width: 10%"><h3>STT</h3></th>
+                    <th style="width: 30%"><h3>Client name</h3></th>
+                    <th style="width: 30%"><h3>Invocie ID</h3></th>
+                    <th style="width: 20%"><h3>Total</h3></th>
+                    <th style="width: 10%"><h3>For more</h3></th>
+                  </tr>
+                  <%if(invoices != null){ for(let i in invoices ){ %>
+                  <tr>
+                    <td>
+                      <h3><%= parseInt(i) + 1 %></h3>
+                    </td>
+                    <td><h3><%= client[i].name %></h3></td>
+                    <td>
+                      <h3><%= invoices[i]._id %></h3>
+                    </td>
+                    <td>
+                      <h3><%= invoices[i].value %></h3>
+                    </td>
+                    <td>
+                      <h3>
+                        <a href="/staff-view-invoice/<%= invoices[i]._id %>"
+                          >view</a
+                        >
+                      </h3>
+                    </td>
+                  </tr>
+                  <% } } else { %>
+                  <H1>NO ITEMS FOUND</H1>
+                  <% } %> <%if(invoiceDelivering != '') { %>
+                  <tr style="background-color: rgb(247, 190, 86)">
+                    <td>
+                      <h3>*</h3>
+                    </td>
+                    <td><h3><%= clientD.name %></h3></td>
+                    <td>
+                      <h3><%= invoiceDelivering._id %></h3>
+                    </td>
+                    <td>
+                      <h3><%= invoiceDelivering.value %></h3>
+                    </td>
+                    <td>
+                      <h3>
+                        <a href="/staff-delivering/<%= invoices[i]._id %>"
+                          >view</a
+                        >
+                      </h3>
+                    </td>
+                  </tr>
+                  <% } %>
+                </table>
+              </div>
+              <div class="col-12 text-center">
+                <a class="btn btn-lg btn-primary" href="/login"
+                  ><h3>Log Out</h3></a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

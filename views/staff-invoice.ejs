@@ -1,4 +1,4 @@
-<div class="content-body">
+<div class="content-body" style="margin-top: 10%">
   <!-- row -->
   <div class="container-fluid d-flex justify-content-center">
     <div class="col-8">
@@ -15,46 +15,7 @@
                 <h4>Address: <%= invoice.deliveryAddress %></h4>
               </div>
               <div class="col-12"><h4>Tel: <%= invoice.phoneNumber %></h4></div>
-              <div class="col-8"><h4>Status: <%= status %></h4></div>
-              <% if(staNum == 1 ){ %>
-              <div class="col-4 text-right">
-                <a
-                  href="/admin-confirm-invoice/<%= invoice._id %>"
-                  class="btn btn-sm btn-primary"
-                >
-                  Confirm Invocie
-                </a>
-              </div>
-              <% } %>
-              <div class="col-12">
-                <form
-                  action="/admin-arrange-staff/<%= invoice._id %>"
-                  method="post"
-                >
-                  <div class="row justify-content-center">
-                    <% if(staNum == 2 ){ %> <% if(staff!=''){ %>
-                    <div class="col-8">
-                      <label for="staff">Choose an employee:</label>
-                      <select name="staff" id="cars" style="width: 50%">
-                        <% staff.forEach((employee, index)=>{ %>
 
-                        <option value="<%= employee._id %>">
-                          <%= employee.name %>
-                        </option>
-
-                        <%})%>
-                      </select>
-                      <% } %>
-                    </div>
-                    <div class="col-4">
-                      <button type="submit" class="btn btn-sm btn-primary">
-                        Arrange employee
-                      </button>
-                    </div>
-                    <% } %>
-                  </div>
-                </form>
-              </div>
               <div class="col-12"><h4>Note: <%= invoice.note%></h4></div>
               <div class="col-12"><h3>Items:</h3></div>
             </div>
