@@ -46,13 +46,12 @@
                 class="col-12 p-4"
                 style="background-color: rgb(250, 238, 170)"
               >
-                <h3>History invoice</h3>
+                <h1>Invoice</h1>
                 <table
                   class="table table-sm table-striped table-bordered border-primary"
                 >
                   <tr>
                     <th style="width: 10%"><h3>STT</h3></th>
-                    <th style="width: 30%"><h3>Client name</h3></th>
                     <th style="width: 30%"><h3>Invocie ID</h3></th>
                     <th style="width: 20%"><h3>Total</h3></th>
                     <th style="width: 10%"><h3>For more</h3></th>
@@ -62,7 +61,6 @@
                     <td>
                       <h3><%= parseInt(i) + 1 %></h3>
                     </td>
-                    <td><h3><%= client[i].name %></h3></td>
                     <td>
                       <h3><%= invoices[i]._id %></h3>
                     </td>
@@ -79,12 +77,11 @@
                   </tr>
                   <% } } else { %>
                   <H1>NO ITEMS FOUND</H1>
-                  <% } %> <%if(invoiceDelivering != '') { %>
+                  <% } %> <%if(invoiceDelivering != null ) { %>
                   <tr style="background-color: rgb(247, 190, 86)">
                     <td>
-                      <h3>*</h3>
+                      <h3>Dilivering</h3>
                     </td>
-                    <td><h3><%= clientD.name %></h3></td>
                     <td>
                       <h3><%= invoiceDelivering._id %></h3>
                     </td>
@@ -93,7 +90,8 @@
                     </td>
                     <td>
                       <h3>
-                        <a href="/staff-delivering/<%= invoices[i]._id %>"
+                        <a
+                          href="staff-view-delivering-invoice/<%= invoiceDelivering._id %>"
                           >view</a
                         >
                       </h3>
@@ -103,7 +101,13 @@
                 </table>
               </div>
               <div class="col-12 text-center">
-                <a class="btn btn-lg btn-primary" href="/login"
+                <a
+                  class="btn btn-lg btn-primary"
+                  style="
+                    border-radius: 10px;
+                    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
+                  "
+                  href="/login"
                   ><h3>Log Out</h3></a
                 >
               </div>

@@ -26,6 +26,18 @@ router.get(
   checkLogin.checkShipper,
   fdController.staffViewInvoice
 );
+router.get(
+  '/staff-view-delivering-invoice/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkShipper,
+  fdController.staffViewDeliveringInvoice
+);
+router.get(
+  '/finish-dilivering/:id',
+  checkLogin.checkLogin,
+  checkLogin.checkShipper,
+  fdController.staffFinishDilivering
+);
 
 //Admin router
 router.get(

@@ -16,5 +16,9 @@ const shipperSchema = new mongoose.Schema({
     type: Number,
     required: 'this fild is required',
   },
+  email: {
+    type: String,
+    required: 'this fild is required',
+  },
 });
 module.exports = mongoose.model('shipper', shipperSchema);

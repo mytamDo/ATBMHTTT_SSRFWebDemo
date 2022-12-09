@@ -695,20 +695,28 @@ exports.shipper = async (req, res) => {
       _id: clientID,
     });
     const staffID = await Shipper.findOne({ email: user.email });
-    var client = [];
-    for (i in invoices) {
-      client.push(await Client.findOne({ _id: invoices[i].client }));
-    }
-    const TransportID = await Transport.findOne({
+    const transport = await Transport.find({
       staff_id: staffID._id,
     });
+    var invoiceID;
+    var allInvoice = [];
+    transport.forEach((invoice, index) => {
+      allInvoice.push(invoice.invoice_id);
+    });
 
-    const invoiceDelivering = await Invoice.findOne({
-      _id: TransportID.invoice_id,
-    });
-    const clientD = await Client.findOne({
-      client: invoiceDelivering.client,
-    });
+    for (let i in allInvoice) {
+      var tempInvoice = await Invoice.findOne({ _id: allInvoice[i] });
+      if (tempInvoice.status == 3) {
+        invoiceID = tempInvoice;
+      }
+    }
+    // const invoiceDelivering = await Invoice.findOne({
+    //   _id: transport.invoice_id,
+    //   status: 3,
+    // });
+    const invoiceDelivering = invoiceID;
+    console.log(allInvoice);
+    console.log(invoiceDelivering);
     res.render('staff-index', {
       layout: './layouts/staff',
       title: 'F&D - Shipper',
@@ -716,18 +724,16 @@ exports.shipper = async (req, res) => {
       infoErrorsObj,
       infoObj,
       invoices,
-      client,
-      clientD,
-      staffID,
       invoiceDelivering,
     });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
+
 /**
- * GET /shipper
- * clients view
+ * GET /staff-view-invoice/:id
+ * staff view invoice
  */
 exports.staffViewInvoice = async (req, res) => {
   try {
@@ -754,6 +760,69 @@ exports.staffViewInvoice = async (req, res) => {
     });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+
+/**
+ * GET /staff-view-delivering-invoice/:id
+ * clients view
+ */
+exports.staffViewDeliveringInvoice = async (req, res) => {
+  try {
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoObj = req.flash('infoSubmit');
+    const invoiceID = req.params.id;
+    const invoice = await Invoice.findOne({ _id: invoiceID });
+    const token = req.cookies.token;
+    const clientID = jwt.verify(token, 'mk');
+    const user = await User.findOne({
+      _id: clientID,
+    });
+    const staff = await Shipper.findOne({ email: user.email });
+    const staffID = staff._id;
+    const client = await Client.findOne({ _id: invoice.client });
+    const transport = await Transport.findOne({
+      staff_id: staffID,
+      invoice_id: invoiceID,
+    });
+    var deliverStatus = invoice.status;
+    res.render('staff-delivering-invoice', {
+      layout: './layouts/staff',
+      title: 'F&D - Shipper',
+      infoObj,
+      infoErrorsObj,
+      infoObj,
+      client,
+      invoice,
+      transport,
+      deliverStatus,
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+
+/**
+ * GET /finish-dilivering/:id
+ * clients view
+ */
+exports.staffFinishDilivering = async (req, res) => {
+  try {
+    const transportID = req.params.id;
+    const transport = await Transport.findOne({ _id: transportID });
+    const invoiceID = transport.invoice_id;
+    const staffID = transport.staff_id;
+    await Transport.findOneAndUpdate(
+      { _id: transportID },
+      { timeFinish: new Date() }
+    );
+    await Invoice.findOneAndUpdate({ _id: invoiceID }, { status: 4 });
+    await Shipper.findOneAndUpdate({ _id: staffID }, { status: 1 });
+    req.flash('infoSubmit', 'Finish the orther.');
+    res.redirect('/shipper');
+  } catch (error) {
+    req.flash('infoErrors', 'Failed');
+    res.redirect('/shipper');
   }
 };
 
@@ -1372,14 +1441,37 @@ exports.adminAddStaffOnPost = async (req, res) => {
     const name = req.body.name;
     const address = req.body.address;
     const tel = req.body.tel;
-    await Shipper.create({
-      name: name,
-      address: address,
-      tel: tel,
-      status: 1,
+    const email = req.body.email;
+    const pass = req.body.password;
+    const cfmPass = req.body.cfmpassword;
+    var data = await User.findOne({
+      email: email,
     });
-    req.flash('infoSubmit', 'Insert completed');
-    res.redirect('/admin-add-staff');
+    console.log(data);
+    if (data) {
+      req.flash('infoErrors', 'Register failed, Email existed');
+      res.redirect('/admin-add-staff');
+      console.log('Loi dang ky 1');
+    } else if (cfmPass == pass) {
+      await Shipper.create({
+        email: email,
+        name: name,
+        address: address,
+        tel: tel,
+        status: 1,
+      });
+      await User.create({
+        email: email,
+        pass: pass,
+        role: 1,
+      });
+      req.flash('infoSubmit', 'Insert completed');
+      res.redirect('/admin-add-staff');
+    } else {
+      req.flash('infoErrors', 'Register failed, Wrong confirm password');
+      res.redirect('/admin-add-staff');
+      console.log('Loi dang ky');
+    }
   } catch (error) {
     console.log(error);
     req.flash('infoErrors', 'Failed to insert');

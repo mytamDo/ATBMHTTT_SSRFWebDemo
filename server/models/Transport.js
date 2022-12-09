@@ -11,5 +11,8 @@ const transportSchema = new mongoose.Schema({
     type: String,
     required: 'this fild is required',
   },
+  timeFinish: {
+    type: Date,
+  },
 });
 module.exports = mongoose.model('transport', transportSchema);
