@@ -833,9 +833,82 @@ exports.staffFinishDilivering = async (req, res) => {
  */
 exports.adminDashboard = async (req, res, next) => {
   try {
+    const end = new Date();
+    const startTemp = new Date();
+    var start = addDays(startTemp, -6);
+    function addDays(date, days) {
+      var result = new Date(date);
+      result.setDate(result.getDate() + days);
+      return result;
+    }
+    start.setHours(0, 0, 0, 0);
+    end.setHours(23, 59, 59, 999);
+    const invoicesChart = await Invoice.find({
+      createTime: { $gte: start, $lt: end },
+      status: 4,
+    }).sort({ createTime: 1 });
+    let salesChart = [invoicesChart[0].value];
+    let dateChart = [new Date(invoicesChart[0].createTime).toDateString()];
+    let weekChart = [];
+    let current = 0;
+
+    for (let j = 1; j < invoicesChart.length; j++) {
+      var dateA = new Date(invoicesChart[j].createTime);
+      var dateA = dateA.toDateString();
+      var dateB = new Date(invoicesChart[j - 1].createTime);
+      var dateB = dateB.toDateString();
+
+      if (dateA == dateB) {
+        salesChart[current] += invoicesChart[j].value;
+      } else {
+        dateChart.push(dateA);
+        salesChart.push(invoicesChart[j].value);
+
+        current++;
+      }
+    }
+    var startChart = new Date(dateChart[0]);
+    var endChart = new Date(addDays(startChart, 6));
+    var ustart = startChart.getTime();
+    var uend = endChart.getTime();
+    var i = 0;
+    for (unix = ustart; unix <= uend; unix += 86400000) {
+      var thisDay = new Date(unix);
+      console.log();
+      if (thisDay.toDateString() == dateChart[i]) {
+        weekChart.push({
+          date: thisDay,
+          sales: salesChart[i],
+        });
+        i++;
+      } else {
+        weekChart.push({
+          date: thisDay,
+          sales: 0,
+        });
+      }
+    }
+    // 0 = sunday
+    // console.log(startChart, dateChart[dateChart.length - 1]);
+    // invoicesChart.forEach(invoice);
+    const invoices = await Invoice.find({});
+    var count = 0;
+    var sales = 0;
+    invoices.forEach((invoice, index) => {
+      invoice.items.forEach((product, index) => {
+        count += parseInt(product.count);
+      });
+      sales += parseInt(invoice.value);
+    });
     res.render('admin-dashboard', {
       layout: './layouts/admin',
-      title: 'F&D - Admon dashboard',
+      title: 'F&D - Admin dashboard',
+      count,
+      sales,
+      invoicesChart,
+      dateChart,
+      salesChart,
+      weekChart,
     });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
@@ -1556,30 +1629,3 @@ exports.mustLogin = async (req, res, next) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
-
-// async function insertDymmyShipperData() {
-//   try {
-//     await Shipper.insertMany([
-//       {
-//         name: 'Tran Van B',
-//         birthday: '08/04/2002',
-//         begin: new Date(),
-//         status: 'Done',
-//       },
-//       {
-//         name: 'Tran Van C',
-//         birthday: '08/04/2002',
-//         begin: new Date(),
-//         status: 'Working',
-//       },
-//       {
-//         name: 'Tran Van D',
-//         birthday: '08/04/2002',
-//         begin: new Date(),
-//         status: 'Done',
-//       },
-//     ]);
-//   } catch (error) {
-//     console.log('err', error);
-//   }
-// }
