@@ -25,4 +25,5 @@ const productSchema = new mongoose.Schema({
     required: 'This fild is requied',
   },
 });
+productSchema.index({ name: 'text', description: 'text' });
 module.exports = mongoose.model('product', productSchema);

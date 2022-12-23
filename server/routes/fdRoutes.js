@@ -254,6 +254,18 @@ router.get(
   checkLogin.checkClient,
   fdController.clientDrinks
 );
+router.get(
+  '/all',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.clientAllProduct
+);
+router.post(
+  '/search',
+  checkLogin.checkLogin,
+  checkLogin.checkClient,
+  fdController.searchRecipe
+);
 router.post(
   '/add-cart/:id',
   checkLogin.checkLogin,

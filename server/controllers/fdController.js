@@ -357,7 +357,45 @@ exports.clientDrinks = async (req, res, next) => {
     res.status(500).send({ message: error.message || 'Error Occured' });
   }
 };
+/**
+ * GET /all-product
+ * product view
+ */
+exports.clientAllProduct = async (req, res) => {
+  try {
+    const productID = req.params.id;
+    const query = {};
+    await Product.find(query).then((data) => {
+      res.render('client-all-product', {
+        layout: './layouts/client',
+        title: 'F&D - Clients Info',
+        data,
+      });
+    });
+  } catch (error) {
+    console.log('Error product');
+    res.status(500).send({ message: error.message || 'Error Occured' });
+  }
+};
+/**
+ * POST /search
+ * search product
+ */
+exports.searchRecipe = async (req, res) => {
+  //searchTerm
 
+  try {
+    let searchTerm = req.body.searchTerm;
+    let data = await Product.find({
+      $text: { $search: searchTerm, $diacriticSensitive: true },
+    });
+    //res.json(recipe);
+    res.render('client-search-product', {
+      title: 'Cooking blog - Search',
+      data,
+    });
+  } catch (error) {}
+};
 /**
  * GET /cart
  * get cart view

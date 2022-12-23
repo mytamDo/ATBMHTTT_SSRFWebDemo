@@ -1,34 +1,54 @@
 <% if (data != '') { %>
-<div class="container-scroller bg-white">
+<div
+  class="container-scroller bg-white"
+  style="background-image: url('/img/f-bg.png')"
+>
   <div
     class="auth-form-light text-left py-5 px-4 px-sm-5"
     style="margin: 12% 20% 15% 20%; background-color: #eee; border-radius: 20px"
   >
     <div class="row p-6">
-      <div class="col-5">
+      <div class="col-md-5">
         <img
           src="<%= data.image_url  %>"
           class="img-fluid"
           alt="<%= data.name %>"
-          style="top: 20px; border-radius: 20px; width: 30em; height: 30em; object-fit: cover"
+          style="
+            top: 20px;
+            border-radius: 20px;
+            width: 30em;
+            height: 30em;
+            object-fit: cover;
+          "
           Loading="lazy"
         />
       </div>
-      <div class="col-7">
-        <div class="col-12"><h1><%= data.name %></h1></div>
-        <div class="col-12"><h2><%= data.price %> VND</h2></div>
-        <div class="col-12 mb-4 h2 text-warning"><i class="bi bi-tag"></i><%= data.type %></div>
-      </div>
-    </div>
-    <div class="col-12 h3 pb-5" style="white-space: pre-line">
-      <h2>Description:</h2>
-      <%= data.description %>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <a href="/must-login" class="btn btn-block btn-warning btn-md text-white m-0">
-          <strong class="h3"><span class="fas fa-utensils"></span> Buy now</strong>
-        </a>
+      <div class="col-md-7">
+        <div class="row">
+          <div class="col-12"><h1><%= data.name %></h1></div>
+          <div class="col-12"><h2><%= data.price %> VND</h2></div>
+          <div class="col-12 mb-4 h2 text-warning">
+            <i class="bi bi-tag"></i><%= data.type %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 h3 pb-5" style="white-space: pre-line">
+            <h2>Description:</h2>
+            <%= data.description %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 mt-6 pt-6">
+            <a
+              href="/must-login"
+              class="btn btn-block btn-warning btn-md text-white m-0"
+            >
+              <strong class="h3"
+                ><span class="fas fa-utensils"></span> Buy now</strong
+              >
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

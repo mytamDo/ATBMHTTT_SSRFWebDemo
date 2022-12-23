@@ -1,0 +1,110 @@
+<!--**********************************
+            Content body start
+***********************************-->
+<style>
+  .col-md-3 img {
+    width: 100%;
+    height: 15vh;
+    object-fit: cover;
+  }
+</style>
+<div class="content-body pt-3">
+  <!-- row -->
+  <div class="container-fluid" style="margin-top: 5%">
+    <div class="row justify-content-center p-5">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row rounded justify-content-center">
+              <h1>
+                OUR <strong><span class="text-warning">data</span></strong>
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <% if (data != '') { %> <% data.forEach(function(acdata, index){ %>
+      <div class="col-md-6 category__link">
+        <a
+          style="text-decoration: none"
+          href="/client-product/<%= acdata._id %>"
+          ><div class="card mt-4">
+            <div class="card-body">
+              <div class="row rounded">
+                <div class="col-md-3">
+                  <img
+                    class="img-fluid img-responsive rounded product-image"
+                    id="product"
+                    src="<%= acdata.image_url%>"
+                  />
+                </div>
+                <div class="col-md-6 border-left mt-1">
+                  <h2><%= acdata.name %></h2>
+                  <div class="mt-1 mb-1 spec-1">
+                    <h3>Type: <%= acdata.type %></h3>
+                  </div>
+                  <p class="text-justify h3 para mb-0 text-truncate">
+                    Description: <%= acdata.description%>
+                  </p>
+                </div>
+                <div
+                  class="align-items-center align-content-center col-md-3 border-left mt-1"
+                >
+                  <div class="d-flex flex-row">
+                    <h2 class="mr-1"><%= acdata.price %> VND</h2>
+                  </div>
+                  <div class="d-flex flex-column mt-4">
+                    <!-- <a href="/admin-update-acdata/<%= acdata._id %>" class="btn btn-warning btn-sm"
+                      >Update</a
+                    > -->
+                    <form
+                      action="/add-cart/<%= acdata._id %>"
+                      method="POST"
+                      class="d-flex flex-column"
+                    >
+                      <button
+                        class="btn btn-outline-danger btn-lg mt-2"
+                        type="submit"
+                      >
+                        <h4>Add to cart</h4>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div></a
+        >
+      </div>
+
+      <% }) %> <% } else { %>
+      <h4>No item found</h4>
+      <% } %>
+    </div>
+    <div class="row d-flex justify-content-center pt-5 pb-5">
+      <div class="col-md-2">
+        <a
+          href="/client"
+          type="submit"
+          class="btn btn-primary text d-flex justify-content-center"
+          ><h3>Go to homepage</h3></a
+        >
+      </div>
+      <div class="col-md-2">
+        <a
+          href="/cart"
+          type="submit"
+          class="btn btn-primary text d-flex justify-content-center"
+          ><h3>Go to cart</h3></a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+<!-- #/ container -->
+<!--**********************************
+                  Content body end
+      ***********************************-->
