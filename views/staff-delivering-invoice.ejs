@@ -7,16 +7,16 @@
           <div class="row rounded justify-content-center">
             <% if(invoice != ''){ %>
             <div class="row">
-              <div class="col-12"><h2>Client Name: <%= client.name %></h2></div>
+              <div class="col-12"><h2>Tên khách hàng: <%= client.name %></h2></div>
               <div class="col-12">
-                <h3>Created time: <%= invoice.createTime %></h3>
+                <h3>Thời gian tạo: <%= invoice.createTime %></h3>
               </div>
               <div class="col-12">
-                <h3>Address: <%= invoice.deliveryAddress %></h3>
+                <h3>Địa chỉ: <%= invoice.deliveryAddress %></h3>
               </div>
-              <div class="col-12"><h3>Tel: <%= invoice.phoneNumber %></h3></div>
+              <div class="col-12"><h3>Số điện thoại: <%= invoice.phoneNumber %></h3></div>
 
-              <div class="col-12"><h3>Note: <%= invoice.note%></h3></div>
+              <div class="col-12"><h3>Ghi chú: <%= invoice.note%></h3></div>
               <div class="col-12"><h3>Items:</h3></div>
             </div>
 
@@ -25,9 +25,9 @@
             >
               <tr>
                 <th style="width: 10%">No.</th>
-                <th style="width: 50%">Name</th>
-                <th style="width: 30%">Price</th>
-                <th style="width: 10%">Quantity</th>
+                <th style="width: 50%">Tên</th>
+                <th style="width: 30%">Giá</th>
+                <th style="width: 10%">Số lượng</th>
               </tr>
               <% invoice.items.forEach((item, index)=>{%>
               <tr>
@@ -57,7 +57,7 @@
               border-radius: 10px;
               box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
             "
-            ><h2>Finish</h2></a
+            ><h2>Kết thúc</h2></a
           >
         </div>
       </div>

@@ -7,16 +7,16 @@
           <div class="row rounded">
             <% if(invoice != ''){ %>
             <div class="row">
-              <div class="col-12"><h2>Client Name: <%= client.name %></h2></div>
+              <div class="col-12"><h2>Tên khách hàng: <%= client.name %></h2></div>
               <div class="col-12">
-                <h4>Created time: <%= invoice.createTime %></h4>
+                <h4>Thời gian tạo: <%= invoice.createTime %></h4>
               </div>
               <div class="col-12">
-                <h4>Address: <%= invoice.deliveryAddress %></h4>
+                <h4>Địa chỉ: <%= invoice.deliveryAddress %></h4>
               </div>
-              <div class="col-12"><h4>Tel: <%= invoice.phoneNumber %></h4></div>
+              <div class="col-12"><h4>Số điện thoại: <%= invoice.phoneNumber %></h4></div>
 
-              <div class="col-12"><h4>Note: <%= invoice.note%></h4></div>
+              <div class="col-12"><h4>Ghi chú: <%= invoice.note%></h4></div>
               <div class="col-12"><h3>Items:</h3></div>
             </div>
 
@@ -25,9 +25,9 @@
             >
               <tr>
                 <th style="width: 10%">No.</th>
-                <th style="width: 50%">Name</th>
-                <th style="width: 30%">Price</th>
-                <th style="width: 10%">Quantity</th>
+                <th style="width: 50%">Tên</th>
+                <th style="width: 30%">Giá</th>
+                <th style="width: 10%">Số lượng</th>
               </tr>
               <% invoice.items.forEach((item, index)=>{%>
               <tr>
@@ -38,7 +38,7 @@
               </tr>
               <% }) %>
               <tr>
-                <td colspan="2"><h2>Total:</h2></td>
+                <td colspan="2"><h2>Tổng cộng:</h2></td>
                 <td colspan="2" class="text-right">
                   <h2><%= invoice.value %></h2>
                 </td>

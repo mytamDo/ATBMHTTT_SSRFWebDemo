@@ -46,15 +46,15 @@
                 class="col-12 p-4"
                 style="background-color: rgb(250, 238, 170)"
               >
-                <h1>Invoice</h1>
+                <h1>Hóa đơn</h1>
                 <table
                   class="table table-sm table-striped table-bordered border-primary"
                 >
                   <tr>
                     <th style="width: 10%"><h3>STT</h3></th>
-                    <th style="width: 30%"><h3>Invocie ID</h3></th>
-                    <th style="width: 20%"><h3>Total</h3></th>
-                    <th style="width: 10%"><h3>For more</h3></th>
+                    <th style="width: 30%"><h3>Mã hóa đơn</h3></th>
+                    <th style="width: 20%"><h3>Tổng cộng</h3></th>
+                    <th style="width: 10%"><h3>Xem chi tiết</h3></th>
                   </tr>
                   <%if(invoices != null){ for(let i in invoices ){ %>
                   <tr>
@@ -70,7 +70,7 @@
                     <td>
                       <h3>
                         <a href="/staff-view-invoice/<%= invoices[i]._id %>"
-                          >view</a
+                          >xem</a
                         >
                       </h3>
                     </td>
@@ -80,7 +80,7 @@
                   <% } %> <%if(invoiceDelivering != null ) { %>
                   <tr style="background-color: rgb(247, 190, 86)">
                     <td>
-                      <h3>Dilivering</h3>
+                      <h3>Đang giao hàng</h3>
                     </td>
                     <td>
                       <h3><%= invoiceDelivering._id %></h3>
@@ -92,7 +92,7 @@
                       <h3>
                         <a
                           href="staff-view-delivering-invoice/<%= invoiceDelivering._id %>"
-                          >view</a
+                          >xem</a
                         >
                       </h3>
                     </td>
@@ -108,7 +108,7 @@
                     box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
                   "
                   href="/login"
-                  ><h3>Log Out</h3></a
+                  ><h3>Đăng xuất</h3></a
                 >
               </div>
             </div>
