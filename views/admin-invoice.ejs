@@ -16,7 +16,9 @@
               </div>
               <div class="col-12"><h4>Tel: <%= invoice.phoneNumber %></h4></div>
               <div class="col-8"><h4>Status: <%= status %></h4></div>
-              <% if(staNum == 1 ){ %>
+              <% if(invoice.note!=null){ %>
+              <div class="row rounded mt-4 justify-content-center"></div>
+              <% } %> <% if(staNum == 1 ){ %>
               <div class="col-4 text-right">
                 <a
                   href="/admin-confirm-invoice/<%= invoice._id %>"

@@ -644,6 +644,7 @@ exports.createInvoiceOnPost = async (req, res) => {
     var client = await Client.findOne({ email: user.email });
     var deliveryAddress = req.body.address;
     var phoneNumber = req.body.tel;
+    var note = req.body.note;
     const invoice = Invoice.create({
       createTime: createTime,
       items: items,
@@ -652,6 +653,7 @@ exports.createInvoiceOnPost = async (req, res) => {
       deliveryAddress: deliveryAddress,
       phoneNumber: phoneNumber,
       status: 1,
+      note: note,
     });
     req.flash('infoSubmit', 'Create invoice successfully');
     res.redirect(url);
@@ -663,8 +665,8 @@ exports.createInvoiceOnPost = async (req, res) => {
 };
 
 /**
- * get/history-invoice
- * create-invoice on POST
+ * get/invoice
+ * invoice
  */
 exports.invoice = async (req, res) => {
   try {

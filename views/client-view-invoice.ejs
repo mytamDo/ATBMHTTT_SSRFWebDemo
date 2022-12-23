@@ -52,6 +52,23 @@
               <% } %>
             </table>
           </div>
+          <% if(invoice.note!=null){ %>
+          <div class="row rounded mt-4 justify-content-center">
+            <textarea
+              name="note"
+              id="note"
+              class="form-control"
+              cols="30"
+              rows="4"
+              type="text"
+              placeholder="Ghi chú:"
+              style="font-size: large"
+              disabled
+            >
+<%= invoice.note%></textarea
+            >
+          </div>
+          <% } %>
           <div class="row rounded mt-4 justify-content-center">
             <h2><%= status %></h2>
           </div>
