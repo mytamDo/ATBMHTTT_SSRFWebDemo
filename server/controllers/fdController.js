@@ -655,8 +655,8 @@ exports.createInvoiceOnPost = async (req, res) => {
       status: 1,
       note: note,
     });
-    req.flash('infoSubmit', 'Create invoice successfully');
-    res.redirect(url);
+    url = req.flash('infoSubmit', 'Create invoice successfully');
+    res.redirect('/info');
   } catch (error) {
     console.log(error);
     req.flash('infoErrors', 'Fail to create the invoice');
