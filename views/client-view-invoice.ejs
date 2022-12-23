@@ -20,25 +20,25 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-6 text-center">
-              <h3>Name: <%= client.name%></h3>
+              <h3>Tên: <%= client.name%></h3>
             </div>
             <div class="col-md-6 text-center">
-              <h3>Total: <%= invoice.value %></h3>
+              <h3>Tổng cộng: <%= invoice.value %></h3>
             </div>
             <div class="col-md-12 text-center">
-              <h3>Address: <%= invoice.deliveryAddress %></h3>
+              <h3>Địa chỉ: <%= invoice.deliveryAddress %></h3>
             </div>
             <div class="col-md-12 text-center">
-              <h3>Phone: <%= invoice.phoneNumber %></h3>
+              <h3>Số điện thoại: <%= invoice.phoneNumber %></h3>
             </div>
           </div>
           <div class="row rounded mt-4">
             <table class="table table-striped table-bordered border-primary">
               <tr>
                 <th style="width: 10%"><h4>STT</h4></th>
-                <th style="width: 40%"><h4>Name</h4></th>
-                <th style="width: 30%"><h4>Price</h4></th>
-                <th style="width: 20%"><h4>Quantity</h4></th>
+                <th style="width: 40%"><h4>Tên</h4></th>
+                <th style="width: 30%"><h4>Giá</h4></th>
+                <th style="width: 20%"><h4>Số lượng</h4></th>
               </tr>
               <% if (invoice!='') { for(let j in invoice.items){ %>
               <tr>
@@ -89,7 +89,7 @@
               border-radius: 20px;
               box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
             "
-            ><h5>Go Shopping now ??</h5></a
+            ><h5>Mua sắm ngay bây giờ??</h5></a
           >
         </div>
         <div class="col-4 text-center">
@@ -100,7 +100,7 @@
             "
             class="btn btn-danger"
             href="/cancel/<%= invoice._id %>"
-            ><h5>Cancel the order : (</h5></a
+            ><h5>Hủy đơn hàng : (</h5></a
           >
         </div>
       </div>
@@ -114,7 +114,7 @@
               border-radius: 20px;
               box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
             "
-            ><h5>Go Shopping now ??</h5></a
+            ><h5>Mua sắm ngay bây giờ??</h5></a
           >
         </div>
       </div>

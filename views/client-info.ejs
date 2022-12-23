@@ -48,16 +48,16 @@
               >
                 <div class="row justify-content-center text-center">
                   <div class="col-12">
-                    <H2 class="text-warning">Name: <%= data.name%></H2>
+                    <H2 class="text-warning">Tên: <%= data.name%></H2>
                   </div>
                   <div class="col-12">
-                    <H3 class="ten">Address: <%= data.address %></H3>
+                    <H3 class="ten">Địa chỉ: <%= data.address %></H3>
                   </div>
                   <div class="col-12">
-                    <H3 class="ten">Phone: <%= data.tel %></H3>
+                    <H3 class="ten">Số điện thoại: <%= data.tel %></H3>
                   </div>
                   <div class="col-12">
-                    <H3 class="ten">Gender: <%= data.gender %></H3>
+                    <H3 class="ten">Giới tính: <%= data.gender %></H3>
                   </div>
                 </div>
                 <!-- Dưới cái dòng này chỗ này -->
@@ -65,12 +65,12 @@
                 <div class="row">
                   <div class="col-md-8 text-center">
                     <a class="btn btn-danger" href="/client"
-                      ><h3>Go Shopping Now !!!</h3></a
+                      ><h3>Mua sắm ngay bây giờ!!!</h3></a
                     >
                   </div>
                   <div class="col-md-4 text-center">
                     <a class="btn btn-primary" href="/login"
-                      ><h3>Log Out</h3></a
+                      ><h3>Đăng xuất</h3></a
                     >
                   </div>
                 </div>
@@ -79,15 +79,15 @@
                 class="col-md-7 p-4"
                 style="background-color: rgb(255, 237, 136)"
               >
-                <h3>History invoice</h3>
+                <h3>Lịch sử hóa đơn</h3>
                 <table
                   class="table table-striped table-bordered border-primary"
                 >
                   <tr>
                     <th style="width: 10%"><h4>STT</h4></th>
-                    <th style="width: 50%"><h4>Invocie ID</h4></th>
-                    <th style="width: 30%"><h4>Total</h4></th>
-                    <th style="width: 10%"><h4>For more</h4></th>
+                    <th style="width: 50%"><h4>Mã hóa đơn</h4></th>
+                    <th style="width: 30%"><h4>Tổng cộng</h4></th>
+                    <th style="width: 10%"><h4>Xem chi tiết</h4></th>
                   </tr>
                   <%if(invoices != null){ for(let i in invoices ){ %> <%
                   if(invoices[i].status == 4){ %>
@@ -97,7 +97,7 @@
                     <td><h4><%= invoices[i].value %></h4></td>
                     <td>
                       <h4>
-                        <a href="/invoice/<%= invoices[i]._id %>">view</a>
+                        <a href="/invoice/<%= invoices[i]._id %>">xem</a>
                       </h4>
                     </td>
                   </tr>
@@ -108,7 +108,7 @@
                     <td><h4><%= invoices[i].value %></h4></td>
                     <td>
                       <h4>
-                        <a href="/invoice/<%= invoices[i]._id %>">view</a>
+                        <a href="/invoice/<%= invoices[i]._id %>">xem</a>
                       </h4>
                     </td>
                   </tr>
@@ -119,7 +119,7 @@
                     <td><h4><%= invoices[i].value %></h4></td>
                     <td>
                       <h4>
-                        <a href="/invoice/<%= invoices[i]._id %>">view</a>
+                        <a href="/invoice/<%= invoices[i]._id %>">xem</a>
                       </h4>
                     </td>
                   </tr>
@@ -130,7 +130,7 @@
                     <td><h4><%= invoices[i].value %></h4></td>
                     <td>
                       <h4>
-                        <a href="/invoice/<%= invoices[i]._id %>">view</a>
+                        <a href="/invoice/<%= invoices[i]._id %>">xem</a>
                       </h4>
                     </td>
                   </tr>
