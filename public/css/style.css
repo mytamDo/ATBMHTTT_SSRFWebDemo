@@ -519,20 +519,17 @@ ul {
   }
 
   .header .search-form {
-    position: absolute;
-    top: 115%;
-    right: 2rem;
-    background: var(--bg-color-1);
+    background: var(--bg-color-2);
     border-radius: 0.5rem;
-    width: 90%;
-    box-shadow: var(--box-shadow);
-    transform: scale(0);
-    transform-origin: top right;
+    display: flex;
+    align-items: center;
+    height: 4.5rem;
+    width: 30%;
   }
 
-  .header .search-form.active {
+  /* .header .search-form.active {
     transform: scale(1);
-  }
+  } */
 }
 
 @media (max-width: 450px) {
