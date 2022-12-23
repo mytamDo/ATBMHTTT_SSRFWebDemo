@@ -874,7 +874,6 @@ exports.adminDashboard = async (req, res, next) => {
     var i = 0;
     for (unix = ustart; unix <= uend; unix += 86400000) {
       var thisDay = new Date(unix);
-      console.log();
       if (thisDay.toDateString() == dateChart[i]) {
         weekChart.push({
           date: thisDay,

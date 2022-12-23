@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
 
     <!-- font awesome cdn link  -->
     <link
@@ -27,7 +30,7 @@
     <!-- endinject -->
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
   </head>
-  <body>
+  <body style="background-image: url('/img/f-bg.png')">
     <!-- header section starts  -->
 
     <header class="header navbar-light" style="background-color: #373636">
@@ -35,13 +38,7 @@
         <i class="fas fa-utensils"></i> <span class="text-white">F&D Zone</span>
       </a>
 
-      <form action="" class="search-form">
-        <input type="search" name="" placeholder="search here..." id="searchBox" />
-        <label for="searchBox" class="fas fa-search"></label>
-      </form>
-
       <div class="icons">
-        <div class="fas fa-search" id="search-btn"></div>
         <a href="/login">
           <div class="fas fa-user" id="login-btn"></div>
         </a>
@@ -49,19 +46,31 @@
       </div>
 
       <nav class="navbar border-warning">
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/drinks">Drinks</a>
-        <a href="/foods">Foods</a>
-        <a href="/contact">Contact</a>
+        <div class="row">
+          <div class="col-6 p-0">
+            <a href="/client">Trang chủ</a>
+          </div>
+          <div class="col-6 p-0">
+            <a href="/client-about">Thông tin</a>
+          </div>
+          <div class="col-6 p-0"><a href="/drinks">Thức uống</a></div>
+          <div class="col-6 p-0"><a href="/foods">Thức ăn</a></div>
+          <div class="col-6 p-0"><a href="/contact">Liên hệ</a></div>
+        </div>
       </nav>
     </header>
 
     <!-- header section ends -->
-    <button onclick="topFunction()" id="myBtn" title="Go to top" class="bg-warning">Top</button>
+    <button
+      onclick="topFunction()"
+      id="myBtn"
+      title="Go to top"
+      class="bg-warning"
+    >
+      <i class="fa-sharp fa-solid fa-arrow-up"></i>
+    </button>
     <hr />
     <main><%- body -%></main>
-    <hr />
     <footer class="footer-section">
       <div class="container">
         <div class="footer-cta pt-5 pb-5">
@@ -70,8 +79,8 @@
               <div class="single-cta">
                 <i class="fas fa-map-marker-alt text-warning"></i>
                 <div class="cta-text">
-                  <h4>Find us</h4>
-                  <span>Linh Trung, Thu Duc, Ho Chi Minh City</span>
+                  <h4>Địa chỉ</h4>
+                  <span>Linh Trung, Thủ Đức, Thành Phố Hồ Chí Minh</span>
                 </div>
               </div>
             </div>
@@ -79,7 +88,7 @@
               <div class="single-cta">
                 <i class="fas fa-phone text-warning"></i>
                 <div class="cta-text">
-                  <h4>Call us</h4>
+                  <h4>Liên hệ với chung tôi</h4>
                   <span>0123456789</span>
                 </div>
               </div>
@@ -88,7 +97,7 @@
               <div class="single-cta">
                 <i class="far fa-envelope-open text-warning"></i>
                 <div class="cta-text">
-                  <h4>Mail us</h4>
+                  <h4>Địa chỉ mail của chúng tôi</h4>
                   <span>teamweb2002@gmail.com</span>
                 </div>
               </div>
@@ -99,11 +108,14 @@
           <div class="row">
             <div class="col-xl-4 col-lg-4 mb-50">
               <div class="footer-widget">
-                <div class="footer-text">
-                  <p>Choose us, choose your right</p>
-                </div>
                 <div class="footer-social-icon">
-                  <span>Follow us</span>
+                  <div class="footer-widget-heading">
+                    <h3>Follow chúng tôi</h3>
+                  </div>
+
+                  <div class="footer-text">
+                    <p>Chọn chúng tôi, chọn sự đúng đăn</p>
+                  </div>
                   <a href="#"><i class="fab fa-facebook-f facebook-bg"></i></a>
                   <a href="#"><i class="fab fa-twitter twitter-bg"></i></a>
                   <a href="#"><i class="fab fa-google-plus-g google-bg"></i></a>
@@ -113,26 +125,26 @@
             <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
               <div class="footer-widget">
                 <div class="footer-widget-heading">
-                  <h3>Useful Links</h3>
+                  <h3>Liên kết nhanh</h3>
                 </div>
                 <ul>
                   <li>
-                    <a href="/"><h4>Home</h4></a>
+                    <a href="/client"><h4>Trang chủ</h4></a>
                   </li>
                   <li>
-                    <a href="#"><h4>About us</h4></a>
+                    <a href="#"><h4>Về chúng tôi</h4></a>
                   </li>
                   <li>
-                    <a href="#"><h4>Contact us</h4></a>
+                    <a href="#"><h4>Liên hệ chúng tôi</h4></a>
                   </li>
                   <li>
-                    <a href="#"><h4>Give your feedback</h4></a>
+                    <a href="#"><h4>Góp ý của bạn</h4></a>
                   </li>
                   <li>
-                    <a href="#"><h4>Foods</h4></a>
+                    <a href="/foods"><h4>Thức ăn</h4></a>
                   </li>
                   <li>
-                    <a href="#"><h4>Drinks</h4></a>
+                    <a href="/drinks"><h4>Thức uống</h4></a>
                   </li>
                 </ul>
               </div>
@@ -140,14 +152,20 @@
             <div class="col-xl-4 col-lg-4 col-md-6 mb-50">
               <div class="footer-widget">
                 <div class="footer-widget-heading">
-                  <h3>Subscribe</h3>
+                  <h3>Đăng ký ngay</h3>
                 </div>
                 <div class="footer-text mb-25">
-                  <p>Don’t miss to subscribe to our new feeds, kindly fill the form below.</p>
+                  <div class="footer-text mb-25">
+                    <p>Đừng bỏ lỡ các thực đơn mới nhất của chúng tôi</p>
+                  </div>
                 </div>
                 <div class="subscribe-form">
                   <form action="#">
-                    <input type="text" placeholder="Email Address" style="font-size: 16px" />
+                    <input
+                      type="text"
+                      placeholder="Email Address"
+                      style="font-size: 16px"
+                    />
                     <button><i class="fab fa-telegram-plane"></i></button>
                   </form>
                 </div>

@@ -1,17 +1,24 @@
 <div class="container-scroller">
   <div class="container-fluid page-body-wrapper full-page-wrapper">
-    <div class="content-wrapper d-flex align-items-center auth px-0">
+    <div
+      class="content-wrapper d-flex align-items-center auth px-0"
+      style="background-image: url('/img/f-bg.png')"
+    >
       <div class="row w-100 mx-0">
         <div class="col-lg-4 mx-auto">
           <div class="auth-form-light text-left py-5 px-4 px-sm-5">
             <% if (infoLoginObj != '') { %>
             <div class="col-12 alert alert-success alert-dismissible">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                >&times;</a
+              >
               <h3><%= infoLoginObj %></h3>
             </div>
             <% } %> <% if (infoErrorsObj != '') { %>
             <div class="col-12 alert alert-danger alert-dismissible">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                >&times;</a
+              >
               <h3><%= infoErrorsObj %></h3>
             </div>
             <% } %>
@@ -33,7 +40,9 @@
                 </div>
 
                 <div class="col-12">
-                  <label for="password" class="form-label"><H3>Password</H3></label>
+                  <label for="password" class="form-label"
+                    ><H3>Password</H3></label
+                  >
                   <input
                     style="font-size: 16px"
                     type="password"
@@ -57,7 +66,10 @@
               <h5><a href="#" class="text-primary">Forgot password?</a></h5>
             </div>
             <div class="text-center mt-4 font-weight-light">
-              <h2>Don't have an account? <a href="/register" class="text-primary">Create</a></h2>
+              <h2>
+                Don't have an account?
+                <a href="/register" class="text-primary">Create</a>
+              </h2>
             </div>
           </div>
         </div>
@@ -67,4 +79,3 @@
   </div>
   <!-- page-body-wrapper ends -->
 </div>
-<hr />
