@@ -392,6 +392,7 @@ exports.searchRecipe = async (req, res) => {
     //res.json(recipe);
     res.render('client-search-product', {
       title: 'Cooking blog - Search',
+      layout: './layouts/client',
       data,
     });
   } catch (error) {}
