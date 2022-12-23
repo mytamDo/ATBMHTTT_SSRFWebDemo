@@ -17,11 +17,7 @@
           <div class="card-body">
             <div class="row rounded justify-content-center">
               <h1>
-<<<<<<< HEAD
-              <strong><span class="text-warning">Đồ ăn</span></strong>
-=======
-                Đồ<strong><span class="text-warning">ăn</span></strong>
->>>>>>> parent of 266c3139 (aa)
+                Đồ <strong><span class="text-warning">ăn</span></strong>
               </h1>
             </div>
           </div>
@@ -30,12 +26,16 @@
     </div>
     <% if (infoObj != '') { %>
     <div class="col-12 alert alert-success alert-dismissible">
-      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <a href="#" class="close" data-dismiss="alert" aria-label="close"
+        >&times;</a
+      >
       <h3><%= infoObj %></h3>
     </div>
     <% } %> <% if (infoErrorsObj != '') { %>
     <div class="col-12 alert alert-danger alert-dismissible">
-      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <a href="#" class="close" data-dismiss="alert" aria-label="close"
+        >&times;</a
+      >
       <h3><%= infoErrorsObj %></h3>
     </div>
     <% } %>
@@ -56,12 +56,16 @@
                 </div>
                 <div class="col-6 border-left mt-1">
                   <h2><%= food.name %></h2>
-                  <div class="mt-1 mb-1 spec-1"><h3>Loại: <%= food.type %></h3></div>
+                  <div class="mt-1 mb-1 spec-1">
+                    <h3>Loại: <%= food.type %></h3>
+                  </div>
                   <p class="text-justify h3 para mb-0 text-truncate">
                     Mô tả: <%= food.description%>
                   </p>
                 </div>
-                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                <div
+                  class="align-items-center align-content-center col-md-3 border-left mt-1"
+                >
                   <div class="d-flex flex-row">
                     <h2 class="mr-1"><%= food.price %> VND</h2>
                   </div>
@@ -74,7 +78,10 @@
                       method="POST"
                       class="d-flex flex-column"
                     >
-                      <button class="btn btn-outline-danger btn-lg mt-2" type="submit">
+                      <button
+                        class="btn btn-outline-danger btn-lg mt-2"
+                        type="submit"
+                      >
                         <h4>Thêm vào giỏ hàng</h4>
                       </button>
                     </form>
@@ -90,12 +97,18 @@
       <h4>Không tìm thấy</h4>
       <% } %>
       <div class="col-2">
-        <a href="/client" type="submit" class="btn btn-primary text d-flex justify-content-center"
+        <a
+          href="/client"
+          type="submit"
+          class="btn btn-primary text d-flex justify-content-center"
           ><h3>Về trang chủ</h3></a
         >
       </div>
       <div class="col-2">
-        <a href="/cart" type="submit" class="btn btn-primary text d-flex justify-content-center"
+        <a
+          href="/cart"
+          type="submit"
+          class="btn btn-primary text d-flex justify-content-center"
           ><h3>Tới giỏ hàng</h3></a
         >
       </div>
