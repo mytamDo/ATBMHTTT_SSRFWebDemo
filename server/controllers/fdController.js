@@ -1303,7 +1303,7 @@ exports.adminViewAllInvoices = async (req, res) => {
     const infoErrorsObj = req.flash('infoErrors');
     const infoObj = req.flash('infoSubmit');
     var client = [];
-    const invoices = await Invoice.find({}).sort({ _id: 1 });
+    const invoices = await Invoice.find({}).sort({ _id: -1 });
     for (i in invoices) {
       client.push(await Client.findOne({ _id: invoices[i].client }));
     }
