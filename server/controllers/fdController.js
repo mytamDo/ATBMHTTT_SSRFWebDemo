@@ -84,26 +84,26 @@ exports.loginOnPost = async (req, res, next) => {
             maxAge: 604800000,
           });
           if (data.role == 2) {
-            req.flash('infoLogin', 'Login Success');
+            req.flash('infoLogin', 'Đăng nhập thành công');
             console.log('OK');
             res.redirect('/admin-dashboard');
           } else if (data.role == 1) {
-            req.flash('infoLogin', 'Login Success');
+            req.flash('infoLogin', 'Đăng nhập thành công');
             console.log('OK');
             res.redirect('/shipper');
           } else {
-            req.flash('infoLogin', 'Login Success');
+            req.flash('infoLogin', 'Đăng nhập thành công');
             console.log('OK');
             res.redirect('/info');
           }
         } else {
-          req.flash('infoErrors', 'Something wrong');
+          req.flash('infoErrors', 'Có gì đó sai, hãy thử đăng nhập lại');
           console.log('Error, something wrong with account');
           res.redirect('/login');
         }
       })
       .catch((err) => {
-        req.flash('infoErrors', 'Something wrong with account');
+        req.flash('infoErrors', 'Đăng nhập thất bại, lỗi xảy ra');
         console.log('Error, something wrong with account');
         res.redirect('/login');
       });
@@ -148,7 +148,7 @@ exports.registerOnPost = async (req, res) => {
       email: email,
     }).then((data) => {
       if (data) {
-        req.flash('infoErrors', 'Register failed, Email existed');
+        req.flash('infoErrors', 'Email đã tồn tại, hãy dùng một Email khác');
         res.redirect('/register');
         console.log('Loi dang ky');
       } else if (cfmPass == pass) {
@@ -164,17 +164,20 @@ exports.registerOnPost = async (req, res) => {
           address: address,
           tel: tel,
         });
-        req.flash('infoRegister', 'Register Success');
+        req.flash('infoLogin', 'Đăng ký thành công');
         console.log('OK');
-        res.redirect('/register');
+        res.redirect('/login');
       } else {
-        req.flash('infoErrors', 'Register failed, Wrong confirm password');
+        req.flash(
+          'infoErrors',
+          'Đăng ký thất bại, hãy nhập lại mật khẩu xác nhận'
+        );
         res.redirect('/register');
         console.log('Loi dang ky');
       }
     });
   } catch (error) {
-    req.flash('infoErrors', 'Register failed');
+    req.flash('infoErrors', 'Đăng ký thất bại');
     res.redirect('/register');
     console.log('Sever Error');
   }
@@ -499,7 +502,7 @@ exports.addCartOnPost = async (req, res) => {
       } else {
       }
     }
-    req.flash('infoSubmit', 'cart has been updated.');
+    req.flash('infoSubmit', 'Giỏ hàng đã được cập nhật');
     if (product.type == 'food') {
       res.redirect('/foods');
     } else {
@@ -507,7 +510,7 @@ exports.addCartOnPost = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    req.flash('infoErrors', 'Fail to update');
+    req.flash('infoErrors', 'Cập nhật giỏ hàng thất bại');
     res.redirect(url);
   }
 };
@@ -655,11 +658,11 @@ exports.createInvoiceOnPost = async (req, res) => {
       status: 1,
       note: note,
     });
-    url = req.flash('infoSubmit', 'Create invoice successfully');
+    url = req.flash('infoSubmit', 'Tạo hóa đơn thành công');
     res.redirect('/info');
   } catch (error) {
     console.log(error);
-    req.flash('infoErrors', 'Fail to create the invoice');
+    req.flash('infoErrors', 'Tạo hóa đơn thất bại');
     res.redirect(url);
   }
 };
@@ -691,15 +694,15 @@ exports.invoice = async (req, res) => {
 
 function getstatus(sttnum) {
   if (sttnum == 1) {
-    return 'Created, Waiting for confirmation';
+    return 'Đã tạo hóa đơn, đợi xác nhận';
   } else if (sttnum == 2) {
-    return 'Confirmed, Waiting for getting the products';
+    return 'Đã xác nhận, đợi lấy hàng';
   } else if (sttnum == 3) {
-    return 'Got the products, waiting for delivery';
+    return 'Đã lấy hàng, đượi vận chuyển';
   } else if (sttnum == 4) {
-    return 'Order is done, thank you for using our service';
+    return 'Hóa đơn đã hoàn thành, cảm ơn bạn đã sử dụng dịch vụ của chúng tôi';
   } else {
-    return 'Canceled';
+    return 'Đã hủy';
   }
 }
 
@@ -710,11 +713,11 @@ function getstatus(sttnum) {
 exports.cancelOrder = async (req, res) => {
   try {
     await Invoice.findOneAndUpdate({ _id: req.params.id }, { status: 0 });
-    req.flash('infoSubmit', 'Cancel successfully');
+    req.flash('infoSubmit', 'Hủy thành công');
     res.redirect('/info');
   } catch (error) {
     console.log(error);
-    req.flash('infoErrors', 'Fail to cancel');
+    req.flash('infoErrors', 'Hủy thất bại');
     res.redirect('/info');
   }
 };
