@@ -538,6 +538,10 @@ ul {
   }
 
   .contact form .inputBox input {
+    width: 200px;
+  }
+
+  .must-login {
     width: 100%;
   }
 }
