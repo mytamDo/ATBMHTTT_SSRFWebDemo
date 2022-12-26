@@ -43,18 +43,21 @@
       <% if (foods != '') { %> <% foods.forEach(function(food, index){ %>
 
       <div class="col-md-6 category__link">
-        <a style="text-decoration: none" href="/client-product/<%= food._id %>"
-          ><div class="card mt-4">
-            <div class="card-body">
-              <div class="row rounded">
-                <div class="col-3">
-                  <img
-                    class="img-fluid img-responsive rounded product-image"
-                    id="product"
-                    src="<%= food.image_url%>"
-                  />
-                </div>
-                <div class="col-6 border-left mt-1">
+        <div class="card mt-4">
+          <div class="card-body">
+            <div class="row rounded">
+              <div class="col-3">
+                <img
+                  class="img-fluid img-responsive rounded product-image"
+                  id="product"
+                  src="<%= food.image_url%>"
+                />
+              </div>
+              <div class="col-6 border-left mt-1">
+                <a
+                  style="text-decoration: none"
+                  href="/client-product/<%= food._id %>"
+                >
                   <h2><%= food.name %></h2>
                   <div class="mt-1 mb-1 spec-1">
                     <h3>Loại: <%= food.type %></h3>
@@ -62,35 +65,30 @@
                   <p class="text-justify h3 para mb-0 text-truncate">
                     Mô tả: <%= food.description%>
                   </p>
+                </a>
+              </div>
+
+              <div
+                class="align-items-center align-content-center col-md-3 border-left mt-1"
+              >
+                <div class="d-flex flex-row">
+                  <h2 class="mr-1"><%= food.price %> VND</h2>
                 </div>
-                <div
-                  class="align-items-center align-content-center col-md-3 border-left mt-1"
-                >
-                  <div class="d-flex flex-row">
-                    <h2 class="mr-1"><%= food.price %> VND</h2>
-                  </div>
-                  <div class="d-flex flex-column mt-4">
-                    <!-- <a href="/admin-update-food/<%= food._id %>" class="btn btn-warning btn-sm"
+                <div class="d-flex flex-column mt-4">
+                  <!-- <a href="/admin-update-food/<%= food._id %>" class="btn btn-warning btn-sm"
                       >Update</a
                     > -->
-                    <form
-                      action="/add-cart/<%= food._id %>"
-                      method="POST"
-                      class="d-flex flex-column"
-                    >
-                      <button
-                        class="btn btn-outline-danger btn-lg mt-2"
-                        type="submit"
-                      >
-                        <h4>Thêm vào giỏ hàng</h4>
-                      </button>
-                    </form>
-                  </div>
+                  <button
+                    class="btn btn-outline-danger btn-lg mt-2"
+                    onclick="myfunc('<%= food._id%>')"
+                  >
+                    <h4>Thêm vào giỏ hàng</h4>
+                  </button>
                 </div>
               </div>
             </div>
-          </div></a
-        >
+          </div>
+        </div>
       </div>
 
       <% }) %> <% } else { %>
@@ -99,7 +97,6 @@
       <div class="col-2">
         <a
           href="/client"
-          type="submit"
           class="btn btn-primary text d-flex justify-content-center"
           ><h3>Về trang chủ</h3></a
         >
@@ -107,7 +104,6 @@
       <div class="col-2">
         <a
           href="/cart"
-          type="submit"
           class="btn btn-primary text d-flex justify-content-center"
           ><h3>Tới giỏ hàng</h3></a
         >
@@ -115,6 +111,26 @@
     </div>
   </div>
 </div>
+<script src="jquery-3.6.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<script>
+  function myfunc(id) {
+    cok = '<%= cok %>';
+    $.ajax({
+      url: '/add-cart-ajax',
+      method: 'POST',
+      data: {
+        cookie: cok,
+        id: id,
+      },
+      dataType: 'JSON',
+      success: function (data) {
+        window.alert(data.message);
+      },
+    });
+  }
+</script>
 <!-- #/ container -->
 <!--**********************************
                   Content body end

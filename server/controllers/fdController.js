@@ -326,6 +326,7 @@ exports.clientProduct = async (req, res) => {
  */
 exports.clientFoods = async (req, res, next) => {
   try {
+    const cok = req.cookies.token;
     const infoErrorsObj = req.flash('infoErrors');
     const infoObj = req.flash('infoSubmit');
     const foods = await Product.find({ type: 'food' }).sort({ _id: -1 });
@@ -335,6 +336,7 @@ exports.clientFoods = async (req, res, next) => {
       foods,
       infoErrorsObj,
       infoObj,
+      cok,
     });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Error Occured' });
@@ -512,6 +514,75 @@ exports.addCartOnPost = async (req, res) => {
     console.log(error);
     req.flash('infoErrors', 'Cập nhật giỏ hàng thất bại');
     res.redirect(url);
+  }
+};
+/**
+ * Post /add cart
+ * add cart by ID on post
+ */
+exports.addCartAjax = async (req, res) => {
+  try {
+    console.log('Ajax successfull');
+    var token = req.body.cookie;
+    var userID = jwt.verify(token, 'mk');
+    var user = await User.findOne({ _id: userID });
+    var client = await Client.findOne({ email: user.email });
+    var productID = req.body.id;
+    var product = await Product.findOne({ _id: productID });
+    const count = 0;
+    const tempCart = await Cart2.findOne({
+      client_id: client._id,
+    });
+
+    if (tempCart == null) {
+      const cart = new Cart2({
+        client_id: client._id,
+        product_obj: {
+          product_id: productID,
+          count: 1,
+        },
+      });
+      await cart.save();
+    } else {
+      let product_obj = tempCart.product_obj;
+      let flag = 0;
+      product_obj.forEach((product, index) => {
+        if (product.product_id == productID) {
+          flag = 1;
+          product_obj[index].count = parseInt(product_obj[index].count) + 1;
+        }
+      });
+      await Cart2.findOneAndUpdate(
+        { client_id: client._id },
+        {
+          product_obj: product_obj,
+        }
+      );
+      if (flag == 0) {
+        await Cart2.findOneAndUpdate(
+          { client_id: client._id },
+          {
+            $push: {
+              product_obj: {
+                $each: [{ product_id: productID, count: 1 }],
+                $position: 0,
+              },
+            },
+          }
+        );
+      } else {
+      }
+    }
+    req.flash('infoSubmit', 'Giỏ hàng đã được cập nhật');
+    res.json({
+      message: 'Đã thêm',
+    });
+  } catch (error) {
+    console.log(error);
+    req.flash('infoErrors', 'Cập nhật giỏ hàng thất bại');
+    res.json({
+      message: 'Thất bại',
+    });
   }
 };
 /**

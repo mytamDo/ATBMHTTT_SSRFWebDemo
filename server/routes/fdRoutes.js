@@ -266,6 +266,7 @@ router.post(
   checkLogin.checkClient,
   fdController.searchRecipe
 );
+router.post('/add-cart-ajax', fdController.addCartAjax);
 router.post(
   '/add-cart/:id',
   checkLogin.checkLogin,
